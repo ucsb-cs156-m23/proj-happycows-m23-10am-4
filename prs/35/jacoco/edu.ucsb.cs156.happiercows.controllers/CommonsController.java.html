@@ -223,8 +223,11 @@ import java.util.stream.Collectors;
 
 <span class="fc" id="L224">        userCommonsRepository.save(uc);</span>
 
-<span class="fc" id="L226">        String body = mapper.writeValueAsString(joinedCommons);</span>
-<span class="fc" id="L227">        return ResponseEntity.ok().body(body);</span>
+<span class="fc" id="L226">        joinedCommons.setNumUsers(joinedCommons.getNumUsers() + 1);</span>
+<span class="fc" id="L227">        commonsRepository.save(joinedCommons);</span>
+
+<span class="fc" id="L229">        String body = mapper.writeValueAsString(joinedCommons);</span>
+<span class="fc" id="L230">        return ResponseEntity.ok().body(body);</span>
     }
 
     @Operation(summary = &quot;Delete a Commons&quot;)
@@ -233,13 +236,13 @@ import java.util.stream.Collectors;
     public Object deleteCommons(
             @Parameter(name=&quot;id&quot;) @RequestParam Long id) {
 
-<span class="fc" id="L236">        commonsRepository.findById(id)</span>
-<span class="fc" id="L237">                .orElseThrow(() -&gt; new EntityNotFoundException(Commons.class, id));</span>
+<span class="fc" id="L239">        commonsRepository.findById(id)</span>
+<span class="fc" id="L240">                .orElseThrow(() -&gt; new EntityNotFoundException(Commons.class, id));</span>
 
-<span class="fc" id="L239">        commonsRepository.deleteById(id);</span>
+<span class="fc" id="L242">        commonsRepository.deleteById(id);</span>
 
-<span class="fc" id="L241">        String responseString = String.format(&quot;commons with id %d deleted&quot;, id);</span>
-<span class="fc" id="L242">        return genericMessage(responseString);</span>
+<span class="fc" id="L244">        String responseString = String.format(&quot;commons with id %d deleted&quot;, id);</span>
+<span class="fc" id="L245">        return genericMessage(responseString);</span>
 
     }
 
@@ -249,27 +252,32 @@ import java.util.stream.Collectors;
     public Object deleteUserFromCommon(@PathVariable(&quot;commonsId&quot;) Long commonsId,
                                        @PathVariable(&quot;userId&quot;) Long userId) throws Exception {
 
-<span class="fc" id="L252">        UserCommons userCommons = userCommonsRepository.findByCommonsIdAndUserId(commonsId, userId)</span>
-<span class="fc" id="L253">                .orElseThrow(() -&gt; new EntityNotFoundException(</span>
+<span class="fc" id="L255">        UserCommons userCommons = userCommonsRepository.findByCommonsIdAndUserId(commonsId, userId)</span>
+<span class="fc" id="L256">                .orElseThrow(() -&gt; new EntityNotFoundException(</span>
                         UserCommons.class, &quot;commonsId&quot;, commonsId, &quot;userId&quot;, userId)
                 );
 
-<span class="fc" id="L257">        userCommonsRepository.delete(userCommons);</span>
+<span class="fc" id="L260">        userCommonsRepository.delete(userCommons);</span>
 
-<span class="fc" id="L259">        String responseString = String.format(&quot;user with id %d deleted from commons with id %d, %d users remain&quot;, userId, commonsId, commonsRepository.getNumUsers(commonsId).orElse(0));</span>
-
-<span class="fc" id="L261">        return genericMessage(responseString);</span>
+<span class="fc" id="L262">        String responseString = String.format(&quot;user with id %d deleted from commons with id %d, %d users remain&quot;, userId, commonsId, commonsRepository.getNumUsers(commonsId).orElse(0));</span>
+        
+<span class="fc" id="L264">        Commons exitedCommon = commonsRepository.findById(commonsId).orElse(null);</span>
+        
+<span class="fc" id="L266">        exitedCommon.setNumUsers(exitedCommon.getNumUsers() - 1);</span>
+<span class="fc" id="L267">        commonsRepository.save(exitedCommon);</span>
+        
+<span class="fc" id="L269">        return genericMessage(responseString);</span>
     }
 
     public CommonsPlus toCommonsPlus(Commons c) {
-<span class="fc" id="L265">        Optional&lt;Integer&gt; numCows = commonsRepository.getNumCows(c.getId());</span>
-<span class="fc" id="L266">        Optional&lt;Integer&gt; numUsers = commonsRepository.getNumUsers(c.getId());</span>
+<span class="fc" id="L273">        Optional&lt;Integer&gt; numCows = commonsRepository.getNumCows(c.getId());</span>
+<span class="fc" id="L274">        Optional&lt;Integer&gt; numUsers = commonsRepository.getNumUsers(c.getId());</span>
 
-<span class="fc" id="L268">        return CommonsPlus.builder()</span>
-<span class="fc" id="L269">                .commons(c)</span>
-<span class="fc" id="L270">                .totalCows(numCows.orElse(0))</span>
-<span class="fc" id="L271">                .totalUsers(numUsers.orElse(0))</span>
-<span class="fc" id="L272">                .build();</span>
+<span class="fc" id="L276">        return CommonsPlus.builder()</span>
+<span class="fc" id="L277">                .commons(c)</span>
+<span class="fc" id="L278">                .totalCows(numCows.orElse(0))</span>
+<span class="fc" id="L279">                .totalUsers(numUsers.orElse(0))</span>
+<span class="fc" id="L280">                .build();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
