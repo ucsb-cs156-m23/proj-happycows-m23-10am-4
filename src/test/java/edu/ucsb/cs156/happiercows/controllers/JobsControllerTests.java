@@ -49,6 +49,8 @@ import edu.ucsb.cs156.happiercows.jobs.MilkTheCowsJobFactory;
 import edu.ucsb.cs156.happiercows.jobs.MilkTheCowsJobFactoryInd;
 import edu.ucsb.cs156.happiercows.jobs.SetCowHealthJobFactory;
 import edu.ucsb.cs156.happiercows.jobs.UpdateCowHealthJobFactory;
+import edu.ucsb.cs156.happiercows.jobs.RecordCommonStatsJob;
+import edu.ucsb.cs156.happiercows.jobs.RecordCommonStatsJobFactory;
 import edu.ucsb.cs156.happiercows.jobs.UpdateCowHealthJobFactoryInd;
 import edu.ucsb.cs156.happiercows.repositories.CommonsRepository;
 import edu.ucsb.cs156.happiercows.repositories.UserCommonsRepository;
@@ -92,6 +94,9 @@ public class JobsControllerTests extends ControllerTestCase {
 
         @MockBean
         InstructorReportJobSingleCommonsFactory instructorReportJobSingleCommonsFactory;
+
+        @MockBean
+        RecordCommonStatsJobFactory recordCommonStatsJobFactory;
 
         @MockBean
         MilkTheCowsJobFactoryInd milkTheCowsJobFactoryInd;
@@ -345,6 +350,21 @@ public class JobsControllerTests extends ControllerTestCase {
                 MvcResult response = mockMvc
                                 .perform(post("/api/jobs/launch/instructorreportsinglecommons?commonsId=1")
                                                 .with(csrf()))
+                                .andExpect(status().isOk()).andReturn();
+
+                // assert
+                String responseString = response.getResponse().getContentAsString();
+                log.info("responseString={}", responseString);
+                Job jobReturned = objectMapper.readValue(responseString, Job.class);
+
+                assertNotNull(jobReturned.getStatus());
+        }
+
+        @WithMockUser(roles = { "ADMIN" })
+        @Test
+        public void admin_can_launch_record_common_stats_job() throws Exception {
+                // act
+                MvcResult response = mockMvc.perform(post("/api/jobs/launch/recordcommonstats").with(csrf()))
                                 .andExpect(status().isOk()).andReturn();
 
                 // assert
