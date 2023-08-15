@@ -31,6 +31,11 @@ public class SetCowHealthJob implements JobContextConsumer {
     public void accept(JobContext ctx) throws Exception {
         ctx.log("Setting cow health...");
 
+        if (newCowHealth > 100 || newCowHealth < 0) {
+            ctx.log("Cow health must be between 0 and 100");
+            return;
+        }
+
         Optional<Commons> commons = commonsRepository.findById(commonsID);
 
 
