@@ -2,7 +2,6 @@ import React from "react";
 import BasicLayout from "main/layouts/BasicLayout/BasicLayout";
 import PagedJobsTable from "main/components/Jobs/PagedJobsTable";
 import Accordion from "react-bootstrap/Accordion";
-import TestJobForm from "main/components/Jobs/TestJobForm";
 import UpdateCowHealthForm from "main/components/Jobs/UpdateCowHealthForm";
 import MilkCowsJobForm from "main/components/Jobs/MilkCowsJobForm";
 import InstructorReportForm from "main/components/Jobs/InstructorReportForm";
@@ -13,25 +12,6 @@ import { useBackendMutation } from "main/utils/useBackend";
 import SetCowHealthForm from "main/components/Jobs/SetCowHealthForm";
 
 const AdminJobsPage = () => {
-
-  // *** Test job ***
-
-  // const objectToAxiosParamsTestJob = (data) => ({
-  //   url: `/api/jobs/launch/testjob?fail=${data.fail}&sleepMs=${data.sleepMs}`,
-  //   method: "POST",
-  // });
-
-  // // Stryker disable all
-  // const testJobMutation = useBackendMutation(objectToAxiosParamsTestJob, {}, [
-  //   "/api/jobs/all",
-  // ]);
-  // // Stryker restore all
-
-  // const submitTestJob = async (data) => {
-  //   toast("Submitted job: Test Job");
-  //   testJobMutation.mutate(data);
-  // };
-
   
   // *** SetCowHealth job ***
 
@@ -138,10 +118,6 @@ const submitInstructorReportSpecificCommonsJob = async (data) => {
 }
 
 const jobLaunchers = [
-  // {
-  //   name: "Test Job",
-  //   form: <TestJobForm submitAction={submitTestJob} />,
-  // },
   {
     name: "Set Cow Health for a Specific Commons",
     form: <SetCowHealthForm submitAction={submitSetCowHealthJob} />,
