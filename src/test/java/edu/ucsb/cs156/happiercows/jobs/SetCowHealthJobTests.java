@@ -138,4 +138,91 @@ public class SetCowHealthJobTests {
         assertEquals(expected, jobStarted.getLog());
         userCommonsList.forEach(userCommons -> assertEquals(newUserCommons.getCowHealth(), userCommons.getCowHealth()));
     }
+
+    @Test
+    void test_invalid_health_smaller_than_0() throws Exception {
+        // Arrange
+        Job jobStarted = Job.builder().build();
+        JobContext ctx = new JobContext(null, jobStarted);
+
+        when(commonsRepository.findById(117L)).thenReturn(Optional.of(testCommons));
+
+        // Act
+        SetCowHealthJob setCowHealthJob = new SetCowHealthJob(117, -1, commonsRepository, userCommonsRepository,
+                userRepository);
+        
+        setCowHealthJob.accept(ctx);
+
+        // Assert
+        String expected = """
+                Setting cow health...
+                Cow health must be between 0 and 100""";
+        assertEquals(expected, jobStarted.getLog());
+    }
+
+    @Test
+    void test_invalid_health_greater_than_100() throws Exception {
+        // Arrange
+        Job jobStarted = Job.builder().build();
+        JobContext ctx = new JobContext(null, jobStarted);
+
+        when(commonsRepository.findById(117L)).thenReturn(Optional.of(testCommons));
+
+        // Act
+        SetCowHealthJob setCowHealthJob = new SetCowHealthJob(117, 101, commonsRepository, userCommonsRepository,
+                userRepository);
+        
+        setCowHealthJob.accept(ctx);
+
+        // Assert
+        String expected = """
+                Setting cow health...
+                Cow health must be between 0 and 100""";
+        assertEquals(expected, jobStarted.getLog());
+    }
+
+    @Test
+        void test_boundary_health_equal_100() throws Exception {
+        // Arrange
+        Job jobStarted = Job.builder().build();
+        JobContext ctx = new JobContext(null, jobStarted);
+
+        when(commonsRepository.findById(117L)).thenReturn(Optional.of(testCommons));
+
+        // Act
+        SetCowHealthJob setCowHealthJob = new SetCowHealthJob(117, 100, commonsRepository, userCommonsRepository,
+                userRepository);
+        
+        setCowHealthJob.accept(ctx);
+
+        // Assert
+        String expected = """
+                Setting cow health...
+                Commons test commons
+                Cow health has been set!""";
+        assertEquals(expected, jobStarted.getLog());
+        }
+
+        @Test
+        void test_boundary_health_equal_0() throws Exception {
+        // Arrange
+        Job jobStarted = Job.builder().build();
+        JobContext ctx = new JobContext(null, jobStarted);
+
+        when(commonsRepository.findById(117L)).thenReturn(Optional.of(testCommons));
+
+        // Act
+        SetCowHealthJob setCowHealthJob = new SetCowHealthJob(117, 0, commonsRepository, userCommonsRepository,
+                userRepository);
+        
+        setCowHealthJob.accept(ctx);
+
+        // Assert
+        String expected = """
+                Setting cow health...
+                Commons test commons
+                Cow health has been set!""";
+        assertEquals(expected, jobStarted.getLog());
+        }
+
 }
