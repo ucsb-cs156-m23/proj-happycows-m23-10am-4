@@ -37,7 +37,7 @@ import lombok.extern.slf4j.Slf4j;
    @Autowired
    RecordCommonStatsJobFactory recordCommonStatsJobFactory;
    
-   @Scheduled(cron = &quot;${app.updateCowHealth.cron}&quot;)
+   @Scheduled(cron = &quot;${app.updateCowHealth.cron}&quot;, zone = &quot;${spring.jackson.time-zone}&quot;)
    public void runUpdateCowHealthJobBasedOnCron() {
 <span class="fc" id="L42">      log.info(&quot;runUpdateCowHealthJobBasedOnCron: running&quot;);</span>
 
@@ -47,7 +47,7 @@ import lombok.extern.slf4j.Slf4j;
 <span class="fc" id="L47">      log.info(&quot;runUpdateCowHealthJobBasedOnCron: launched job&quot;);</span>
 <span class="fc" id="L48">   }</span>
 
-   @Scheduled(cron = &quot;${app.milkTheCows.cron}&quot;)
+   @Scheduled(cron = &quot;${app.milkTheCows.cron}&quot;, zone = &quot;${spring.jackson.time-zone}&quot;)
    public void runMilkTheCowsJobBasedOnCron() {
 <span class="fc" id="L52">      log.info(&quot;runMilkTheCowsJobBasedOnCron: running&quot;);</span>
 
@@ -57,7 +57,7 @@ import lombok.extern.slf4j.Slf4j;
 <span class="fc" id="L57">      log.info(&quot;runMilkTheCowsJobBasedOnCron: launched job&quot;);</span>
 <span class="fc" id="L58">   }</span>
 
-   @Scheduled(cron = &quot;${app.recordCommonStats.cron}&quot;)
+   @Scheduled(cron = &quot;${app.recordCommonStats.cron}&quot;, zone = &quot;${spring.jackson.time-zone}&quot;)
    public void runRecordCommonStatsJobBasedOnCron() {
 <span class="fc" id="L62">      log.info(&quot;runRecordCommonStatsJobBasedOnCron: running&quot;);</span>
 
