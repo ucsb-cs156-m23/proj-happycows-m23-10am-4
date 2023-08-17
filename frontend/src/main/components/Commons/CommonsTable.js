@@ -29,8 +29,8 @@ export default function CommonsTable({ commons, currentUser }) {
         setShowModal(true);
     }
 
-    const confirmDelete = async () => {
-        deleteMutation.mutate(cellToDelete);
+    const confirmDelete = async (cell) => {
+        deleteMutation.mutate(cell);
         setShowModal(false);
     };
 
@@ -123,7 +123,7 @@ export default function CommonsTable({ commons, currentUser }) {
                 <Button variant="secondary" data-testid="CommonsTable-Modal-Cancel" onClick={() => setShowModal(false)}>
                     Keep this Commons
                 </Button>
-                <Button variant="danger" data-testid="CommonsTable-Modal-Delete" onClick={confirmDelete}>
+                <Button variant="danger" data-testid="CommonsTable-Modal-Delete" onClick={() => confirmDelete(cellToDelete)}>
                     Permanently Delete
                 </Button>
             </Modal.Footer>
@@ -136,6 +136,6 @@ export default function CommonsTable({ commons, currentUser }) {
             columns={columnsToDisplay}
             testid={testid}
         />
-        {commonsModal}
+        {hasRole(currentUser,"ROLE_ADMIN") && commonsModal}
     </>);
 };
