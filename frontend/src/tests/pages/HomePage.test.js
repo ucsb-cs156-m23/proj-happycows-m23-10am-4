@@ -46,7 +46,7 @@ describe("HomePage tests", () => {
         const title = screen.getByTestId("homePage-title");
         expect(title).toBeInTheDocument();
         expect(typeof (title.textContent)).toBe('string');
-        expect(title.textContent).toEqual('Howdy Farmer');
+        expect(title.textContent).toEqual('Howdy Farmer ');
     });
 
     test("renders with default for commons when api times out", () => {
@@ -66,7 +66,7 @@ describe("HomePage tests", () => {
         const title = screen.getByTestId("homePage-title");
         expect(title).toBeInTheDocument();
         expect(typeof (title.textContent)).toBe('string');
-        expect(title.textContent).toEqual('Howdy Farmer');
+        expect(title.textContent).toEqual('Howdy Farmer Phillip');
 
         expect(() => screen.getAllByTestId(/commonsCard-button/)).toThrow('Unable to find an element');
     });
@@ -101,7 +101,7 @@ describe("HomePage tests", () => {
         const title = screen.getByTestId("homePage-title");
         expect(title).toBeInTheDocument();
         expect(typeof (title.textContent)).toBe('string');
-        expect(title.textContent).toEqual('Howdy Farmer');
+        expect(title.textContent).toEqual('Howdy Farmer Phillip');
     });
 
     test("Redirects to the PlayPage when you click visit", async () => {
