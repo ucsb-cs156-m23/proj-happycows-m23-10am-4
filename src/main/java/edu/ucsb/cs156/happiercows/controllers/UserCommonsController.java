@@ -41,8 +41,8 @@ public class UserCommonsController extends ApiController {
   @Autowired
   ObjectMapper mapper;
 
-  @Operation(summary = "Get a specific user commons (admin only)")
-  @PreAuthorize("hasRole('ROLE_ADMIN')")
+  @Operation(summary = "Get a specific user commons")
+  @PreAuthorize("hasRole('ROLE_USER')")
   @GetMapping("")
   public UserCommons getUserCommonsById(
       @Parameter(name="userId") @RequestParam Long userId,
