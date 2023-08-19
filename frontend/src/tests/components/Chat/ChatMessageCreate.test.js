@@ -103,12 +103,7 @@ describe("ChatMessageCreate", () => {
             commonsId: commonsId,
         };
     
-        axiosMock.onPost("/api/chat/post").reply(200, {
-            message: messageText,
-            commonsId: commonsId,
-            id: 1,
-            userId: 1
-        } );
+        axiosMock.onPost("/api/chat/post").reply(200, chatMessageFixtures.oneChatMessage[0] );
     
         render(
             <QueryClientProvider client={queryClient}>
