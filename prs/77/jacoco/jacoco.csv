@@ -30,7 +30,7 @@ example,edu.ucsb.cs156.happiercows.errors,NotEnoughMoneyException,0,4,0,0,0,2,0,
 example,edu.ucsb.cs156.happiercows.errors,EntityNotFoundException,0,47,0,0,0,8,0,2,0,2
 example,edu.ucsb.cs156.happiercows.entities,UserCommons,0,15,0,0,0,5,0,4,0,4
 example,edu.ucsb.cs156.happiercows.entities,User,0,16,0,0,0,1,0,1,0,1
-example,edu.ucsb.cs156.happiercows.controllers,UserCommonsController,30,213,0,4,6,38,2,12,2,10
+example,edu.ucsb.cs156.happiercows.controllers,UserCommonsController,0,243,0,4,0,44,0,14,0,12
 example,edu.ucsb.cs156.happiercows.controllers,CommonsController,0,473,0,16,0,106,0,27,0,19
 example,edu.ucsb.cs156.happiercows.controllers,ChatMessageController,0,162,0,10,0,39,0,13,0,8
 example,edu.ucsb.cs156.happiercows.controllers,UsersController,0,16,0,0,0,4,0,2,0,2
