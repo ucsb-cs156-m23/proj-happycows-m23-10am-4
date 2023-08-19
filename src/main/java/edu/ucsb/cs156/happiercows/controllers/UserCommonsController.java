@@ -25,7 +25,11 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 
 import org.springframework.http.ResponseEntity;
+import javax.validation.Valid;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @Tag(name = "User Commons")
 @RequestMapping("/api/usercommons")
@@ -41,8 +45,8 @@ public class UserCommonsController extends ApiController {
   @Autowired
   ObjectMapper mapper;
 
-  @Operation(summary = "Get a specific user commons")
-  @PreAuthorize("hasRole('ROLE_USER')")
+  @Operation(summary = "Get a specific user commons (admin only)")
+  @PreAuthorize("hasRole('ROLE_ADMIN')")
   @GetMapping("")
   public UserCommons getUserCommonsById(
       @Parameter(name="userId") @RequestParam Long userId,
