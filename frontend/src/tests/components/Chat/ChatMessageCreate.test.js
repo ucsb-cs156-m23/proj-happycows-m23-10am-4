@@ -133,6 +133,8 @@ describe("ChatMessageCreate", () => {
             <br />{`commonsId: 1`}
             <br />{`message: Hello World`}
         </div>);
+
+        expect(messageInput.value).toEqual("");
     
     });
     

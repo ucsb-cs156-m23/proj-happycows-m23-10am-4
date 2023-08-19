@@ -22,6 +22,7 @@ const ChatMessageCreate = ({ commonsId, submitAction:submitProp }) => {
             <br />{`commonsId: ${chatMessage.commonsId}`}
             <br />{`message: ${chatMessage.message}`}
         </div>);
+        reset();
     }
    
     const mutation = useBackendMutation(
@@ -39,6 +40,7 @@ const ChatMessageCreate = ({ commonsId, submitAction:submitProp }) => {
         register,
         formState: {errors},
         handleSubmit,
+        reset,
     } = useForm( );
 
     return (
