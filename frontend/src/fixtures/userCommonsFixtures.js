@@ -2,22 +2,8 @@ const userCommonsFixtures = {
     oneUserCommons: 
     [
         {
-            "id":1,
-            "user": {
-                "id": 1,
-                "fullName": "George Washington",
-                "givenName": "George",
-                "familyName": "Washington",
-            },
-            "commons":  {
-                "id":1,
-                "name":"Table 11",
-                "day": 5,
-                "totalPlayers": 50,
-                "cowPrice": 15,
-                "showLeaderboard": true,
-                "degradationRate": .5,
-            },
+            "userId": 1,
+            "commonsId":1,
             "totalWealth" : 1000,
             "cowHealth": 98.0,
             "numOfCows": 5,
@@ -29,22 +15,8 @@ const userCommonsFixtures = {
     threeUserCommons:
     [
         {
-            "id":1,
-            "user": {
-                "id": 1,
-                "fullName": "George Washington",
-                "givenName": "George",
-                "familyName": "Washington",
-            },
-            "commons":  {
-                "id":1,
-                "name":"Table 11",
-                "day": 5,
-                "totalPlayers": 50,
-                "cowPrice": 15,
-                "showLeaderboard": true,
-                "degradationRate": .5,
-            },
+            "userId": 1,
+            "commonsId":1,
             "totalWealth" : 1000,
             "cowHealth": 93.0,
             "numOfCows": 8,
@@ -53,22 +25,8 @@ const userCommonsFixtures = {
             "cowDeaths": 8
         },
         {
-            "id":2,
-            "user": {
-                "id": 2,
-                "fullName": "John Adams",
-                "givenName": "John",
-                "familyName": "Adams",
-            },
-            "commons":  {
-                "id":1,
-                "name":"Table 11",
-                "day": 5,
-                "totalPlayers": 50,
-                "cowPrice": 15,
-                "showLeaderboard": true,
-                "degradationRate": .5,
-            },
+            "userId": 2,
+            "commonsId":1,
             "totalWealth" : 1000,
             "cowHealth": 98.0,
             "numOfCows": 5,
@@ -77,22 +35,8 @@ const userCommonsFixtures = {
             "cowDeaths": 5
         },
         {
-            "id":3,
-            "user": {
-                "id": 3,
-                "fullName": "Thomas Jefferson",
-                "givenName": "Thomas",
-                "familyName": "Jefferson",
-            },
-            "commons":  {
-                "id":1,
-                "name":"Table 11",
-                "day": 5,
-                "totalPlayers": 50,
-                "cowPrice": 15,
-                "showLeaderboard": true,
-                "degradationRate": .5,
-            },
+            "userId": 3,
+            "commonsId":1,
             "totalWealth" : 100000,
             "cowHealth": 2.0,
             "numOfCows": 1000,
@@ -104,22 +48,9 @@ const userCommonsFixtures = {
     fiveUserCommons: 
     [
         {
-            "id":1,
-            "user": {
-                "id": 1,
-                "fullName": "George Washington",
-                "givenName": "George",
-                "familyName": "Washington",
-            },
-            "commons":  {
-                "id":1,
-                "name":"Table 11",
-                "day": 5,
-                "totalPlayers": 50,
-                "cowPrice": 15,
-                "showLeaderboard": true,
-                "degradationRate": .5,
-            },
+            "userId": 1,
+            "username": "George Washington",
+            "commonsId":1,
             "totalWealth" : 1000,
             "cowHealth": 93.0,
             "numOfCows": 8,
@@ -128,22 +59,9 @@ const userCommonsFixtures = {
             "cowDeaths": 8
         },
         {
-            "id":2,
-            "user": {
-                "id": 2,
-                "fullName": "John Adams",
-                "givenName": "John",
-                "familyName": "Adams",
-            },
-            "commons":  {
-                "id":1,
-                "name":"Table 11",
-                "day": 5,
-                "totalPlayers": 50,
-                "cowPrice": 15,
-                "showLeaderboard": true,
-                "degradationRate": .5,
-            },
+            "userId": 2,
+            "username": "John Adams",
+            "commonsId":1,
             "totalWealth" : 1000,
             "cowHealth": 98.0,
             "numOfCows": 5,
@@ -152,22 +70,8 @@ const userCommonsFixtures = {
             "cowDeaths": 5
         },
         {
-            "id":3,
-            "user": {
-                "id": 3,
-                "fullName": "John Adams",
-                "givenName": "John",
-                "familyName": "Adams",
-            },
-            "commons":  {
-                "id":1,
-                "name":"Table 11",
-                "day": 5,
-                "totalPlayers": 50,
-                "cowPrice": 15,
-                "showLeaderboard": true,
-                "degradationRate": .5,
-            },
+            "userId": 3,
+            "commonsId":1,
             "totalWealth" : 100000,
             "cowHealth": 2.0,
             "numOfCows": 1000,
@@ -176,22 +80,9 @@ const userCommonsFixtures = {
             "cowDeaths": 1000
         },
         {
-            "id":4,
-            "user": {
-                "id": 3,
-                "fullName": "James Madison",
-                "givenName": "James",
-                "familyName": "Madison",
-            },
-            "commons":  {
-                "id":1,
-                "name":"Table 11",
-                "day": 5,
-                "totalPlayers": 50,
-                "cowPrice": 15,
-                "showLeaderboard": true,
-                "degradationRate": .5,
-            },
+            "userId": 3,
+            "username": "James Madison",
+            "commonsId":1,
             "totalWealth" : 50,
             "cowHealth": 84.0,
             "numOfCows": 100,
@@ -200,22 +91,9 @@ const userCommonsFixtures = {
             "cowDeaths": 100
         },
         {
-            "id":5,
-            "user": {
-                "id": 5,
-                "fullName": "James Monroe",
-                "givenName": "James",
-                "familyName": "Monroe",
-            },
-            "commons":  {
-                "id":1,
-                "name":"Table 11",
-                "day": 5,
-                "totalPlayers": 50,
-                "cowPrice": 15,
-                "showLeaderboard": true,
-                "degradationRate": .5,
-            },
+            "userId": 5,
+            "username": "James Monroe",
+            "commonsId":1,
             "totalWealth" : 800,
             "cowHealth": 72.0,
             "numOfCows": 60,
@@ -227,22 +105,9 @@ const userCommonsFixtures = {
     tenUserCommons: 
     [
         {
-            "id":1,
-            "user": {
-                "id": 1,
-                "fullName": "George Washington",
-                "givenName": "George",
-                "familyName": "Washington",
-            },
-            "commons":  {
-                "id":1,
-                "name":"Table 11",
-                "day": 5,
-                "totalPlayers": 50,
-                "cowPrice": 15,
-                "showLeaderboard": true,
-                "degradationRate": .5,
-            },
+            "userId": 1,
+            "username": "George Washington",
+            "commonsId":1,
             "totalWealth" : 1000,
             "cowHealth": 93.0,
             "numOfCows": 8,
@@ -251,22 +116,9 @@ const userCommonsFixtures = {
             "cowDeaths": 8
         },
         {
-            "id":2,
-            "user": {
-                "id": 2,
-                "fullName": "John Adams",
-                "givenName": "John",
-                "familyName": "Adams",
-            },
-            "commons":  {
-                "id":1,
-                "name":"Table 11",
-                "day": 5,
-                "totalPlayers": 50,
-                "cowPrice": 15,
-                "showLeaderboard": true,
-                "degradationRate": .5,
-            },
+            "userId": 2,
+            "username": "John Adams",
+            "commonsId":1,
             "totalWealth" : 1000,
             "cowHealth": 98.0,
             "numOfCows": 5,
@@ -275,22 +127,9 @@ const userCommonsFixtures = {
             "cowDeaths": 5
         },
         {
-            "id":3,
-            "user": {
-                "id": 3,
-                "fullName": "Thomas Jefferson",
-                "givenName": "Thomas",
-                "familyName": "Jefferson",
-            },
-            "commons":  {
-                "id":1,
-                "name":"Table 11",
-                "day": 5,
-                "totalPlayers": 50,
-                "cowPrice": 15,
-                "showLeaderboard": true,
-                "degradationRate": .5,
-            },
+            "userId": 3,
+            "username": "Thomas Jefferson",
+            "commonsId":1,
             "totalWealth" : 100000,
             "cowHealth": 2.0,
             "numOfCows": 1000,
@@ -299,22 +138,9 @@ const userCommonsFixtures = {
             "cowDeaths": 1000
         },
         {
-            "id":4,
-            "user": {
-                "id": 3,
-                "fullName": "James Madison",
-                "givenName": "James",
-                "familyName": "Madison",
-            },
-            "commons":  {
-                "id":1,
-                "name":"Table 11",
-                "day": 5,
-                "totalPlayers": 50,
-                "cowPrice": 15,
-                "showLeaderboard": true,
-                "degradationRate": .5,
-            },
+            "userId": 3,
+            "username": "James Madison",
+            "commonsId":1,
             "totalWealth" : 50,
             "cowHealth": 84.0,
             "numOfCows": 100,
@@ -323,22 +149,9 @@ const userCommonsFixtures = {
             "cowDeaths": 100
         },
         {
-            "id":5,
-            "user": {
-                "id": 5,
-                "fullName": "James Monroe",
-                "givenName": "James",
-                "familyName": "Monroe",
-            },
-            "commons":  {
-                "id":1,
-                "name":"Table 11",
-                "day": 5,
-                "totalPlayers": 50,
-                "cowPrice": 15,
-                "showLeaderboard": true,
-                "degradationRate": .5,
-            },
+            "userId": 5,
+            "username": "James Monroe",
+            "commonsId":1,
             "totalWealth" : 800,
             "cowHealth": 72.0,
             "numOfCows": 60,
@@ -347,22 +160,9 @@ const userCommonsFixtures = {
             "cowDeaths": 60
         },
         {
-            "id":6,
-            "user": {
-                "id": 6,
-                "fullName": "Ancient McDonald",
-                "givenName": "Ancient",
-                "familyName": "McDonald",
-            },
-            "commons":  {
-                "id":1,
-                "name":"Table 11",
-                "day": 5,
-                "totalPlayers": 50,
-                "cowPrice": 15,
-                "showLeaderboard": true,
-                "degradationRate": .5,
-            },
+            "userId": 6,
+            "username": "Ancient McDonald",
+            "commonsId":1,
             "totalWealth" : 1000,
             "cowHealth": 93.0,
             "numOfCows": 8,
@@ -371,22 +171,9 @@ const userCommonsFixtures = {
             "cowDeaths": 8
         },
         {
-            "id":7,
-            "user": {
-                "id": 7,
-                "fullName": "Old McDonald",
-                "givenName": "Old",
-                "familyName": "McDonald",
-            },
-            "commons":  {
-                "id":1,
-                "name":"Table 11",
-                "day": 5,
-                "totalPlayers": 50,
-                "cowPrice": 15,
-                "showLeaderboard": true,
-                "degradationRate": .5,
-            },
+            "userId": 7,
+            "username": "Old McDonald",
+            "commonsId":1,
             "totalWealth" : 1000,
             "cowHealth": 98.0,
             "numOfCows": 5,
@@ -395,22 +182,9 @@ const userCommonsFixtures = {
             "cowDeaths": 5
         },
         {
-            "id":8,
-            "user": {
-                "id": 8,
-                "fullName": "Middle Aged McDonald",
-                "givenName": "Middle Aged",
-                "familyName": "McDonald",
-            },
-            "commons":  {
-                "id":1,
-                "name":"Table 11",
-                "day": 5,
-                "totalPlayers": 50,
-                "cowPrice": 15,
-                "showLeaderboard": true,
-                "degradationRate": .5,
-            },
+            "userId": 8,
+            "username": "Middle Aged McDonald",
+            "commonsId":1,
             "totalWealth" : 100000,
             "cowHealth": 2.0,
             "numOfCows": 1000,
@@ -419,22 +193,9 @@ const userCommonsFixtures = {
             "cowDeaths": 1000
         },
         {
-            "id":9,
-            "user": {
-                "id": 9,
-                "fullName": "Young McDonald",
-                "givenName": "Young",
-                "familyName": "McDonald",
-            },
-            "commons":  {
-                "id":1,
-                "name":"Table 11",
-                "day": 5,
-                "totalPlayers": 50,
-                "cowPrice": 15,
-                "showLeaderboard": true,
-                "degradationRate": .5,
-            },
+            "userId": 9,
+            "username": "Young McDonald",
+            "commonsId":1,
             "totalWealth" : 50,
             "cowHealth": 84.0,
             "numOfCows": 100,
@@ -444,21 +205,9 @@ const userCommonsFixtures = {
         },
         {
             "id":10,
-            "user": {
-                "id": 10,
-                "fullName": "Child McDonald",
-                "givenName": "Child",
-                "familyName": "McDonald",
-            },
-            "commons":  {
-                "id":1,
-                "name":"Table 11",
-                "day": 5,
-                "totalPlayers": 50,
-                "cowPrice": 15,
-                "showLeaderboard": true,
-                "degradationRate": .5,
-            },
+            "userId": 10,
+            "username": "Child McDonald",
+            "commonsId":1,
             "totalWealth" : 800,
             "cowHealth": 72.0,
             "numOfCows": 60,
