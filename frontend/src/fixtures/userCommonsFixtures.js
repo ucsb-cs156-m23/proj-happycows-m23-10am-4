@@ -3,6 +3,7 @@ const userCommonsFixtures = {
     [
         {
             "userId": 1,
+            "username": "George Washington",
             "commonsId":1,
             "totalWealth" : 1000,
             "cowHealth": 98.0,
@@ -10,12 +11,13 @@ const userCommonsFixtures = {
             "cowsBought": 5,
             "cowsSold": 5,
             "cowDeaths": 5
-        }
+        },
     ],
     threeUserCommons:
     [
         {
             "userId": 1,
+            "username": "George Washington",
             "commonsId":1,
             "totalWealth" : 1000,
             "cowHealth": 93.0,
@@ -26,6 +28,7 @@ const userCommonsFixtures = {
         },
         {
             "userId": 2,
+            "username": "John Adams",
             "commonsId":1,
             "totalWealth" : 1000,
             "cowHealth": 98.0,
@@ -36,6 +39,7 @@ const userCommonsFixtures = {
         },
         {
             "userId": 3,
+            "username": "Thomas Jefferson",
             "commonsId":1,
             "totalWealth" : 100000,
             "cowHealth": 2.0,
@@ -71,6 +75,7 @@ const userCommonsFixtures = {
         },
         {
             "userId": 3,
+            "username": "Thomas Jefferson",
             "commonsId":1,
             "totalWealth" : 100000,
             "cowHealth": 2.0,
@@ -80,7 +85,7 @@ const userCommonsFixtures = {
             "cowDeaths": 1000
         },
         {
-            "userId": 3,
+            "userId": 4,
             "username": "James Madison",
             "commonsId":1,
             "totalWealth" : 50,
