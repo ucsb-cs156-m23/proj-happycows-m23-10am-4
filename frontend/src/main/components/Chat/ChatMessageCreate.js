@@ -24,28 +24,22 @@ const ChatMessageCreate = ({ commonsId, submitAction:submitProp }) => {
         </div>);
     }
    
-    // Stryker disable all
     const mutation = useBackendMutation(
         objectToAxiosParams,
         { onSuccess },
         // Stryker disable next-line all : hard to set up test for caching
         ["/api/chat/get/all"]
     );
-    // Stryker restore all
 
     const submitAction = submitProp || (async (data) => {
         mutation.mutate(data);
     });
 
-    // Stryker disable all
     const {
         register,
         formState: {errors},
         handleSubmit,
-    } = useForm(
-        {defaultValues: {}}
-    );
-    // Stryker restore all
+    } = useForm( );
 
     return (
         <Form onSubmit={handleSubmit(submitAction)}>
