@@ -13,7 +13,7 @@ import edu.ucsb.cs156.happiercows.entities.ChatMessage;
 
 @Repository
 public interface ChatMessageRepository extends CrudRepository<ChatMessage, Long>{
-    @Query(value = "SELECT cm FROM chat_message cm WHERE cm.commonsId = :commonsId AND cm.hidden = false")
+    @Query(value = "SELECT * FROM chat_message cm WHERE cm.commonsId = :commonsId AND cm.hidden = false", nativeQuery = true)
     Page<ChatMessage> findByCommonsId(Long commonsId, Pageable pageable);
 
     @Query(value = "SELECT cm FROM chat_message cm WHERE cm.commonsId = :commonsId")
