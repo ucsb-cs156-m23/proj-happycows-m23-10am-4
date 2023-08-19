@@ -24,6 +24,7 @@ describe("ChatMessageDisplay tests", () => {
         expect(screen.getByText("John Doe (1)")).toBeInTheDocument();
         expect(screen.getByText("2023-08-17 23:57:46")).toBeInTheDocument();
 
+        /* eslint-disable-next-line testing-library/no-node-access */
         const styleDiv = screen.getByTestId("ChatMessageDisplay-1-User").parentElement;
 
         expect(styleDiv).toHaveStyle("display: flex; justify-content: space-between; align-items: center");
