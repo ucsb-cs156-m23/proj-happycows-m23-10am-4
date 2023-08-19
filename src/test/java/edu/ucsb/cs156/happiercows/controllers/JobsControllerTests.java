@@ -97,6 +97,9 @@ public class JobsControllerTests extends ControllerTestCase {
         InstructorReportJobSingleCommonsFactory instructorReportJobSingleCommonsFactory;
 
         @MockBean
+        MilkTheCowsJobFactoryInd milkTheCowsJobFactoryInd;
+
+        @MockBean
         RecordCommonStatsJobFactory recordCommonStatsJobFactory;
 
         @MockBean
