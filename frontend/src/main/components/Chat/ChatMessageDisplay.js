@@ -9,8 +9,8 @@ const ChatMessageDisplay = ({ message, testId }) => {
   }
 
   return (
-    <Card>
-      <Card.Body data-testid={testId} >
+    <Card data-testid={testId}>
+      <Card.Body>
         <Card.Title data-testid={`${testId}-User`}>{message.username} ({message.userId})</Card.Title>
         <Card.Subtitle data-testid={`${testId}-Date`}>{message.timestamp}</Card.Subtitle>
         <Card.Text data-testid={`${testId}-Message`}>{message.message}</Card.Text>

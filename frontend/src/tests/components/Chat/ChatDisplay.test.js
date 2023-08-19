@@ -31,11 +31,11 @@ describe("ChatDisplay tests", () => {
     );
     
     await waitFor(() => {
-        expect(screen.getByLabelText("ChatDisplay")).toBeInTheDocument();
+        expect(screen.getByTestId("ChatDisplay")).toBeInTheDocument();
     });
 
-    expect(screen.getByLabelText("ChatDisplay")).toHaveStyle("overflowY: scroll");
-    expect(screen.getByLabelText("ChatDisplay")).toHaveStyle("maxHeight: 400px");
+    expect(screen.getByTestId("ChatDisplay")).toHaveStyle("overflowY: scroll");
+    expect(screen.getByTestId("ChatDisplay")).toHaveStyle("maxHeight: 400px");
 
   });
 
@@ -77,7 +77,7 @@ describe("ChatDisplay tests", () => {
 
   });
 
-  test("displays three messages correctly with usernames", async () => {
+  test("displays three messages correctly with usernames in the correct order", async () => {
 
     //arrange
 
@@ -106,12 +106,14 @@ describe("ChatDisplay tests", () => {
     expect(axiosMock.history.get[1].url).toBe("/api/usercommons/all");
     expect(axiosMock.history.get[1].params).toEqual({ commonsId: 1 });
 
-    await waitFor(() => {
-        expect(screen.getByTestId("ChatMessageDisplay-1")).toBeInTheDocument();
-        expect(screen.getByTestId("ChatMessageDisplay-2")).toBeInTheDocument();
-        expect(screen.getByTestId("ChatMessageDisplay-3")).toBeInTheDocument();
+    const container = screen.getByTestId("ChatDisplay");
 
+    await waitFor(() => {
+        expect(container.children[0].getAttribute("data-testid")).toBe("ChatMessageDisplay-1");
+        expect(container.children[1].getAttribute("data-testid")).toBe("ChatMessageDisplay-2");
+        expect(container.children[2].getAttribute("data-testid")).toBe("ChatMessageDisplay-3");
     });
+
     expect(screen.getByTestId("ChatMessageDisplay-1-User")).toHaveTextContent("George Washington (1)");
     expect(screen.getByTestId("ChatMessageDisplay-1-Message")).toHaveTextContent("Hello World");
     expect(screen.getByTestId("ChatMessageDisplay-1-Date")).toHaveTextContent("2023-08-17 23:57:46");
