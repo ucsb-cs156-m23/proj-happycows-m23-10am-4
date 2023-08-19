@@ -11,8 +11,14 @@ const ChatMessageDisplay = ({ message, testId }) => {
   return (
     <Card data-testid={testId}>
       <Card.Body>
-        <Card.Title data-testid={`${testId}-User`}>{message.username} ({message.userId})</Card.Title>
-        <Card.Subtitle data-testid={`${testId}-Date`}>{message.timestamp}</Card.Subtitle>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Card.Title data-testid={`${testId}-User`} style={{ margin: 0 }}>
+            {message.username} ({message.userId})
+          </Card.Title>
+          <Card.Subtitle data-testid={`${testId}-Date`} style={{ margin: 0 }}>
+            {message.timestamp}
+          </Card.Subtitle>
+        </div>
         <Card.Text data-testid={`${testId}-Message`}>{message.message}</Card.Text>
       </Card.Body>
     </Card>

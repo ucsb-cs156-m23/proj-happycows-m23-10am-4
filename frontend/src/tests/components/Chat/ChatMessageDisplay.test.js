@@ -13,7 +13,7 @@ describe("ChatMessageDisplay tests", () => {
 
         // act
         render(
-            <ChatMessageDisplay message={message} />
+            <ChatMessageDisplay testId="ChatMessageDisplay-1" message={message} />
         );
 
         // assert
@@ -23,6 +23,12 @@ describe("ChatMessageDisplay tests", () => {
 
         expect(screen.getByText("John Doe (1)")).toBeInTheDocument();
         expect(screen.getByText("2023-08-17 23:57:46")).toBeInTheDocument();
+
+        const styleDiv = screen.getByTestId("ChatMessageDisplay-1-User").parentElement;
+
+        expect(styleDiv).toHaveStyle("display: flex; justify-content: space-between; align-items: center");
+        expect(screen.getByTestId("ChatMessageDisplay-1-User")).toHaveStyle("margin: 0px");
+        expect(screen.getByTestId("ChatMessageDisplay-1-Date")).toHaveStyle("margin: 0px");
     });
 
     test("renders correct content with empty username", async () => {
