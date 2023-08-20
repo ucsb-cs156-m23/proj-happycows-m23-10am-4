@@ -46,4 +46,8 @@ public class User {
     public String toString() {
         return String.format("User: id=%d email=%s", id, email);
     }
+
+    public void setHidden(boolean isHidden) {
+        this.isHidden = isHidden;
+    }
 }
