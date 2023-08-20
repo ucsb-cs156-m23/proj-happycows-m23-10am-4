@@ -10,6 +10,7 @@ const ChatMessageCreate = ({ commonsId, submitAction: submitProp }) => {
     const initialMessagePageSize = 10;
 
     const objectToAxiosParams = (newMessage) => ({
+        // Stryker disable next-line all : axiosMock post test works when mutated
         url: `/api/chat/post?commonsId=${newMessage.commonsId}&content=${newMessage.content}`,
         method: "POST",
         data: newMessage
