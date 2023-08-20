@@ -255,8 +255,8 @@ describe("ChatDisplay tests", () => {
     expect(screen.queryByText("This should not appear")).not.toBeInTheDocument();
     expect(screen.queryByText("This should also be cut off")).not.toBeInTheDocument();
 
-    expect(screen.queryByText("This should appear, though")).toBeInTheDocument();
-    expect(screen.queryByText("This one too!")).toBeInTheDocument();
+    expect(screen.getByText("This should appear, though")).toBeInTheDocument();
+    expect(screen.getByText("This one too!")).toBeInTheDocument();
 
   });
 
