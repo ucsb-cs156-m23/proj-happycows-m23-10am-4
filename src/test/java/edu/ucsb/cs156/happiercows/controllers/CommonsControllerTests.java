@@ -551,7 +551,7 @@ public class CommonsControllerTests extends ControllerTestCase {
                 
         when(commonsRepository.findById(eq(18L))).thenReturn(Optional.of(Commons1));
         when(commonsRepository.getNumCows(18L)).thenReturn(Optional.of(5));
-        when(commonsRepository.getNumUsers(18L)).thenReturn(Optional.of(2));
+        when(commonsRepository.getNumNonHiddenUsers(18L)).thenReturn(Optional.of(2));
 
         MvcResult response = mockMvc.perform(get("/api/commons/plus?id=18"))
                 .andExpect(status().isOk()).andReturn();
@@ -779,7 +779,7 @@ public class CommonsControllerTests extends ControllerTestCase {
 
         when(userCommonsRepository.findByCommonsIdAndUserId(2L, 1L)).thenReturn(Optional.of(uc));
         when(commonsRepository.findById(2L)).thenReturn(Optional.of(c));
-        when(commonsRepository.getNumUsers(2L)).thenReturn(Optional.of(0));
+        when(commonsRepository.getNumNonHiddenUsers(2L)).thenReturn(Optional.of(0));
 
         MvcResult response = mockMvc
                 .perform(delete("/api/commons/2/users/1").with(csrf()).contentType(MediaType.APPLICATION_JSON)
@@ -824,7 +824,7 @@ public class CommonsControllerTests extends ControllerTestCase {
         expectedCommonsPlus.add(CommonsPlus1);
         when(commonsRepository.findAll()).thenReturn(expectedCommons);
         when(commonsRepository.getNumCows(1L)).thenReturn(Optional.of(50));
-        when(commonsRepository.getNumUsers(1L)).thenReturn(Optional.of(20));
+        when(commonsRepository.getNumNonHiddenUsers(1L)).thenReturn(Optional.of(20));
 
         MvcResult response = mockMvc.perform(get("/api/commons/allplus").contentType("application/json"))
                 .andExpect(status().isOk()).andReturn();

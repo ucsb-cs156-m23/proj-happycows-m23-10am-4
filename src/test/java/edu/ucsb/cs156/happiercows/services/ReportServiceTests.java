@@ -145,7 +145,7 @@ class ReportServiceTests {
         when(commonsRepository.findById(17L)).thenReturn(Optional.of(commons));
         when(userCommonsRepository.findByCommonsId(commons.getId()))
                 .thenReturn(Arrays.asList(userCommons));
-        when(commonsRepository.getNumUsers(commons.getId())).thenReturn(Optional.of(Integer.valueOf(1)));
+        when(commonsRepository.getNumNonHiddenUsers(commons.getId())).thenReturn(Optional.of(Integer.valueOf(1)));
         when(commonsRepository.getNumCows(commons.getId())).thenReturn(Optional.of(Integer.valueOf(123)));
         when(userRepository.findById(42L)).thenReturn(Optional.of(user));
 
@@ -183,7 +183,7 @@ class ReportServiceTests {
         when(commonsRepository.findById(17L)).thenReturn(Optional.of(commons));
         when(userCommonsRepository.findByCommonsId(commons.getId()))
                 .thenReturn(Arrays.asList(userCommons));
-        when(commonsRepository.getNumUsers(commons.getId())).thenReturn(Optional.of(Integer.valueOf(1)));
+        when(commonsRepository.getNumNonHiddenUsers(commons.getId())).thenReturn(Optional.of(Integer.valueOf(1)));
         when(commonsRepository.getNumCows(commons.getId())).thenReturn(Optional.of(Integer.valueOf(123)));
         when(userRepository.findById(42L)).thenReturn(Optional.of(user));
 
@@ -205,7 +205,7 @@ class ReportServiceTests {
         when(commonsRepository.findById(17L)).thenReturn(Optional.of(commons));
         when(userCommonsRepository.findByCommonsId(commons.getId()))
                 .thenReturn(Arrays.asList(userCommons));
-        when(commonsRepository.getNumUsers(commons.getId())).thenReturn(Optional.of(Integer.valueOf(1)));
+        when(commonsRepository.getNumNonHiddenUsers(commons.getId())).thenReturn(Optional.of(Integer.valueOf(1)));
         when(commonsRepository.getNumCows(commons.getId())).thenReturn(Optional.of(Integer.valueOf(123)));
         when(userRepository.findById(42L)).thenReturn(Optional.of(user));
 
