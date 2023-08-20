@@ -25,6 +25,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
@@ -45,6 +47,14 @@ public class UpdateCowHealthJobTests {
                         .fullName("Chris Gaucho")
                         .email("cgaucho@example.org")
                         .build();
+        
+        private final User hiddenUser = User
+                        .builder()
+                        .id(2L)
+                        .fullName("Hidden User")
+                        .email("test@ucsb.edu")
+                        .isHidden(true)
+                        .build();
 
         private final Commons commons = Commons
                         .builder()
@@ -62,6 +72,15 @@ public class UpdateCowHealthJobTests {
         private final UserCommons userCommons = UserCommons
                         .builder()
                         .user(user)
+                        .commons(commons)
+                        .totalWealth(300)
+                        .numOfCows(1)
+                        .cowHealth(10.0)
+                        .build();
+        
+        private final UserCommons hiddenUserCommons = UserCommons
+                        .builder()
+                        .user(hiddenUser)
                         .commons(commons)
                         .totalWealth(300)
                         .numOfCows(1)
@@ -164,6 +183,18 @@ public class UpdateCowHealthJobTests {
         }
 
         @Test
+        void test_cow_health_hidden_user() throws Exception {
+                var mockStrategy = mock(CowHealthUpdateStrategy.class);
+                var newHealth = UpdateCowHealthJob.calculateNewCowHealthUsingStrategy(
+                                mockStrategy,
+                                commons,
+                                hiddenUserCommons,
+                                1);
+                
+                assertEquals(10.0, newHealth);
+        }
+
+        @Test
         void test_cow_health_maximum_is_100() throws Exception {
                 var mockStrategy = mock(CowHealthUpdateStrategy.class);
                 when(mockStrategy.calculateNewCowHealth(any(), any(), anyInt())).thenReturn(101.0);
@@ -232,6 +263,28 @@ public class UpdateCowHealthJobTests {
                 assertEquals(0, userCommons.getNumOfCows());
                 assertEquals(5, userCommons.getCowDeaths());
                 assertEquals(100.0, userCommons.getCowHealth());
+        }
+
+        @Test
+        void test_calculateCowDeaths_hidden_user() throws Exception {
+                // arrange
+                UserCommons userCommons = UserCommons
+                                .builder()
+                                .user(hiddenUser)
+                                .commons(commons)
+                                .totalWealth(300)
+                                .numOfCows(5)
+                                .cowHealth(0.0)
+                                .cowDeaths(0)
+                                .build();
+
+                // act
+                UpdateCowHealthJob.calculateCowDeaths(userCommons, ctx);
+
+                // assert
+                assertEquals(5, userCommons.getNumOfCows());
+                assertEquals(0, userCommons.getCowDeaths());
+                assertEquals(0.0, userCommons.getCowHealth());
         }
 
         @Test
@@ -346,5 +399,36 @@ public class UpdateCowHealthJobTests {
 
                 Assertions.assertEquals("Error calling getNumNonHiddenUsers(117)",
                                 thrown.getMessage());
+        }
+
+        /*
+        private void setupUpdateCowHealthTestOnCommons(int totalCows, int numUsers) {
+                when(commonsRepository.findAll()).thenReturn(List.of(commons));
+                when(userCommonsRepository.findByCommonsId(commons.getId())).thenReturn(List.of(userCommons));
+                when(commonsRepository.getNumCows(commons.getId())).thenReturn(Optional.of(totalCows));
+                when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
+                when(commonsRepository.getNumNonHiddenUsers(commons.getId())).thenReturn(Optional.of(numUsers));
+        }
+         */
+
+        private void setupRepository() {
+                when(commonsRepository.findAll()).thenReturn(List.of(commons));
+                when(commonsRepository.getNumNonHiddenUsers(commons.getId())).thenReturn(Optional.of(1));
+                when(userCommonsRepository.findByCommonsId(commons.getId())).thenReturn(List.of(hiddenUserCommons));
+                when(commonsRepository.getNumCows(any())).thenReturn(Optional.of(1));
+        }
+
+        @Test
+        void test_hidden_user_is_skipped() throws Exception {
+                setupRepository();
+                var updateCowHealthJob = new UpdateCowHealthJob(commonsRepository,
+                                userCommonsRepository,
+                                userRepository);
+
+                updateCowHealthJob.accept(ctx);
+
+                verify(commonsRepository, times(0)).save(any());
+                verify(userCommonsRepository, times(0)).save(any());
+                verify(userRepository, times(0)).save(any());
         }
 }

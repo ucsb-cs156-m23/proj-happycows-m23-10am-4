@@ -20,6 +20,8 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
@@ -39,6 +41,14 @@ public class SetCowHealthJobTests {
             .id(1L)
             .fullName("Chris Gaucho")
             .email("cgaucho@example.org")
+            .build();
+
+    private User hiddenUser = User
+            .builder()
+            .id(2L)
+            .fullName("Hidden User")
+            .email("test@ucsb.edu")
+            .isHidden(true)
             .build();
 
     private Commons testCommons = Commons
@@ -137,5 +147,36 @@ public class SetCowHealthJobTests {
 
         assertEquals(expected, jobStarted.getLog());
         userCommonsList.forEach(userCommons -> assertEquals(newUserCommons.getCowHealth(), userCommons.getCowHealth()));
+    }
+
+    @Test
+    void test_hidden_user() throws Exception {
+        // Arrange
+        Job jobStarted = Job.builder().build();
+        JobContext ctx = new JobContext(null, jobStarted);
+
+        UserCommons newUserCommons = UserCommons
+                .builder()
+                .user(hiddenUser)
+                .commons(testCommons)
+                .totalWealth(300 - testCommons.getCowPrice())
+                .numOfCows(5)
+                .cowHealth(2.0)
+                .build();
+        
+        var userCommonsList = Arrays.asList(newUserCommons);
+
+        when(commonsRepository.findById(117L)).thenReturn(Optional.of(testCommons));
+        when(userCommonsRepository.findByCommonsId(testCommons.getId())).thenReturn(userCommonsList);
+        when(userRepository.findById(2L)).thenReturn(Optional.of(hiddenUser));
+
+        // Act
+        SetCowHealthJob setCowHealthJob = new SetCowHealthJob(117, 2, commonsRepository, userCommonsRepository, userRepository);
+        setCowHealthJob.accept(ctx);
+
+        // Assert
+        verify(commonsRepository, times(0)).save(any());
+        verify(userCommonsRepository, times(0)).save(any());
+        verify(userRepository, times(0)).save(any());
     }
 }

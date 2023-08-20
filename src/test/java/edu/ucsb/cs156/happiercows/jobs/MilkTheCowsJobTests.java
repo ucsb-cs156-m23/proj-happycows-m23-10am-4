@@ -12,6 +12,9 @@ import edu.ucsb.cs156.happiercows.services.jobs.JobContext;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.MockedConstruction;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -20,8 +23,11 @@ import java.util.Arrays;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.mockStatic;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration
@@ -55,6 +61,14 @@ public class MilkTheCowsJobTests {
             .carryingCapacity(100)
             .degradationRate(0.01)
             .build();
+
+        private User hiddenUser = User
+                                .builder()
+                                .id(2L)
+                                .fullName("Hidden User")
+                                .email("test@ucsb.edu")
+                                .isHidden(true)
+                                .build();
 
 
     @Test
@@ -167,5 +181,74 @@ public class MilkTheCowsJobTests {
 
         verify(userCommonsRepository).save(updatedUserCommons);
         assertEquals(expected, jobStarted.getLog());
+    }
+
+    @Test
+    void test_milk_cows_user_hidden() throws Exception {
+        Job jobStarted = Job.builder().build();
+        JobContext ctx = new JobContext(null, jobStarted);
+
+        UserCommons hiddenUserCommons = UserCommons
+                .builder()
+                .user(hiddenUser)
+                .commons(testCommons)
+                .totalWealth(300)
+                .numOfCows(1)
+                .cowHealth(10)
+                .build();
+
+        MilkTheCowsJob milkTheCowsJob = new MilkTheCowsJob(commonsRepository, userCommonsRepository,
+                userRepository, profitRepository);
+        
+        milkTheCowsJob.milkCows(ctx, testCommons, hiddenUserCommons);
+
+        verify(commonsRepository, times(0)).save(any());
+        verify(userCommonsRepository, times(0)).save(any());
+        verify(userRepository, times(0)).save(any());
+        verify(profitRepository, times(0)).save(any());
+    }
+
+    @Test
+    void test_milk_cows_job_user_hidden() throws Exception {
+        Job jobStarted = Job.builder().build();
+        JobContext ctx = new JobContext(null, jobStarted);
+
+        UserCommons hiddenUserCommons = UserCommons
+                .builder()
+                .user(hiddenUser)
+                .commons(testCommons)
+                .totalWealth(300)
+                .numOfCows(1)
+                .cowHealth(10)
+                .build();
+        
+        UserCommons normalUserCommons = UserCommons
+                .builder()
+                .user(user)
+                .commons(testCommons)
+                .totalWealth(300)
+                .numOfCows(1)
+                .cowHealth(10)
+                .build();
+
+        when(commonsRepository.save(testCommons)).thenReturn(testCommons);
+
+        when(userCommonsRepository.save(hiddenUserCommons)).thenReturn(hiddenUserCommons);
+        when(userCommonsRepository.save(normalUserCommons)).thenReturn(normalUserCommons);
+
+        Commons commonsTemp[] = {testCommons};
+        UserCommons userCommonsTemp[] = {hiddenUserCommons, normalUserCommons};
+
+        when(commonsRepository.findAll()).thenReturn(Arrays.asList(commonsTemp));
+        when(userCommonsRepository.findByCommonsId(testCommons.getId())).thenReturn(Arrays.asList(userCommonsTemp));
+
+        MilkTheCowsJob MilkTheCowsJob = new MilkTheCowsJob(commonsRepository, userCommonsRepository,
+                userRepository, profitRepository);
+        MilkTheCowsJob.accept(ctx);
+
+        verify(commonsRepository, times(0)).save(any());
+        verify(userCommonsRepository, times(1)).save(any());
+        verify(userRepository, times(0)).save(any());
+        verify(profitRepository, times(1)).save(any());
     }
 }

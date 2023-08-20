@@ -597,6 +597,30 @@ public class CommonsControllerTests extends ControllerTestCase {
         assertEquals(responseMap.get("type"), "EntityNotFoundException");
     }
 
+    // User is hidden
+    @WithMockUser(roles = {"USER"})
+    @Test
+    public void getCommonsPlus_hiddenUser() throws Exception {          
+        currentUserService.getCurrentUser().getUser().setHidden(true);
+        Commons Commons1 = Commons.builder()
+                .name("TestCommons2")
+                .id(18L)
+                .build();
+        CommonsPlus commonsPlus = CommonsPlus.builder()
+                .commons(Commons1)
+                .totalCows(5)
+                .totalUsers(2)
+                .build();
+                
+        when(commonsRepository.findById(eq(18L))).thenReturn(Optional.of(Commons1));
+        when(commonsRepository.getNumCows(18L)).thenReturn(Optional.of(5));
+        when(commonsRepository.getNumNonHiddenUsers(18L)).thenReturn(Optional.of(2));
+
+        MvcResult response = mockMvc.perform(get("/api/commons/plus?id=18"))
+                .andExpect(status().is(403)).andReturn();
+
+    }
+
     @WithMockUser(roles = {"USER"})
     @Test
     public void getHealthUpdateStrategiesTest() throws Exception {

@@ -98,9 +98,14 @@ public class MilkTheCowsJob implements JobContextConsumer {
      * @return
      */
     public static double calculateMilkingProfit(Commons commons, UserCommons userCommons) {
+        // Because this is a private method, we trust that the
+        // caller has already checked that the user is not hidden
+
+        /*
         if (userCommons.getUser().isHidden()) {
             return 0.0;
         }
+        */
         double milkPrice = commons.getMilkPrice();
         double profit = userCommons.getNumOfCows() * (userCommons.getCowHealth() / 100.0) * milkPrice;
         return profit;

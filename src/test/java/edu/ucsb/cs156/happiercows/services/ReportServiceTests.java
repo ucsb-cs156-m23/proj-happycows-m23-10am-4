@@ -8,6 +8,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.times;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -220,4 +221,47 @@ class ReportServiceTests {
         verify(reportLineRepository).save(eq(expectedReportLine));
   }
 
+    @Test
+    void test_createAndSaveReport_Userhidden() {
+        // We use local variables to test the case where the user is hidden
+
+        User userHidden = User
+                .builder()
+                .id(42L)
+                .fullName("Chris Gaucho")
+                .email("test@ucsb.edu")
+                .isHidden(true)
+                .build();
+
+        UserCommons userCommonsHidden = UserCommons.builder()
+                .user(userHidden)
+                .username("Chris Gaucho")
+                .commons(commons)
+                .totalWealth(300)
+                .numOfCows(123)
+                .cowHealth(10)
+                .cowsBought(78)
+                .cowsSold(23)
+                .cowDeaths(6)
+                .build();
+
+        userCommonsHidden.setId(new UserCommonsKey(userHidden.getId(), commons.getId()));
+
+        when(commonsRepository.findById(17L)).thenReturn(Optional.of(commons));
+        when(userCommonsRepository.findByCommonsId(commons.getId()))
+                .thenReturn(Arrays.asList(userCommonsHidden));
+        when(commonsRepository.getNumNonHiddenUsers(commons.getId())).thenReturn(Optional.of(Integer.valueOf(1)));
+        when(commonsRepository.getNumCows(commons.getId())).thenReturn(Optional.of(Integer.valueOf(123)));
+        when(userRepository.findById(42L)).thenReturn(Optional.of(userHidden));
+
+        // act
+
+        Report report = reportService.createReport(17L);
+
+        // assert
+
+        assertEquals(expectedReportHeader, report);
+        // save should not be called
+        verify(reportLineRepository, times(0)).save(any());
+    }
 }
