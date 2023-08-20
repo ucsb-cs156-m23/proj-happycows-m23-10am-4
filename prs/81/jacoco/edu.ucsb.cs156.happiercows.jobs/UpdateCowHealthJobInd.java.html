@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UpdateCowHealthJobInd.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">example</a> &gt; <a href="index.source.html" class="el_package">edu.ucsb.cs156.happiercows.jobs</a> &gt; <span class="el_source">UpdateCowHealthJobInd.java</span></div><h1>UpdateCowHealthJobInd.java</h1><pre class="source lang-java linenums">package edu.ucsb.cs156.happiercows.jobs;
+
+import java.util.Optional;
+
+import edu.ucsb.cs156.happiercows.entities.Commons;
+import edu.ucsb.cs156.happiercows.entities.User;
+import edu.ucsb.cs156.happiercows.entities.UserCommons;
+import edu.ucsb.cs156.happiercows.repositories.CommonsRepository;
+import edu.ucsb.cs156.happiercows.repositories.UserCommonsRepository;
+import edu.ucsb.cs156.happiercows.repositories.UserRepository;
+import edu.ucsb.cs156.happiercows.services.jobs.JobContext;
+import edu.ucsb.cs156.happiercows.services.jobs.JobContextConsumer;
+import edu.ucsb.cs156.happiercows.strategies.CowHealthUpdateStrategy;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@AllArgsConstructor
+public class UpdateCowHealthJobInd implements JobContextConsumer {
+
+    @Getter
+    private CommonsRepository commonsRepository;
+    @Getter
+    private UserCommonsRepository userCommonsRepository;
+    @Getter
+    private UserRepository userRepository;
+    @Getter
+    private Long commonsID;
+
+    @Override
+    public void accept(JobContext ctx) throws Exception {
+<span class="fc" id="L31">        ctx.log(&quot;Updating cow health...&quot;);</span>
+
+<span class="fc" id="L33">       Optional&lt;Commons&gt; commonUpdatedOpt = commonsRepository.findById(commonsID);</span>
+
+<span class="fc bfc" id="L35" title="All 2 branches covered.">        if(commonUpdatedOpt.isPresent()){</span>
+<span class="fc" id="L36">            Commons commons = commonUpdatedOpt.get();</span>
+<span class="fc" id="L37">            ctx.log(&quot;Commons &quot; + commons.getName() + &quot;, degradationRate: &quot; + commons.getDegradationRate() + &quot;, carryingCapacity: &quot; + commons.getCarryingCapacity());</span>
+<span class="fc" id="L38">            int numUsers = commonsRepository.getNumUsers(commons.getId()).orElseThrow(() -&gt; new RuntimeException(&quot;Error calling getNumUsers(&quot; + commons.getId() + &quot;)&quot;));</span>
+
+<span class="fc bfc" id="L40" title="All 2 branches covered.">            if (numUsers==0) {</span>
+<span class="fc" id="L41">                ctx.log(&quot;No users in this commons&quot;);</span>
+<span class="fc" id="L42">                ctx.log(&quot;Cow health has been updated!&quot;);</span>
+<span class="fc" id="L43">                return;</span>
+            }
+
+<span class="fc" id="L46">            int carryingCapacity = commons.getCarryingCapacity();</span>
+<span class="fc" id="L47">            Iterable&lt;UserCommons&gt; allUserCommons = userCommonsRepository.findByCommonsId(commons.getId());</span>
+
+<span class="fc" id="L49">            Integer totalCows = commonsRepository.getNumCows(commons.getId()).orElseThrow(() -&gt; new RuntimeException(&quot;Error calling getNumCows(&quot; + commons.getId() + &quot;)&quot;));</span>
+
+<span class="fc bfc" id="L51" title="All 2 branches covered.">            var isAboveCapacity = totalCows &gt; carryingCapacity;</span>
+<span class="fc bfc" id="L52" title="All 2 branches covered.">            var cowHealthUpdateStrategy = isAboveCapacity ? commons.getAboveCapacityHealthUpdateStrategy() : commons.getBelowCapacityHealthUpdateStrategy();</span>
+
+<span class="fc bfc" id="L54" title="All 2 branches covered.">            for (UserCommons userCommons : allUserCommons) {</span>
+<span class="fc" id="L55">                User user = userCommons.getUser();</span>
+<span class="fc" id="L56">                var newCowHealth = calculateNewCowHealthUsingStrategy(cowHealthUpdateStrategy, commons, userCommons, totalCows);</span>
+<span class="fc" id="L57">                ctx.log(&quot;User: &quot; + user.getFullName() + &quot;, numCows: &quot; + userCommons.getNumOfCows() + &quot;, cowHealth: &quot; + userCommons.getCowHealth());</span>
+
+<span class="fc" id="L59">                double oldHealth = userCommons.getCowHealth();</span>
+<span class="fc" id="L60">                userCommons.setCowHealth(newCowHealth);</span>
+<span class="fc" id="L61">                calculateCowDeaths(userCommons, ctx);</span>
+
+<span class="fc" id="L63">                ctx.log(&quot; old cow health: &quot; + oldHealth + &quot;, new cow health: &quot; + userCommons.getCowHealth());</span>
+<span class="fc" id="L64">                userCommonsRepository.save(userCommons);</span>
+<span class="fc" id="L65">            }</span>
+        
+        
+<span class="fc" id="L68">            ctx.log(&quot;Cow health has been updated!&quot;);</span>
+<span class="fc" id="L69">        } else {</span>
+<span class="fc" id="L70">            ctx.log(String.format(&quot;No commons found for id %d&quot;, commonsID));</span>
+        }
+<span class="fc" id="L72">    }</span>
+
+    // exposed for testing
+    public static double calculateNewCowHealthUsingStrategy(
+            CowHealthUpdateStrategy strategy,
+            Commons commons,
+            UserCommons userCommons,
+            int totalCows
+    ) {
+<span class="fc" id="L81">        var health = strategy.calculateNewCowHealth(commons, userCommons, totalCows);</span>
+<span class="fc" id="L82">        return Math.max(0, Math.min(health, 100));</span>
+    }
+
+    public static void calculateCowDeaths(UserCommons userCommons, JobContext ctx) {
+<span class="fc bfc" id="L86" title="All 2 branches covered.">        if (userCommons.getCowHealth() == 0.0) {</span>
+<span class="fc" id="L87">            userCommons.setCowDeaths(userCommons.getCowDeaths() + userCommons.getNumOfCows());</span>
+<span class="fc" id="L88">            userCommons.setNumOfCows(0);</span>
+<span class="fc" id="L89">            userCommons.setCowHealth(100.0);</span>
+
+<span class="fc" id="L91">            ctx.log(&quot; &quot; + userCommons.getCowDeaths() + &quot; cows for this user died.&quot; );</span>
+        }
+<span class="fc" id="L93">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
