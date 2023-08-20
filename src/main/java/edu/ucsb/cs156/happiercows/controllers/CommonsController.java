@@ -268,7 +268,7 @@ public class CommonsController extends ApiController {
 
         userCommonsRepository.delete(userCommons);
 
-        String responseString = String.format("user with id %d deleted from commons with id %d, %d users remain", userId, commonsId, commonsRepository.getNumUsers(commonsId).orElse(0));
+        String responseString = String.format("user with id %d deleted from commons with id %d, %d users remain", userId, commonsId, commonsRepository.getNumNonHiddenUsers(commonsId).orElse(0));
 
         return genericMessage(responseString);
     }
