@@ -34,7 +34,10 @@ public class ReportService {
 
 
         for (UserCommons userCommons : allUserCommons) {
-               createAndSaveReportLine(report, userCommons);
+            if (userCommons.getUser().isHidden()) {
+                continue;
+            }
+            createAndSaveReportLine(report, userCommons);
         }
 
         return report;
@@ -46,7 +49,6 @@ public class ReportService {
 
         Report report = Report.builder()
                 .commonsId(commonsId)
-
                 .name(commons.getName())
                 .cowPrice(commons.getCowPrice())
                 .milkPrice(commons.getMilkPrice())
@@ -57,9 +59,8 @@ public class ReportService {
                 .degradationRate(commons.getDegradationRate())
                 .belowCapacityHealthUpdateStrategy(commons.getBelowCapacityHealthUpdateStrategy())
                 .aboveCapacityHealthUpdateStrategy(commons.getAboveCapacityHealthUpdateStrategy())
-                .numUsers(commonsRepository.getNumUsers(commonsId).orElse(0))
+                .numUsers(commonsRepository.getNumNonHiddenUsers(commonsId).orElse(0))
                 .numCows(commonsRepository.getNumCows(commonsId).orElse(0))
-
                 .build();
 
         reportRepository.save(report);
