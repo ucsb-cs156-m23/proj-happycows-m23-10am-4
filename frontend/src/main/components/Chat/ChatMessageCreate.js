@@ -12,7 +12,7 @@ const ChatMessageCreate = ({ commonsId, submitAction:submitProp }) => {
     const objectToAxiosParams = (newMessage) => ({
         url: "/api/chat/post",
         method: "POST",
-        data: {message: newMessage.message, commonsId: commonsId}
+        data: newMessage
     });
 
     const onSuccess = (chatMessage) => {
@@ -29,11 +29,12 @@ const ChatMessageCreate = ({ commonsId, submitAction:submitProp }) => {
         objectToAxiosParams,
         { onSuccess },
         // Stryker disable next-line all : hard to set up test for caching
-        ["/api/chat/get/all"]
+        [`/api/chat/get/all?commonsId=${commonsId}`]
     );
 
     const submitAction = submitProp || (async (data) => {
-        mutation.mutate(data);
+        const params = { commonsId: Number(commonsId), content: data.message };
+        mutation.mutate(params);
     });
 
     const {

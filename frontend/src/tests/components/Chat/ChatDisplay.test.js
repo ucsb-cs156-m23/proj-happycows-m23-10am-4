@@ -46,7 +46,7 @@ describe("ChatDisplay tests", () => {
     //arrange
 
     axiosMock.onGet("/api/chat/get/all").reply(200, chatMessageFixtures.oneChatMessage);
-    axiosMock.onGet("/api/usercommons/all").reply(200, userCommonsFixtures.oneUserCommons);
+    axiosMock.onGet("/api/usercommons/commons/all").reply(200, userCommonsFixtures.oneUserCommons);
 
     //act
     render(

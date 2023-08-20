@@ -13,7 +13,7 @@ const ChatDisplay = ({ commonsId, messages: messagesProp, userCommons: userCommo
     const {
         data: messagesData
         } = useBackend(
-            ["/api/chat/get"],
+            [`/api/chat/get/all?commonsId=${commonsId}`],
             {
                 method: "GET",
                 url: "/api/chat/get/all",
@@ -27,10 +27,10 @@ const ChatDisplay = ({ commonsId, messages: messagesProp, userCommons: userCommo
       const {
         data: userCommonsListData
         } = useBackend(
-            ["/api/usercommons/all"],
+            [`/api/usercommons/all?commonsId=${commonsId}`],
             {
                 method: "GET",
-                url: "/api/usercommons/all",
+                url: "/api/usercommons/commons/all",
                 params: {
                     commonsId: commonsId,
                 }
@@ -43,7 +43,7 @@ const ChatDisplay = ({ commonsId, messages: messagesProp, userCommons: userCommo
     const messages = messagesProp || messagesData;
     const userCommonsList = userCommonsListProp || userCommonsListData;
   
-    const sortedMessages = Array.isArray(messages) && messages.sort((a, b) => a.id - b.id);
+    const sortedMessages = Array.isArray(messages) && messages.sort((a, b) => b.id - a.id);
 
     const userIdToUsername = Array.isArray(userCommonsList)
     ? userCommonsList.reduce((acc, user) => {

@@ -176,6 +176,33 @@ public class ChatMessageControllerTests extends ControllerTestCase {
         assertEquals(expectedResponseString, responseString);
     }
 
+    //* */ admin/get/all tests
+    @WithMockUser(roles = {"USER"})
+    @Test
+    public void userCanGetVisibleChatMessagesNoPage() throws Exception {
+        
+        // arrange
+        Long commonsId = 1L;
+
+        ChatMessage chatMessage1 = ChatMessage.builder().id(1L).commonsId(commonsId).build();
+        ChatMessage chatMessage2 = ChatMessage.builder().id(2L).commonsId(commonsId).build();
+
+        Iterable<ChatMessage> listChatMessages = Arrays.asList(chatMessage1, chatMessage2);
+
+        when(chatMessageRepository.findByCommonsIdNoPage(commonsId)).thenReturn(listChatMessages);
+
+        // act
+        MvcResult response = mockMvc.perform(get("/api/chat/get/all?commonsId={commonsId}", commonsId))
+            .andExpect(status().isOk()).andReturn();
+
+        // assert
+        verify(chatMessageRepository, atLeastOnce()).findByCommonsIdNoPage(commonsId);
+        String responseString = response.getResponse().getContentAsString();
+        String expectedResponseString = mapper.writeValueAsString(listChatMessages);
+        log.info("Got back from API: {}", responseString);
+        assertEquals(expectedResponseString, responseString);
+    }
+
     @WithMockUser(roles = {"USER"})
     @Test
     public void userCannotUseAdminGetAPIEndpoint() throws Exception {

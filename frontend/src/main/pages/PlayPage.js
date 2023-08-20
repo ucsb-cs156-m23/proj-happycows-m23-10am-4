@@ -159,9 +159,9 @@ export default function PlayPage() {
         </Container>
       </BasicLayout>
       <div style={chatContainerStyle} data-testid="playpage-chat-div">
-        {isChatOpen && <ChatPanel commonsId={commonsId}/>}
+        {!!isChatOpen && <ChatPanel commonsId={commonsId}/>}
         <Button style={chatButtonStyle} onClick={toggleChatWindow} data-testid="playpage-chat-toggle">
-          {isChatOpen ? '▼' : '▲'}
+          {!!isChatOpen ? '▼' : '▲'}
         </Button>
       </div>
     </div>

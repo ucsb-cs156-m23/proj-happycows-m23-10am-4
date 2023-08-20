@@ -103,7 +103,7 @@ describe("ChatMessageCreate", () => {
 
         const messageText = "Hello World";
         const expectedMessage = {
-            message: messageText,
+            content: messageText,
             commonsId: commonsId,
         };
     
