@@ -19,6 +19,7 @@ import edu.ucsb.cs156.happiercows.entities.Commons;
 import edu.ucsb.cs156.happiercows.errors.EntityNotFoundException;
 import edu.ucsb.cs156.happiercows.errors.NoCowsException;
 import edu.ucsb.cs156.happiercows.errors.NotEnoughMoneyException;
+import edu.ucsb.cs156.happiercows.errors.UserHiddenException;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
@@ -29,7 +30,6 @@ import javax.validation.Valid;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @Tag(name = "User Commons")
 @RequestMapping("/api/usercommons")
@@ -45,7 +45,7 @@ public class UserCommonsController extends ApiController {
   @Autowired
   ObjectMapper mapper;
 
-  @Operation(summary = "Get a specific user commons (admin only)")
+  @Operation(summary = "Get a specific user commons (including hidden ones) (admin only)")
   @PreAuthorize("hasRole('ROLE_ADMIN')")
   @GetMapping("")
   public UserCommons getUserCommonsById(
@@ -63,6 +63,9 @@ public class UserCommonsController extends ApiController {
   @GetMapping("/forcurrentuser")
   public UserCommons getUserCommonsById(
       @Parameter(name="commonsId") @RequestParam Long commonsId) throws JsonProcessingException {
+    if (getCurrentUser().getUser().isHidden()) {
+      throw new UserHiddenException(getCurrentUser().getUser().getId());
+    }
 
     User u = getCurrentUser().getUser();
     Long userId = u.getId();
@@ -77,6 +80,9 @@ public class UserCommonsController extends ApiController {
   @PutMapping("/buy")
   public ResponseEntity<String> putUserCommonsByIdBuy(
           @Parameter(name="commonsId") @RequestParam Long commonsId) throws NotEnoughMoneyException, JsonProcessingException{
+        if (getCurrentUser().getUser().isHidden()) {
+          throw new UserHiddenException(getCurrentUser().getUser().getId());
+        }
 
         User u = getCurrentUser().getUser();
         Long userId = u.getId();
@@ -106,6 +112,10 @@ public class UserCommonsController extends ApiController {
   @PutMapping("/sell")
   public ResponseEntity<String> putUserCommonsByIdSell(
           @Parameter(name="commonsId") @RequestParam Long commonsId) throws NoCowsException, JsonProcessingException {
+        if (getCurrentUser().getUser().isHidden()) {
+          throw new UserHiddenException(getCurrentUser().getUser().getId());
+        }
+        
         User u = getCurrentUser().getUser();
         Long userId = u.getId();
 
@@ -131,7 +141,7 @@ public class UserCommonsController extends ApiController {
     }
 
     
-
+    // FIXME: https://github.com/ucsb-cs156-m23/proj-happycows-m23-10am-4/issues/80
     @Operation(summary = "Get all user commons for a specific commons")
     @GetMapping("/commons/all")
     public  ResponseEntity<String> getUsersCommonsByCommonsId(

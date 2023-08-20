@@ -20,6 +20,7 @@ public class UserInfoController extends ApiController {
   @PreAuthorize("hasRole('ROLE_USER')")
   @GetMapping("")
   public CurrentUser getCurrentUser() {
+    // TODO: Should we return nothing if the user is hidden?
     return super.getCurrentUser();
   }
 }

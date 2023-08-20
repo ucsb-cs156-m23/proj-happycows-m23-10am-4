@@ -25,7 +25,7 @@ public class UsersController extends ApiController {
     @Autowired
     ObjectMapper mapper;
 
-    @Operation(summary = "Get a list of all users")
+    @Operation(summary = "Get a list of all users (including hidden users)")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("")
     public ResponseEntity<String> users()

@@ -7,6 +7,7 @@ import edu.ucsb.cs156.happiercows.entities.CommonsPlus;
 import edu.ucsb.cs156.happiercows.entities.User;
 import edu.ucsb.cs156.happiercows.entities.UserCommons;
 import edu.ucsb.cs156.happiercows.errors.EntityNotFoundException;
+import edu.ucsb.cs156.happiercows.errors.UserHiddenException;
 import edu.ucsb.cs156.happiercows.models.CreateCommonsParams;
 import edu.ucsb.cs156.happiercows.models.HealthUpdateStrategyList;
 import edu.ucsb.cs156.happiercows.repositories.CommonsRepository;
@@ -76,6 +77,10 @@ public class CommonsController extends ApiController {
     @GetMapping("/plus")
     public CommonsPlus getCommonsPlusById(
             @Parameter(name="id") @RequestParam long id) throws JsonProcessingException {
+            if (getCurrentUser().getUser().isHidden()) {
+                throw new UserHiddenException(getCurrentUser().getUser().getId());
+            }
+
                 CommonsPlus commonsPlus = toCommonsPlus(commonsRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(Commons.class, id)));
 
@@ -131,6 +136,9 @@ public class CommonsController extends ApiController {
     @GetMapping("")
     public Commons getCommonsById(
             @Parameter(name="id") @RequestParam Long id) throws JsonProcessingException {
+        if (getCurrentUser().getUser().isHidden()) {
+            throw new UserHiddenException(getCurrentUser().getUser().getId());
+        }
 
         Commons commons = commonsRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(Commons.class, id));
@@ -182,6 +190,9 @@ public class CommonsController extends ApiController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/all-health-update-strategies")
     public ResponseEntity<String> listCowHealthUpdateStrategies() throws JsonProcessingException {
+        if (getCurrentUser().getUser().isHidden()) {
+            throw new UserHiddenException(getCurrentUser().getUser().getId());
+        }
         var result = HealthUpdateStrategyList.create();
         String body = mapper.writeValueAsString(result);
         return ResponseEntity.ok().body(body);
@@ -192,6 +203,9 @@ public class CommonsController extends ApiController {
     @PostMapping(value = "/join", produces = "application/json")
     public ResponseEntity<String> joinCommon(
             @Parameter(name="commonsId") @RequestParam Long commonsId) throws Exception {
+        if (getCurrentUser().getUser().isHidden()) {
+            throw new UserHiddenException(getCurrentUser().getUser().getId());
+        }
 
         User u = getCurrentUser().getUser();
         Long userId = u.getId();
@@ -261,7 +275,7 @@ public class CommonsController extends ApiController {
 
     public CommonsPlus toCommonsPlus(Commons c) {
         Optional<Integer> numCows = commonsRepository.getNumCows(c.getId());
-        Optional<Integer> numUsers = commonsRepository.getNumUsers(c.getId());
+        Optional<Integer> numUsers = commonsRepository.getNumNonHiddenUsers(c.getId());
 
         return CommonsPlus.builder()
                 .commons(c)
