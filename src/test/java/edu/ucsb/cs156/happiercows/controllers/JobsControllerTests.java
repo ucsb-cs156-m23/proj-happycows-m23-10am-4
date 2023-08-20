@@ -50,6 +50,7 @@ import edu.ucsb.cs156.happiercows.jobs.MilkTheCowsJobFactory;
 import edu.ucsb.cs156.happiercows.jobs.MilkTheCowsJobFactoryInd;
 import edu.ucsb.cs156.happiercows.jobs.SetCowHealthJobFactory;
 import edu.ucsb.cs156.happiercows.jobs.UpdateCowHealthJobFactory;
+import edu.ucsb.cs156.happiercows.jobs.UpdateCowHealthJobFactoryInd;
 import edu.ucsb.cs156.happiercows.jobs.RecordCommonStatsJob;
 import edu.ucsb.cs156.happiercows.jobs.RecordCommonStatsJobFactory;
 import edu.ucsb.cs156.happiercows.jobs.UpdateCowHealthJobFactoryInd;
@@ -98,6 +99,9 @@ public class JobsControllerTests extends ControllerTestCase {
 
         @MockBean
         MilkTheCowsJobFactoryInd milkTheCowsJobFactoryInd;
+
+        @MockBean
+        UpdateCowHealthJobFactoryInd updateCowHealthJobFactoryInd;
 
         @MockBean
         RecordCommonStatsJobFactory recordCommonStatsJobFactory;
