@@ -13,12 +13,14 @@ const ChatDisplay = ({ commonsId, messages: messagesProp, userCommons: userCommo
     const {
         data: messagesData
         } = useBackend(
-            [`/api/chat/get/all?commonsId=${commonsId}`],
+            [`/api/chat/get?page=0&size=${initialMessagePageSize}&commonsId=${commonsId}`],
             {
                 method: "GET",
-                url: "/api/chat/get/all",
+                url: `/api/chat/get`,
                 params: {
                     commonsId: commonsId,
+                    page: 0,
+                    size: initialMessagePageSize
                 }
             },
             { refetchInterval: refreshRate }
@@ -40,7 +42,7 @@ const ChatDisplay = ({ commonsId, messages: messagesProp, userCommons: userCommo
       
     // Stryker restore all
 
-    const messages = messagesProp || messagesData;
+    const messages = messagesProp || messagesData.content;
     const userCommonsList = userCommonsListProp || userCommonsListData;
   
     const sortedMessages = Array.isArray(messages) && messages.sort((a, b) => b.id - a.id);

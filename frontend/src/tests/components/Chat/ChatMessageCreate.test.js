@@ -15,7 +15,7 @@ describe("ChatMessageCreate", () => {
     beforeEach(() => {
         axiosMock.reset();
         axiosMock.resetHistory();
-        axiosMock.onGet("/api/chat/get/all").reply(200, chatMessageFixtures.oneChatMessage[0]);
+        axiosMock.onGet("/api/chat/get").reply(200, { content: chatMessageFixtures.oneChatMessage });
     });
 
     test("renders without crashing", async () => {

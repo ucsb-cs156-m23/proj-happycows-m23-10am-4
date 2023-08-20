@@ -7,6 +7,7 @@ import { useBackendMutation } from "main/utils/useBackend";
 const ChatMessageCreate = ({ commonsId, submitAction: submitProp }) => {
 
     const testid = "ChatMessageCreate";
+    const initialMessagePageSize = 10;
 
     const objectToAxiosParams = (newMessage) => ({
         url: `/api/chat/post?commonsId=${newMessage.commonsId}&content=${newMessage.content}`,
@@ -18,7 +19,7 @@ const ChatMessageCreate = ({ commonsId, submitAction: submitProp }) => {
         objectToAxiosParams,
         { },
         // Stryker disable next-line all : hard to set up test for caching
-        [`/api/chat/get/all?commonsId=${commonsId}`]
+        [`/api/chat/get?page=0&size=${initialMessagePageSize}&commonsId=${commonsId}`]
     );
 
     const submitAction = submitProp || (async (data) => {

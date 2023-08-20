@@ -45,7 +45,7 @@ describe("ChatDisplay tests", () => {
 
     //arrange
 
-    axiosMock.onGet("/api/chat/get/all").reply(200, chatMessageFixtures.oneChatMessage);
+    axiosMock.onGet("/api/chat/get").reply(200, { content: chatMessageFixtures.oneChatMessage });
     axiosMock.onGet("/api/usercommons/commons/all").reply(200, userCommonsFixtures.oneUserCommons);
 
     //act
@@ -61,8 +61,8 @@ describe("ChatDisplay tests", () => {
     await waitFor(() => {
         expect(axiosMock.history.get.length).toBeGreaterThanOrEqual(1);
     });
-    expect(axiosMock.history.get[0].url).toBe("/api/chat/get/all");
-    expect(axiosMock.history.get[0].params).toEqual({ commonsId: 1 });
+    expect(axiosMock.history.get[0].url).toBe("/api/chat/get");
+    expect(axiosMock.history.get[0].params).toEqual({ commonsId: 1, page: 0, size: 10 });
 
     await waitFor(() => {
         expect(axiosMock.history.get.length).toBe(2);
@@ -83,7 +83,7 @@ describe("ChatDisplay tests", () => {
 
     //arrange
 
-    axiosMock.onGet("/api/chat/get/all").reply(200, chatMessageFixtures.threeChatMessages);
+    axiosMock.onGet("/api/chat/get").reply(200, { content: chatMessageFixtures.threeChatMessages });
     axiosMock.onGet("/api/usercommons/commons/all").reply(200, userCommonsFixtures.threeUserCommons);
 
     //act
@@ -99,8 +99,8 @@ describe("ChatDisplay tests", () => {
     await waitFor(() => {
         expect(axiosMock.history.get.length).toBeGreaterThanOrEqual(1);
     });
-    expect(axiosMock.history.get[0].url).toBe("/api/chat/get/all");
-    expect(axiosMock.history.get[0].params).toEqual({ commonsId: 1 });
+    expect(axiosMock.history.get[0].url).toBe("/api/chat/get");
+    expect(axiosMock.history.get[0].params).toEqual({ commonsId: 1, page: 0, size: 10 });
 
     await waitFor(() => {
         expect(axiosMock.history.get.length).toBe(2);
@@ -138,7 +138,7 @@ describe("ChatDisplay tests", () => {
 
     //arrange
 
-    axiosMock.onGet("/api/chat/get/all").reply(200, chatMessageFixtures.threeChatMessages);
+    axiosMock.onGet("/api/chat/get").reply(200, { content: chatMessageFixtures.threeChatMessages });
     axiosMock.onGet("/api/usercommons/commons/all").reply(200, []);
 
     //act
@@ -154,8 +154,8 @@ describe("ChatDisplay tests", () => {
     await waitFor(() => {
         expect(axiosMock.history.get.length).toBeGreaterThanOrEqual(1);
     });
-    expect(axiosMock.history.get[0].url).toBe("/api/chat/get/all");
-    expect(axiosMock.history.get[0].params).toEqual({ commonsId: 1 });
+    expect(axiosMock.history.get[0].url).toBe("/api/chat/get");
+    expect(axiosMock.history.get[0].params).toEqual({ commonsId: 1, page: 0, size: 10 });
 
     await waitFor(() => {
         expect(axiosMock.history.get.length).toBe(2);
@@ -177,7 +177,7 @@ describe("ChatDisplay tests", () => {
 
     //arrange
 
-    axiosMock.onGet("/api/chat/get/all").reply(200, chatMessageFixtures.threeChatMessages);
+    axiosMock.onGet("/api/chat/get").reply(200, { content: chatMessageFixtures.threeChatMessages });
     axiosMock.onGet("/api/usercommons/commons/all").reply(200, [{userId: 1}]);
 
     //act
@@ -193,8 +193,8 @@ describe("ChatDisplay tests", () => {
     await waitFor(() => {
         expect(axiosMock.history.get.length).toBeGreaterThanOrEqual(1);
     });
-    expect(axiosMock.history.get[0].url).toBe("/api/chat/get/all");
-    expect(axiosMock.history.get[0].params).toEqual({ commonsId: 1 });
+    expect(axiosMock.history.get[0].url).toBe("/api/chat/get");
+    expect(axiosMock.history.get[0].params).toEqual({ commonsId: 1, page: 0, size: 10 });
 
     await waitFor(() => {
         expect(axiosMock.history.get.length).toBe(2);
@@ -216,7 +216,7 @@ describe("ChatDisplay tests", () => {
 
     //arrange
 
-    axiosMock.onGet("/api/chat/get/all").reply(200, chatMessageFixtures.twelveChatMessages);
+    axiosMock.onGet("/api/chat/get").reply(200, { content: chatMessageFixtures.twelveChatMessages });
     axiosMock.onGet("/api/usercommons/commons/all").reply(200, userCommonsFixtures.threeUserCommons);
 
     //act
@@ -232,8 +232,8 @@ describe("ChatDisplay tests", () => {
     await waitFor(() => {
         expect(axiosMock.history.get.length).toBeGreaterThanOrEqual(1);
     });
-    expect(axiosMock.history.get[0].url).toBe("/api/chat/get/all");
-    expect(axiosMock.history.get[0].params).toEqual({ commonsId: 1 });
+    expect(axiosMock.history.get[0].url).toBe("/api/chat/get");
+    expect(axiosMock.history.get[0].params).toEqual({ commonsId: 1, page: 0, size: 10 });
 
     await waitFor(() => {
         expect(axiosMock.history.get.length).toBe(2);
