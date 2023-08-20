@@ -68,6 +68,9 @@ public class JobsController extends ApiController {
     InstructorReportJobSingleCommonsFactory instructorReportJobSingleCommonsFactory;
 
     @Autowired
+    UpdateCowHealthJobFactoryInd updateCowHealthJobFactoryInd;
+
+    @Autowired
     RecordCommonStatsJobFactory recordCommonStatsJobFactory;
 
     @Autowired
