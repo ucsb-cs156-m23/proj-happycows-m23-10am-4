@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Form, Row, Col } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify"
 
@@ -44,25 +44,18 @@ const ChatMessageCreate = ({ commonsId, submitAction:submitProp }) => {
     } = useForm( );
 
     return (
-        <Form onSubmit={handleSubmit(submitAction)}>
-            <Row>
-                <Col sm={10}>
-                    <Form.Group className="mb-3">
-                        <Form.Control
-                            data-testid={`${testid}-Message`}
-                            id="message"
-                            type="text"
-                            {...register("message", { required: "Message cannot be empty" })}
-                        />
-                        <Form.Control.Feedback type="invalid">
-                            {errors.message?.message}
-                        </Form.Control.Feedback>
-                    </Form.Group>
-                </Col>
-                <Col sm={2}>
-                    <Button type="submit" data-testid={`${testid}-Send`}>Send</Button>
-                </Col>
-            </Row>
+        <Form data-testid={testid} onSubmit={handleSubmit(submitAction)} 
+            style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <Form.Control
+                data-testid={`${testid}-Message`}
+                id="message"
+                type="text"
+                {...register("message", { required: "Message cannot be empty" })}
+            />
+            <Form.Control.Feedback type="invalid">
+                {errors.message?.message}
+            </Form.Control.Feedback>
+            <Button type="submit" data-testid={`${testid}-Send`}>Send</Button>
         </Form>
     );
 };

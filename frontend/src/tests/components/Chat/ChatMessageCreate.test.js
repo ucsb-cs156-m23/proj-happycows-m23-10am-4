@@ -48,6 +48,10 @@ describe("ChatMessageCreate", () => {
         expect(screen.getByTestId("ChatMessageCreate-Message")).toBeInTheDocument();
         expect(screen.getByTestId("ChatMessageCreate-Send")).toBeInTheDocument();
 
+        expect(screen.getByTestId("ChatMessageCreate")).toHaveStyle("display: flex");
+        expect(screen.getByTestId("ChatMessageCreate")).toHaveStyle("justifyContent: space-between");
+        expect(screen.getByTestId("ChatMessageCreate")).toHaveStyle("alignItems: center");
+
     });
 
     test("shows an error when the message input is empty", async () => {

@@ -1,16 +1,16 @@
 import React from 'react';
-import ChatDisplay from 'main/components/Chat/ChatDisplay';
+import ChatPanel from 'main/components/Chat/ChatPanel';
 import {chatMessageFixtures} from 'fixtures/chatMessageFixtures';
 import userCommonsFixtures from 'fixtures/userCommonsFixtures';
 
 export default {
-    title: 'components/Chat/ChatDisplay',
-    component: ChatDisplay
+    title: 'components/Chat/ChatPanel',
+    component: ChatPanel
 };
 
 const Template = (args) => {
     return (
-        <ChatDisplay {...args} />
+        <ChatPanel {...args} />
     )
 };
 
