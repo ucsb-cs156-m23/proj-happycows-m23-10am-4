@@ -1,0 +1,17 @@
+import { Meta, Story, Canvas } from "@storybook/addon-docs/blocks";
+import { action } from "@storybook/addon-actions";
+import ChatMessageCreate from "main/components/Chat/ChatMessageCreate";
+
+<Meta
+  title="components/Chat/ChatMessageCreate"
+  component={ChatMessageCreate}
+/>
+
+# CommonsList
+The component that posts a new message
+
+<Canvas>
+  <Story name="uncontrolled">
+    <ChatMessageCreate commonsId={1} />
+  </Story>
+</Canvas>

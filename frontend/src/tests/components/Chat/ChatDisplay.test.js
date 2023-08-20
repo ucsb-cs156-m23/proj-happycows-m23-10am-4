@@ -35,7 +35,9 @@ describe("ChatDisplay tests", () => {
     });
 
     expect(screen.getByTestId("ChatDisplay")).toHaveStyle("overflowY: scroll");
-    expect(screen.getByTestId("ChatDisplay")).toHaveStyle("maxHeight: 400px");
+    expect(screen.getByTestId("ChatDisplay")).toHaveStyle("maxHeight: 300px");
+    expect(screen.getByTestId("ChatDisplay")).toHaveStyle("display: flex");
+    expect(screen.getByTestId("ChatDisplay")).toHaveStyle("flexDirection: column-reverse");
 
   });
 

@@ -53,7 +53,7 @@ const ChatDisplay = ({ commonsId, messages: messagesProp, userCommons: userCommo
     : {};
 
     return (
-      <div style={{ overflowY: "scroll", maxHeight: "400px" }} data-testid="ChatDisplay" >
+      <div style={{ display: "flex", flexDirection: "column-reverse", overflowY: "scroll", maxHeight: "300px" }} data-testid="ChatDisplay" >
         {Array.isArray(sortedMessages) && sortedMessages.slice(0, initialMessagePageSize).map((message) => (
             <ChatMessageDisplay 
                 key={message.id} 
