@@ -7,5 +7,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ProfitRepository extends CrudRepository<Profit, Long> {
+    // In calling code, check if userCommons is hidden
     Iterable<Profit> findAllByUserCommons(UserCommons userCommons);
 }

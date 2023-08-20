@@ -11,7 +11,8 @@ import edu.ucsb.cs156.happiercows.entities.Commons;
 
 @Repository
 public interface CommonsRepository extends CrudRepository<Commons, Long> {
-    @Query("SELECT sum(uc.numOfCows) from user_commons uc where uc.commons.id = :commonsId")
+    // Notice: This is non-hidden number of cows
+    @Query("SELECT sum(uc.numOfCows) from user_commons uc where uc.commons.id = :commonsId AND uc.user.isHidden = false")
     Optional<Integer> getNumCows(Long commonsId);
 
     @Query("SELECT COUNT(*) FROM user_commons uc WHERE uc.commons.id = :commonsId AND uc.user.isHidden = false")
