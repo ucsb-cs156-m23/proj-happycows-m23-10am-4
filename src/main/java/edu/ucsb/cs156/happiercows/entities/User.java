@@ -27,6 +27,9 @@ public class User {
     private String hostedDomain;
     private boolean admin;
 
+    @Builder.Default
+    private boolean isHidden = false;
+
     // this is used by the frontend
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_commons",
