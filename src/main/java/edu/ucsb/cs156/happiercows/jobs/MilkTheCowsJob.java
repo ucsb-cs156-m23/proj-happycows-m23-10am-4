@@ -45,6 +45,9 @@ public class MilkTheCowsJob implements JobContextConsumer {
             Iterable<UserCommons> allUserCommons = userCommonsRepository.findByCommonsId(commons.getId());
 
             for (UserCommons userCommons : allUserCommons) {
+                if (userCommons.getUser().isHidden()) {
+                    continue;
+                }
                 milkCows(ctx, commons, userCommons);
             }
         }
@@ -61,6 +64,9 @@ public class MilkTheCowsJob implements JobContextConsumer {
      */
 
     public void milkCows(JobContext ctx, Commons commons, UserCommons userCommons) {
+        if (userCommons.getUser().isHidden()) {
+            return;
+        }
         User user = userCommons.getUser();
 
         ctx.log("User: " + user.getFullName()
@@ -92,6 +98,9 @@ public class MilkTheCowsJob implements JobContextConsumer {
      * @return
      */
     public static double calculateMilkingProfit(Commons commons, UserCommons userCommons) {
+        if (userCommons.getUser().isHidden()) {
+            return 0.0;
+        }
         double milkPrice = commons.getMilkPrice();
         double profit = userCommons.getNumOfCows() * (userCommons.getCowHealth() / 100.0) * milkPrice;
         return profit;

@@ -40,6 +40,9 @@ public class SetCowHealthJob implements JobContextConsumer {
             Iterable<UserCommons> allUserCommons = userCommonsRepository.findByCommonsId(commons.get().getId());
 
             for (UserCommons userCommons : allUserCommons) {
+                if (userCommons.getUser().isHidden()) {
+                    continue;
+                }
                 User user = userCommons.getUser();
                 ctx.log("User: " + user.getFullName() + ", numCows: " + userCommons.getNumOfCows() + ", cowHealth: " + userCommons.getCowHealth());
                 ctx.log(" old cow health: " + userCommons.getCowHealth() + ", new cow health: " + newCowHealth);

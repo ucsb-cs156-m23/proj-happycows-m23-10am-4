@@ -30,7 +30,7 @@ public class UpdateCowHealthJob implements JobContextConsumer {
 
         for (Commons commons : allCommons) {
             ctx.log("Commons " + commons.getName() + ", degradationRate: " + commons.getDegradationRate() + ", carryingCapacity: " + commons.getCarryingCapacity());
-            int numUsers = commonsRepository.getNumUsers(commons.getId()).orElseThrow(() -> new RuntimeException("Error calling getNumUsers(" + commons.getId() + ")"));
+            int numUsers = commonsRepository.getNumNonHiddenUsers(commons.getId()).orElseThrow(() -> new RuntimeException("Error calling getNumNonHiddenUsers(" + commons.getId() + ")"));
 
             if (numUsers==0) {
                 ctx.log("No users in this commons, skipping");
@@ -46,6 +46,9 @@ public class UpdateCowHealthJob implements JobContextConsumer {
             var cowHealthUpdateStrategy = isAboveCapacity ? commons.getAboveCapacityHealthUpdateStrategy() : commons.getBelowCapacityHealthUpdateStrategy();
 
             for (UserCommons userCommons : allUserCommons) {
+                if (userCommons.getUser().isHidden()) {
+                    continue;
+                }
                 User user = userCommons.getUser();
                 var newCowHealth = calculateNewCowHealthUsingStrategy(cowHealthUpdateStrategy, commons, userCommons, totalCows);
                 ctx.log("User: " + user.getFullName() + ", numCows: " + userCommons.getNumOfCows() + ", cowHealth: " + userCommons.getCowHealth());
@@ -69,11 +72,17 @@ public class UpdateCowHealthJob implements JobContextConsumer {
             UserCommons userCommons,
             int totalCows
     ) {
+        if (userCommons.getUser().isHidden()) {
+            return userCommons.getCowHealth();
+        }
         var health = strategy.calculateNewCowHealth(commons, userCommons, totalCows);
         return Math.max(0, Math.min(health, 100));
     }
 
     public static void calculateCowDeaths(UserCommons userCommons, JobContext ctx) {
+        if (userCommons.getUser().isHidden()) {
+            return;
+        }
         if (userCommons.getCowHealth() == 0.0) {
             userCommons.setCowDeaths(userCommons.getCowDeaths() + userCommons.getNumOfCows());
             userCommons.setNumOfCows(0);
