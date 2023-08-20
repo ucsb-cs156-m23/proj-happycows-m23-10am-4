@@ -6,16 +6,6 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import AxiosMockAdapter from "axios-mock-adapter";
 import axios from "axios";
 
-const mockToast = jest.fn();
-jest.mock('react-toastify', () => {
-    const originalModule = jest.requireActual('react-toastify');
-    return {
-        __esModule: true,
-        ...originalModule,
-        toast: (x) => mockToast(x)
-    };
-});
-
 describe("ChatMessageCreate", () => {
     const commonsId = 1;
 
@@ -103,11 +93,12 @@ describe("ChatMessageCreate", () => {
 
         const messageText = "Hello World";
         const expectedMessage = {
-            content: messageText,
-            commonsId: commonsId,
+            content: "Hello%20World",
+            commonsId: "1",
         };
     
-        axiosMock.onPost("/api/chat/post").reply(200, chatMessageFixtures.oneChatMessage[0] );
+        axiosMock.onPost("/api/chat/post?commonsId=1&content=Hello%20World")
+            .reply(200, chatMessageFixtures.oneChatMessage[0] );
     
         render(
             <QueryClientProvider client={queryClient}>
@@ -131,14 +122,9 @@ describe("ChatMessageCreate", () => {
     
         expect(axiosMock.history.post[0].data).toEqual(JSON.stringify(expectedMessage));
 
-        expect(mockToast).toHaveBeenCalledWith(<div>Message Sent!
-            <br />{`id: 1`}
-            <br />{`userId: 1`}
-            <br />{`commonsId: 1`}
-            <br />{`message: Hello World`}
-        </div>);
-
-        expect(messageInput.value).toEqual("");
+        await waitFor(() =>
+            expect(messageInput.value).toEqual("")
+        );
     
     });
     

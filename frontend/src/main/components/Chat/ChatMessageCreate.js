@@ -1,40 +1,32 @@
 import React from "react";
 import { Button, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
-import { toast } from "react-toastify"
 
 import { useBackendMutation } from "main/utils/useBackend";
 
-const ChatMessageCreate = ({ commonsId, submitAction:submitProp }) => {
+const ChatMessageCreate = ({ commonsId, submitAction: submitProp }) => {
 
     const testid = "ChatMessageCreate";
 
     const objectToAxiosParams = (newMessage) => ({
-        url: "/api/chat/post",
+        url: `/api/chat/post?commonsId=${newMessage.commonsId}&content=${newMessage.content}`,
         method: "POST",
         data: newMessage
     });
-
-    const onSuccess = (chatMessage) => {
-        toast(<div>Message Sent!
-            <br />{`id: ${chatMessage.id}`}
-            <br />{`userId: ${chatMessage.userId}`}
-            <br />{`commonsId: ${chatMessage.commonsId}`}
-            <br />{`message: ${chatMessage.message}`}
-        </div>);
-        reset();
-    }
    
     const mutation = useBackendMutation(
         objectToAxiosParams,
-        { onSuccess },
+        { },
         // Stryker disable next-line all : hard to set up test for caching
         [`/api/chat/get/all?commonsId=${commonsId}`]
     );
 
     const submitAction = submitProp || (async (data) => {
-        const params = { commonsId: Number(commonsId), content: data.message };
+        const escapedContent = encodeURIComponent(data.message);
+        const escapedCommonsId = encodeURIComponent(Number(commonsId));
+        const params = { content: escapedContent, commonsId: escapedCommonsId };
         mutation.mutate(params);
+        reset();
     });
 
     const {

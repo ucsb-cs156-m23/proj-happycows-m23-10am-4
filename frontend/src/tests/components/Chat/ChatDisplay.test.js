@@ -67,7 +67,7 @@ describe("ChatDisplay tests", () => {
     await waitFor(() => {
         expect(axiosMock.history.get.length).toBe(2);
     });
-    expect(axiosMock.history.get[1].url).toBe("/api/usercommons/all");
+    expect(axiosMock.history.get[1].url).toBe("/api/usercommons/commons/all");
     expect(axiosMock.history.get[1].params).toEqual({ commonsId: 1 });
 
     await waitFor(() => {
@@ -84,7 +84,7 @@ describe("ChatDisplay tests", () => {
     //arrange
 
     axiosMock.onGet("/api/chat/get/all").reply(200, chatMessageFixtures.threeChatMessages);
-    axiosMock.onGet("/api/usercommons/all").reply(200, userCommonsFixtures.threeUserCommons);
+    axiosMock.onGet("/api/usercommons/commons/all").reply(200, userCommonsFixtures.threeUserCommons);
 
     //act
     render(
@@ -105,7 +105,7 @@ describe("ChatDisplay tests", () => {
     await waitFor(() => {
         expect(axiosMock.history.get.length).toBe(2);
     });
-    expect(axiosMock.history.get[1].url).toBe("/api/usercommons/all");
+    expect(axiosMock.history.get[1].url).toBe("/api/usercommons/commons/all");
     expect(axiosMock.history.get[1].params).toEqual({ commonsId: 1 });
 
     const container = screen.getByTestId("ChatDisplay");
@@ -113,10 +113,10 @@ describe("ChatDisplay tests", () => {
     /* eslint-disable testing-library/no-node-access */
 
     await waitFor(() => {
-        expect(container.children[0].getAttribute("data-testid")).toBe("ChatMessageDisplay-1");
+        expect(container.children[2].getAttribute("data-testid")).toBe("ChatMessageDisplay-1");
     });
     expect(container.children[1].getAttribute("data-testid")).toBe("ChatMessageDisplay-2");
-    expect(container.children[2].getAttribute("data-testid")).toBe("ChatMessageDisplay-3");
+    expect(container.children[0].getAttribute("data-testid")).toBe("ChatMessageDisplay-3");
 
     /* eslint-enable testing-library/no-node-access */
 
@@ -139,7 +139,7 @@ describe("ChatDisplay tests", () => {
     //arrange
 
     axiosMock.onGet("/api/chat/get/all").reply(200, chatMessageFixtures.threeChatMessages);
-    axiosMock.onGet("/api/usercommons/all").reply(200, []);
+    axiosMock.onGet("/api/usercommons/commons/all").reply(200, []);
 
     //act
     render(
@@ -160,7 +160,7 @@ describe("ChatDisplay tests", () => {
     await waitFor(() => {
         expect(axiosMock.history.get.length).toBe(2);
     });
-    expect(axiosMock.history.get[1].url).toBe("/api/usercommons/all");
+    expect(axiosMock.history.get[1].url).toBe("/api/usercommons/commons/all");
     expect(axiosMock.history.get[1].params).toEqual({ commonsId: 1 });
 
     await waitFor(() => {
@@ -178,7 +178,7 @@ describe("ChatDisplay tests", () => {
     //arrange
 
     axiosMock.onGet("/api/chat/get/all").reply(200, chatMessageFixtures.threeChatMessages);
-    axiosMock.onGet("/api/usercommons/all").reply(200, [{userId: 1}]);
+    axiosMock.onGet("/api/usercommons/commons/all").reply(200, [{userId: 1}]);
 
     //act
     render(
@@ -199,7 +199,7 @@ describe("ChatDisplay tests", () => {
     await waitFor(() => {
         expect(axiosMock.history.get.length).toBe(2);
     });
-    expect(axiosMock.history.get[1].url).toBe("/api/usercommons/all");
+    expect(axiosMock.history.get[1].url).toBe("/api/usercommons/commons/all");
     expect(axiosMock.history.get[1].params).toEqual({ commonsId: 1 });
 
     await waitFor(() => {
@@ -217,7 +217,7 @@ describe("ChatDisplay tests", () => {
     //arrange
 
     axiosMock.onGet("/api/chat/get/all").reply(200, chatMessageFixtures.twelveChatMessages);
-    axiosMock.onGet("/api/usercommons/all").reply(200, userCommonsFixtures.threeUserCommons);
+    axiosMock.onGet("/api/usercommons/commons/all").reply(200, userCommonsFixtures.threeUserCommons);
 
     //act
     render(
@@ -238,23 +238,25 @@ describe("ChatDisplay tests", () => {
     await waitFor(() => {
         expect(axiosMock.history.get.length).toBe(2);
     });
-    expect(axiosMock.history.get[1].url).toBe("/api/usercommons/all");
+    expect(axiosMock.history.get[1].url).toBe("/api/usercommons/commons/all");
     expect(axiosMock.history.get[1].params).toEqual({ commonsId: 1 });
 
     await waitFor(() => {
-        expect(screen.getByTestId("ChatMessageDisplay-1")).toBeInTheDocument();
+        expect(screen.getByTestId("ChatMessageDisplay-11")).toBeInTheDocument();
         
     });
 
-    expect(screen.getByTestId("ChatMessageDisplay-2")).toBeInTheDocument();
-    expect(screen.getByTestId("ChatMessageDisplay-10")).toBeInTheDocument();
+    expect(screen.getByTestId("ChatMessageDisplay-12")).toBeInTheDocument();
+    expect(screen.getByTestId("ChatMessageDisplay-3")).toBeInTheDocument();
 
-    expect(screen.queryByTestId("ChatMessageDisplay-11")).not.toBeInTheDocument();
-    expect(screen.queryByTestId("ChatMessageDisplay-12")).not.toBeInTheDocument();
+    expect(screen.queryByTestId("ChatMessageDisplay-1")).not.toBeInTheDocument();
+    expect(screen.queryByTestId("ChatMessageDisplay-2")).not.toBeInTheDocument();
     
     expect(screen.queryByText("This should not appear")).not.toBeInTheDocument();
     expect(screen.queryByText("This should also be cut off")).not.toBeInTheDocument();
 
+    expect(screen.queryByText("This should appear, though")).toBeInTheDocument();
+    expect(screen.queryByText("This one too!")).toBeInTheDocument();
 
   });
 

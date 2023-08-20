@@ -49,7 +49,7 @@ export const chatMessageFixtures = {
             "userId": 1,
             "commonsId": 1,
             "timestamp": "2023-08-17T23:57:46.576+00:00",
-            "message": "Hello World",
+            "message": "This should not appear",
             "dm": false,
             "toUserId": 0,
             "hidden": false
@@ -59,7 +59,7 @@ export const chatMessageFixtures = {
             "userId": 3,
             "commonsId": 1,
             "timestamp": "2023-08-18T02:59:11.125+00:00",
-            "message": "Hello World How are you doing???",
+            "message": "This should also be cut off",
             "dm": false,
             "toUserId": 0,
             "hidden": true
@@ -149,7 +149,7 @@ export const chatMessageFixtures = {
             "userId": 3,
             "commonsId": 1,
             "timestamp": "2023-08-18T02:59:11.125+00:00",
-            "message": "This should not appear",
+            "message": "This should appear, though",
             "dm": false,
             "toUserId": 0,
             "hidden": true
@@ -159,7 +159,7 @@ export const chatMessageFixtures = {
             "userId": 2,
             "commonsId": 1,
             "timestamp": "2023-08-18T02:59:28.325+00:00",
-            "message": "This should also be cut off",
+            "message": "This one too!",
             "dm": false,
             "toUserId": 0,
             "hidden": false
