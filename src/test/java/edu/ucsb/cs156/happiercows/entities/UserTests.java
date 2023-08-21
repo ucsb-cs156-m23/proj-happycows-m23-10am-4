@@ -11,4 +11,11 @@ public class UserTests {
     void test_toString() {
         assertEquals("User: id=1 email=user@example.org", User.builder().id(1L).email("user@example.org").build().toString());
     }
+
+    @Test
+    void test_setHidden() {
+        User user = User.builder().id(1L).email("user@example.org").build();
+        user.setHidden(true);
+        assertEquals(true, user.isHidden());
+    }
 }
