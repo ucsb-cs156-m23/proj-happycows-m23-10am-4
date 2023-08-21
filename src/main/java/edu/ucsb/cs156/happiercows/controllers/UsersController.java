@@ -52,7 +52,7 @@ public class UsersController extends ApiController {
             .orElseThrow(() -> new EntityNotFoundException(User.class, userId));
         user.setHidden(true);
         userRepository.save(user);
-        return ResponseEntity.ok().body("{}");
+        return ResponseEntity.ok().body("User " + userId + " has been hidden");
     }
 
     @Operation(summary = "Unhide a specific user (including hidden ones)")
@@ -65,6 +65,6 @@ public class UsersController extends ApiController {
             .orElseThrow(() -> new EntityNotFoundException(User.class, userId));
         user.setHidden(false);
         userRepository.save(user);
-        return ResponseEntity.ok().body("{}");
+        return ResponseEntity.ok().body("User " + userId + " has been unhidden");
     }
 }

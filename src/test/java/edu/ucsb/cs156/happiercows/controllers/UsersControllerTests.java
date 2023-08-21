@@ -124,7 +124,7 @@ public class UsersControllerTests extends ControllerTestCase {
             .andExpect(status().isOk())
             .andReturn();
     // response = "{}"
-    assertEquals(response.getResponse().getContentAsString(), "{}");
+    assertEquals(response.getResponse().getContentAsString(), "User 1 has been hidden");
     
     verify(userRepository, times(1)).findById(1L);
     verify(userRepository, times(1)).save(u);
@@ -137,7 +137,7 @@ public class UsersControllerTests extends ControllerTestCase {
             .andExpect(status().isOk())
             .andReturn();
     
-    assertEquals(response.getResponse().getContentAsString(), "{}");
+    assertEquals(response.getResponse().getContentAsString(), "User 1 has been unhidden");
     verify(userRepository, times(2)).findById(1L);
     verify(userRepository, times(2)).save(u);
     assertEquals(u.isHidden(), false);
