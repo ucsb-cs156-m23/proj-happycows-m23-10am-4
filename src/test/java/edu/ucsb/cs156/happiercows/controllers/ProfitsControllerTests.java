@@ -99,4 +99,14 @@ public class ProfitsControllerTests extends ControllerTestCase {
                 json.get("message"));
     }
 
+    @WithMockUser(roles = {"USER"})
+    @Test
+    public void get_profits_all_commons_nonexistent_using_commons_id_hiddenuser() throws Exception {
+        currentUserService.setHidden(true);
+        MvcResult response = mockMvc.perform(get("/api/profits/all/commonsid?commonsId=2").contentType("application/json"))
+                .andExpect(status().isForbidden()).andReturn();
+
+        currentUserService.setHidden(false);
+    }
+
 }

@@ -20,6 +20,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -129,6 +130,54 @@ public class UserCommonsControllerTests extends ControllerTestCase {
         Map<String, Object> jsonResponse = responseToJson(response);
         assertEquals(expectedJson, jsonResponse);
     }
+
+    @WithMockUser(roles = {"USER"})
+    @Test
+    public void test_getUserCommonsById_hiddenuser() throws Exception {
+        currentUserService.setHidden(true);
+
+        MvcResult response = mockMvc.perform(get("/api/usercommons/forcurrentuser?commonsId=1"))
+                .andExpect(status().isForbidden()).andReturn();
+
+        currentUserService.setHidden(false);
+    }
+
+    
+    @WithMockUser(roles = {"USER"})
+    @Test
+    public void test_buy_hiddenuser() throws Exception {
+        currentUserService.setHidden(true);
+
+        MvcResult response = mockMvc
+                .perform(put("/api/usercommons/buy?commonsId=1").with(csrf()))
+                .andExpect(status().isForbidden()).andReturn();
+
+        Map<String, Object> responseMap = responseToJson(response);
+
+        assertEquals(responseMap.get("message"), "User with id 1 is hidden");
+        assertEquals(responseMap.get("type"), "UserHiddenException");
+
+        currentUserService.setHidden(false);
+    }
+
+
+    @WithMockUser(roles = {"USER"})
+    @Test
+    public void test_sell_hiddenuser() throws Exception {
+        currentUserService.setHidden(true);
+
+        MvcResult response = mockMvc
+                .perform(put("/api/usercommons/sell?commonsId=1").with(csrf()))
+                .andExpect(status().isForbidden()).andReturn();
+
+        Map<String, Object> responseMap = responseToJson(response);
+
+        assertEquals(responseMap.get("message"), "User with id 1 is hidden");
+        assertEquals(responseMap.get("type"), "UserHiddenException");
+
+        currentUserService.setHidden(false);
+    }
+
 
     @WithMockUser(roles = {"USER"})
     @Test
