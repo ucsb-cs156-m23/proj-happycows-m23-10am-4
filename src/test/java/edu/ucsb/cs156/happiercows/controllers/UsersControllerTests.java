@@ -142,4 +142,36 @@ public class UsersControllerTests extends ControllerTestCase {
     verify(userRepository, times(2)).save(u);
     assertEquals(u.isHidden(), false);
   }
+
+  @WithMockUser(roles = { "ADMIN" })
+  @Test
+  public void test_hide_admin_user() throws Exception {
+    User u = User.builder().id(1L).admin(true).build();
+    when(userRepository.findById(1L)).thenReturn(java.util.Optional.of(u));
+
+    MvcResult response = mockMvc
+            .perform(put("/api/admin/user/hide?userId=1").with(csrf())
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .characterEncoding("utf-8"))
+            .andExpect(status().isBadRequest())
+            .andReturn();
+    // response = "{}"
+    assertEquals(response.getResponse().getContentAsString(), "Cannot hide an admin");
+  }  
+
+  @WithMockUser(roles = { "ADMIN" })
+  @Test
+  public void test_unhide_admin_user() throws Exception {
+    User u = User.builder().id(1L).admin(true).build();
+    when(userRepository.findById(1L)).thenReturn(java.util.Optional.of(u));
+
+    MvcResult response = mockMvc
+            .perform(put("/api/admin/user/unhide?userId=1").with(csrf())
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .characterEncoding("utf-8"))
+            .andExpect(status().isBadRequest())
+            .andReturn();
+    // response = "{}"
+    assertEquals(response.getResponse().getContentAsString(), "Cannot unhide an admin");
+  }  
 }

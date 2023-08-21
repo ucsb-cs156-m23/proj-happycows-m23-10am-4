@@ -50,6 +50,9 @@ public class UsersController extends ApiController {
     ) throws Exception {
         User user = userRepository.findById(userId)
             .orElseThrow(() -> new EntityNotFoundException(User.class, userId));
+        if (user.isAdmin()) {
+            return ResponseEntity.badRequest().body("Cannot hide an admin");
+        }
         user.setHidden(true);
         userRepository.save(user);
         return ResponseEntity.ok().body("User " + userId + " has been hidden");
@@ -63,6 +66,9 @@ public class UsersController extends ApiController {
     ) throws JsonProcessingException {
         User user = userRepository.findById(userId)
             .orElseThrow(() -> new EntityNotFoundException(User.class, userId));
+        if (user.isAdmin()) {
+            return ResponseEntity.badRequest().body("Cannot unhide an admin");
+        }
         user.setHidden(false);
         userRepository.save(user);
         return ResponseEntity.ok().body("User " + userId + " has been unhidden");
