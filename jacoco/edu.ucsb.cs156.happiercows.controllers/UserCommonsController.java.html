@@ -117,17 +117,18 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 
 <span class="fc bfc" id="L119" title="All 2 branches covered.">        if(userCommons.getNumOfCows() &gt;= 1 ){</span>
-<span class="fc" id="L120">          userCommons.setTotalWealth(userCommons.getTotalWealth() + commons.getCowPrice());</span>
-<span class="fc" id="L121">          userCommons.setNumOfCows(userCommons.getNumOfCows() - 1);</span>
-<span class="fc" id="L122">          userCommons.setCowsSold(userCommons.getCowsSold() + 1);</span>
-        }
+<span class="fc" id="L120">          double cowValue = commons.getCowPrice() * userCommons.getCowHealth() / 100;</span>
+<span class="fc" id="L121">          userCommons.setTotalWealth(userCommons.getTotalWealth() + cowValue);</span>
+<span class="fc" id="L122">          userCommons.setNumOfCows(userCommons.getNumOfCows() - 1);</span>
+<span class="fc" id="L123">          userCommons.setCowsSold(userCommons.getCowsSold() + 1);</span>
+<span class="fc" id="L124">        }</span>
         else{
-<span class="fc" id="L125">          throw new NoCowsException(&quot;You have no cows to sell!&quot;);</span>
+<span class="fc" id="L126">          throw new NoCowsException(&quot;You have no cows to sell!&quot;);</span>
         }
-<span class="fc" id="L127">        userCommonsRepository.save(userCommons);</span>
+<span class="fc" id="L128">        userCommonsRepository.save(userCommons);</span>
 
-<span class="fc" id="L129">        String body = mapper.writeValueAsString(userCommons);</span>
-<span class="fc" id="L130">        return ResponseEntity.ok().body(body);</span>
+<span class="fc" id="L130">        String body = mapper.writeValueAsString(userCommons);</span>
+<span class="fc" id="L131">        return ResponseEntity.ok().body(body);</span>
     }
 
     
@@ -136,11 +137,11 @@ import org.springframework.web.bind.annotation.RequestBody;
     @GetMapping(&quot;/commons/all&quot;)
     public  ResponseEntity&lt;String&gt; getUsersCommonsByCommonsId(
         @Parameter(name=&quot;commonsId&quot;) @RequestParam Long commonsId) throws JsonProcessingException {
-<span class="fc" id="L139">      Iterable&lt;UserCommons&gt; uc = userCommonsRepository.findByCommonsId(commonsId);</span>
+<span class="fc" id="L140">      Iterable&lt;UserCommons&gt; uc = userCommonsRepository.findByCommonsId(commonsId);</span>
       
    
-<span class="fc" id="L142">    String body = mapper.writeValueAsString(uc);</span>
-<span class="fc" id="L143">    return ResponseEntity.ok().body(body);</span>
+<span class="fc" id="L143">    String body = mapper.writeValueAsString(uc);</span>
+<span class="fc" id="L144">    return ResponseEntity.ok().body(body);</span>
   }
 
 }
