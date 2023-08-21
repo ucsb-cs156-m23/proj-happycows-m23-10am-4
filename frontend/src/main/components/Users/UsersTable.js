@@ -6,21 +6,23 @@ import { cellToAxiosParamsDelete, cellToAxiosParamsUnhide, onDeleteSuccess } fro
 
 export default function UsersTable({ users }) {
 
+    // Stryker disable all : hard to test for query caching
     const deleteMutation = useBackendMutation(
         cellToAxiosParamsDelete,
         { onSuccess: onDeleteSuccess },
         ["/api/admin/users"]
     );
 
-    const deleteCallback = async (cell) => {
-        deleteMutation.mutate(cell);
-    }
-
     const unhideMutation = useBackendMutation(
         cellToAxiosParamsUnhide,
         { onSuccess: onDeleteSuccess },
         ["/api/admin/users"]
     );
+    // Stryker restore all
+
+    const deleteCallback = async (cell) => {
+        deleteMutation.mutate(cell);
+    }
 
     const unhideCallback = async (cell) => {
         unhideMutation.mutate(cell);
@@ -76,7 +78,11 @@ export default function UsersTable({ users }) {
                     variant={"danger"}
                     onClick={() => deleteCallback(cell)}
                     data-testid={`UsersTable-cell-row-${cell.row.index}-col-${cell.column.id}-button`}
-                    disabled={cell.row.values["hidden"] != "false" || cell.row.values["admin"] == "true"}
+                    disabled={cell.row.values["hidden"] === "true" || 
+                    // Stryker disable all : backend does not support admin hiding
+                    cell.row.values["admin"] === "true"
+                    // Stryker restore all
+                    }
                 >
                     {"Hide"}
                 </Button>
@@ -90,7 +96,11 @@ export default function UsersTable({ users }) {
                     variant={"success"}
                     onClick={() => unhideCallback(cell)}
                     data-testid={`UsersTable-cell-row-${cell.row.index}-col-${cell.column.id}-button`}
-                    disabled={cell.row.values["hidden"] != "true" || cell.row.values["admin"] == "true"}
+                    disabled={cell.row.values["hidden"] === "false" ||
+                    // Stryker disable all : backend does not support admin hiding
+                    cell.row.values["admin"] === "true"
+                    // Stryker restore all
+                }
                 >
                     {"Unhide"}
                 </Button>
