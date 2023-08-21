@@ -33,6 +33,9 @@ public class ScheduledJobs {
 
     @Autowired
     MilkTheCowsJobFactory milkTheCowsJobFactory;
+  
+    @Autowired
+    RecordCommonStatsJobFactory recordCommonStatsJobFactory;
     
     @Scheduled(cron = "${app.updateCowHealth.cron}", zone = "${spring.jackson.time-zone}")
     public void runUpdateCowHealthJobBasedOnCron() {
@@ -53,4 +56,15 @@ public class ScheduledJobs {
     
        log.info("runMilkTheCowsJobBasedOnCron: launched job");
     }
+  
+    @Scheduled(cron = "${app.recordCommonStats.cron}", zone = "${spring.jackson.time-zone}")
+    public void runRecordCommonStatsJobBasedOnCron() {
+      log.info("runRecordCommonStatsJobBasedOnCron: running");
+
+      JobContextConsumer recordCommonStatsJob = recordCommonStatsJobFactory.create();
+      jobService.runAsJob(recordCommonStatsJob);
+
+      log.info("runRecordCommonStatsJobBasedOnCron: launched job");
+    }
+
 }
