@@ -44,9 +44,23 @@ describe("UserTable tests", () => {
           expect(header).toBeInTheDocument();
         });
 
+        // For each hide and unhide button, check the class and text content
+        expect(screen.getByTestId(`${testId}-cell-row-0-col-hide-button`)).toHaveClass("btn btn-danger");
+        expect(screen.getByTestId(`${testId}-cell-row-0-col-hide-button`)).toHaveTextContent("Hide");
+        expect(screen.getByTestId(`${testId}-cell-row-0-col-unhide-button`)).toHaveClass("btn btn-success");
+        expect(screen.getByTestId(`${testId}-cell-row-0-col-unhide-button`)).toHaveTextContent("Unhide");
+
         expect(screen.getByTestId(`${testId}-cell-row-0-col-id`)).toHaveTextContent("1");
         expect(screen.getByTestId(`${testId}-cell-row-0-col-admin`)).toHaveTextContent("true");
         expect(screen.getByTestId(`${testId}-cell-row-1-col-id`)).toHaveTextContent("2");
         expect(screen.getByTestId(`${testId}-cell-row-1-col-admin`)).toHaveTextContent("false");
+
+        // row 0 is admin, so hide button should be disabled
+        expect(screen.getByTestId(`${testId}-cell-row-0-col-hide-button`)).toBeDisabled();
+        expect(screen.getByTestId(`${testId}-cell-row-0-col-unhide-button`)).toBeDisabled();
+
+        // row 1 is not admin, so hide button should be enabled
+        expect(screen.getByTestId(`${testId}-cell-row-1-col-hide-button`)).toBeEnabled();
+        expect(screen.getByTestId(`${testId}-cell-row-1-col-unhide-button`)).toBeDisabled();
       });
 });
