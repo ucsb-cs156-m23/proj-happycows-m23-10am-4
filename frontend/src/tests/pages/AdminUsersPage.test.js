@@ -9,8 +9,6 @@ import { apiCurrentUserFixtures } from "fixtures/currentUserFixtures";
 import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
 import usersFixtures from "fixtures/usersFixtures";
 
-import mockConsole from "jest-mock-console";
-
 const mockToast = jest.fn();
 jest.mock('react-toastify', () => {
     const originalModule = jest.requireActual('react-toastify');
@@ -45,10 +43,10 @@ describe("AdminUsersPage tests",  () => {
         expect(await screen.findByText("Users")).toBeInTheDocument();
     });
 
-    test("test hide buttons", async () => {
+    test("hide buttons", async () => {
         let threeUsersCopy = JSON.parse(JSON.stringify(usersFixtures.threeUsers));
         setup();
-        axiosMock.onGet("/api/admin/users").reply( config => {
+        axiosMock.onGet("/api/admin/users").reply( _config => {
             return [200, threeUsersCopy];
             }
         );
@@ -56,7 +54,7 @@ describe("AdminUsersPage tests",  () => {
         axiosMock.onPut("/api/admin/user/hide").reply(config => {
             if (config.params.userId === 2) {
                 threeUsersCopy[1]["hidden"] = true;
-                axiosMock.onGet("/api/admin/users").reply( config => {
+                axiosMock.onGet("/api/admin/users").reply( _config => {
                     console.log(threeUsersCopy);
                     return [200, threeUsersCopy];
                     }
@@ -87,12 +85,12 @@ describe("AdminUsersPage tests",  () => {
     });
 
 
-    test("test unhide buttons", async () => {
+    test("unhide buttons", async () => {
         let threeUsersCopy = JSON.parse(JSON.stringify(usersFixtures.threeUsers));
         threeUsersCopy[1]["hidden"] = true;
 
         setup();
-        axiosMock.onGet("/api/admin/users").reply( config => {
+        axiosMock.onGet("/api/admin/users").reply( _config => {
             console.log(threeUsersCopy);
             return [200, threeUsersCopy];
             }
@@ -101,7 +99,7 @@ describe("AdminUsersPage tests",  () => {
         axiosMock.onPut("/api/admin/user/unhide").reply(config => {
             if (config.params.userId === 2) {
                 threeUsersCopy[1]["hidden"] = false;
-                axiosMock.onGet("/api/admin/users").reply( config => {
+                axiosMock.onGet("/api/admin/users").reply( _config => {
                     console.log(threeUsersCopy);
                     return [200, threeUsersCopy];
                     }
