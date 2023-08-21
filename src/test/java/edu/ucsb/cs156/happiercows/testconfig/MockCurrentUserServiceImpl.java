@@ -70,6 +70,7 @@ public class MockCurrentUserServiceImpl extends CurrentUserServiceImpl {
     .hostedDomain(hostedDomain)
     .admin(admin)
     .id(1L)
+    .isHidden(this.isHidden)
     .build();
     
     log.info("************** ALERT **********************");
@@ -82,6 +83,12 @@ public class MockCurrentUserServiceImpl extends CurrentUserServiceImpl {
     log.info("************** END ALERT ******************");
 
     return u;
+  }
+
+  private boolean isHidden = false;
+
+  public void setHidden(boolean isHidden) {
+    this.isHidden = isHidden;
   }
 
   public User getUser() {
