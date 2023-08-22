@@ -21,7 +21,7 @@ export default function PlayPage() {
   const { data: currentUser } = useCurrentUser();
 
     const [currentPage, setCurrentPage] = useState(0);
-    const [userQueryPageSize, setuserQueryPageSize] = useState(3);
+    const [userQueryPageSize, setuserQueryPageSize] = useState(7);
     const [pageddata, setpageddata] = useState([]);
 
 
