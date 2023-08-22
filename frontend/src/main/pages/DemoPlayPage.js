@@ -19,8 +19,7 @@ export default function DemoPlayPage() {
     const userCommons = dummy['SessionInfo'];
     const commonsPlus = dummy['SessionInfo2'];
     const userCommonsProfits = dummy['Transactions'];
-    // eslint-disable-next-line no-unused-vars
-    const userPagedProfits = dummy['PagedTransactions'];
+    //const userPagedProfits = dummy['PagedTransactions'];
 
     const onBuy = () => {
         toast(`Buy cow demo`);
