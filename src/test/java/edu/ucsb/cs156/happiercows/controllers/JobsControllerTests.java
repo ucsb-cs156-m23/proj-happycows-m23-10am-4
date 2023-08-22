@@ -99,6 +99,9 @@ public class JobsControllerTests extends ControllerTestCase {
         @MockBean
         RecordCommonStatsJobFactory recordCommonStatsJobFactory;
 
+        @MockBean
+        CommonsPlusBuilderService commonsPlusBuilderService;
+
         @WithMockUser(roles = { "ADMIN" })
         @Test
         public void admin_can_get_all_jobs() throws Exception {
