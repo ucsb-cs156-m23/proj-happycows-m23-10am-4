@@ -10,7 +10,6 @@ export default function CommonsOverview({ commonsPlus, currentUser }) {
     let navigate = useNavigate();
 
     const leaderboardButtonClick = () => {
-        // Stryker disable next-line all: can't test redirected address
         if (currentUser) {navigate("/leaderboard/" + commonsPlus.commons.id);} else {
             // Display a toast message indicating the user should log in
             toast("Please log in before trying the leaderboard feature");

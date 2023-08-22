@@ -75,7 +75,7 @@ describe("CommonsOverview tests", () => {
         const leaderboardButton = screen.getByTestId("user-leaderboard-button");
         fireEvent.click(leaderboardButton);
         expect(toast).not.toHaveBeenCalled();
-        //expect(mockNavigate).toBeCalledWith({ "to": "/leaderboard/1" });
+        expect(mockNavigate).toBeCalledWith( "/leaderboard/4" );
     });
 
     test("No LeaderboardPage for an ordinary user when commons has showLeaderboard = false", async () => {
