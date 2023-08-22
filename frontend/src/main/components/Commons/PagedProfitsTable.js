@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React from 'react';
 import { Pagination } from 'react-bootstrap';
 import { Card } from "react-bootstrap";
@@ -9,7 +8,7 @@ import {parseMoney} from "main/utils/MoneyParsing"
 
 
 const PagedProfitsTable = ({ data, onPageChange}) => {
-    //eslint - disable next line
+    //eslint-disable-next-line no-unused-vars
     const { content, pageable, _ , totalPages, totalElements} = data;
 
     console.log("Table Debug");

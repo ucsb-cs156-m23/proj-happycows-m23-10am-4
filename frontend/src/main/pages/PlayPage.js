@@ -9,13 +9,10 @@ import CommonsOverview from "main/components/Commons/CommonsOverview";
 import CommonsPlay from "main/components/Commons/CommonsPlay";
 import FarmStats from "main/components/Commons/FarmStats";
 import ManageCows from "main/components/Commons/ManageCows";
-import Profits from "main/components/Commons/Profits";
 import { useBackend, useBackendMutation } from "main/utils/useBackend";
 import { useCurrentUser } from "main/utils/currentUser";
-import Background from "../../assets/PlayPageBackground.png";
 
 import PagedProfitsTable from "main/components/Commons/PagedProfitsTable";
-import dummy from "../../assets/UserHomeDummy.json";
 import axios from "axios";
 
 export default function PlayPage() {
@@ -198,11 +195,10 @@ export default function PlayPage() {
                     <CardGroup >
                         <ManageCows userCommons={userCommons} commons={commonsPlus.commons} onBuy={onBuy} onSell={onSell} />
                         <FarmStats userCommons={userCommons} />
-                        <Profits userCommons={userCommons} profits={userCommonsProfits} />
+                        <PagedProfitsTable data={pageddata} onPageChange={handlePageChange} />
                     </CardGroup>
                 }
             </Container>
-            <PagedProfitsTable data={pageddata} onPageChange={handlePageChange} />
         </BasicLayout>
 
     </div>
