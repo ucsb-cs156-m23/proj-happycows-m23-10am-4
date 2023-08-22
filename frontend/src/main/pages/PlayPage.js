@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Container, CardGroup } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -8,15 +8,45 @@ import CommonsOverview from "main/components/Commons/CommonsOverview";
 import CommonsPlay from "main/components/Commons/CommonsPlay";
 import FarmStats from "main/components/Commons/FarmStats";
 import ManageCows from "main/components/Commons/ManageCows";
-import Profits from "main/components/Commons/Profits";
+import PagedProfitsTable from "main/components/Commons/PagedProfitsTable";
 import { useBackend, useBackendMutation } from "main/utils/useBackend";
 import { useCurrentUser } from "main/utils/currentUser";
 import Background from "../../assets/PlayPageBackground.png";
+
+import axios from "axios";
 
 export default function PlayPage() {
 
   const { commonsId } = useParams();
   const { data: currentUser } = useCurrentUser();
+
+    const [currentPage, setCurrentPage] = useState(0);
+    //eslint-disable-next-line no-unused-vars
+    const [userQueryPageSize, setuserQueryPageSize] = useState(7);
+    const [pageddata, setpageddata] = useState([]);
+
+    useEffect(() => {
+        FetchData();
+    }, []);
+
+    useEffect(() => {
+        FetchData();
+    }, [currentPage]);
+
+    const FetchData = () => {
+        axios({
+            method: "GET",
+            url: `/api/profits/paged/commonsid?commonsId=${commonsId}&pageNumber=${currentPage}&pageSize=${userQueryPageSize}`,
+        }).then(response => {
+            setpageddata(response.data);
+        })
+            .catch(error => console.log(error));
+    };
+
+    const handlePageChange = (newPage) => {
+        setCurrentPage(newPage);
+        FetchData();
+    };
 
   // Stryker disable all 
   const { data: userCommons } =
@@ -128,7 +158,7 @@ export default function PlayPage() {
             <CardGroup >
               <ManageCows userCommons={userCommons} commons={commonsPlus.commons} onBuy={onBuy} onSell={onSell} />
               <FarmStats userCommons={userCommons} />
-              <Profits userCommons={userCommons} profits={userCommonsProfits} />
+                <PagedProfitsTable data={pageddata} onPageChange={handlePageChange} />
             </CardGroup>
           }
         </Container>
