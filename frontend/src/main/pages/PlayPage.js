@@ -117,6 +117,8 @@ export default function PlayPage() {
     mutationsell.mutate(userCommons)
   };
 
+  
+
   return (
     <div style={{ backgroundSize: 'cover', backgroundImage: `url(${Background})` }} data-testid="playpage-div">
       <BasicLayout >
