@@ -10,11 +10,6 @@ const PagedProfitsTable = ({ data, onPageChange}) => {
     //eslint-disable-next-line no-unused-vars
     const { content, pageable, _ , totalPages, totalElements} = data;
 
-    console.log("Table Debug");
-    console.log(content);
-    console.log(pageable);
-
-
     const profitsForTable =
         content ?
             content.map(item => ({
@@ -71,35 +66,41 @@ const PagedProfitsTable = ({ data, onPageChange}) => {
                         testid={"ProfitsTable"}
                     />
                 </Card.Body>
+
+
+                {/* Pagination component */}
+                <div className="d-flex justify-content-center">
+                    <Pagination>
+                        <Pagination.First onClick={() => onPageChange(0)} />
+                        <Pagination.Prev onClick={() => onPageChange(pageable.pageNumber - 1)} />
+
+                        {/* Loop through the nearby pages */}
+                        {Array.from({ length: totalPages }, (_, index) => {
+                            if (
+                                index >= pageable.pageNumber - 1 &&
+                                index <= pageable.pageNumber + 1
+                            ) {
+                                return (
+                                    <Pagination.Item
+                                        key={index}
+                                        active={index === pageable.pageNumber}
+                                        onClick={() => onPageChange(index)}
+                                    >
+                                        {index + 1}
+                                    </Pagination.Item>
+                                );
+                            }
+                            return null;
+                        })}
+
+                        <Pagination.Next onClick={() => onPageChange(pageable.pageNumber + 1)} />
+                        <Pagination.Last onClick={() => onPageChange(totalPages - 1)} />
+                    </Pagination>
+                </div>
+
             </Card>
 
-            {/* Pagination component */}
-            <Pagination>
-                <Pagination.First onClick={() => onPageChange(0)} />
-                <Pagination.Prev onClick={() => onPageChange(pageable.pageNumber - 1)} />
 
-                {/* Loop through the nearby pages */}
-                {Array.from({ length: totalPages }, (_, index) => {
-                    if (
-                        index >= pageable.pageNumber - 1 &&
-                        index <= pageable.pageNumber + 1
-                    ) {
-                        return (
-                            <Pagination.Item
-                                key={index}
-                                active={index === pageable.pageNumber}
-                                onClick={() => onPageChange(index)}
-                            >
-                                {index + 1}
-                            </Pagination.Item>
-                        );
-                    }
-                    return null;
-                })}
-
-                <Pagination.Next onClick={() => onPageChange(pageable.pageNumber + 1)} />
-                <Pagination.Last onClick={() => onPageChange(totalPages - 1)} />
-            </Pagination>
         </div>
     );
 };

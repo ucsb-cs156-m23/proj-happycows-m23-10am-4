@@ -40,9 +40,9 @@ export default function PlayPage() {
             url: `/api/profits/paged/commonsid?commonsId=${commonsId}&pageNumber=${currentPage}&pageSize=${userQueryPageSize}`,
         }).then(response => {
             setpageddata(response.data);
-            console.log("axios");
-            console.log(response);
-            console.log(response.data);
+            //console.log("axios");
+            //console.log(response);
+            //console.log(response.data);
         })
          .catch(error => console.log(error));
     };
@@ -69,15 +69,8 @@ export default function PlayPage() {
 
     const handlePageChange = (newPage) => {
         setCurrentPage(newPage);
-        console.log("Index changed");
-        console.log(currentPage);
         FetchData();
     };
-
-
-
-
-
 
 
 
