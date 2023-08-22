@@ -1,7 +1,6 @@
 import React from 'react';
 import { Pagination } from 'react-bootstrap';
 import { Card } from "react-bootstrap";
-import ProfitsTable from "./ProfitsTable";
 import {timestampToDate} from "../../utils/dateUtils";
 import OurTable from "../OurTable";
 import {parseMoney} from "main/utils/MoneyParsing"
