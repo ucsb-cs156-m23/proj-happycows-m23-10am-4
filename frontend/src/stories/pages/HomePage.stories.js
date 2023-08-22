@@ -1,29 +1,50 @@
 import React from 'react';
-import HomePage from 'main/pages/HomePage.js'
+import HomePage from "main/pages/HomePage";
+import { rest } from 'msw';
+import { apiCurrentUserFixtures } from "fixtures/currentUserFixtures";
+import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
 
 export default {
     title: 'pages/HomePage',
     component: HomePage,
 };
 
-const Template = (args) => <HomePage  {...args} />;
-
-export const Morning = Template.bind({});
-Morning.args = {
-  hour: 8
-};
-
-export const Day = Template.bind({});
-Day.args = {
-  hour: 10
-};
-
-export const Evening = Template.bind({});
-Evening.args = {
-  hour: 19
+export const normal = () => {
+    return (<HomePage />)
+}
+normal.parameters = {
+  msw: [
+    rest.get('/api/currentUser', (_req, res, ctx) => {
+        return res(ctx.json(apiCurrentUserFixtures.userOnly));    
+    }),
+    rest.get('/api/systemInfo', (_req, res, ctx) => {
+      return res(ctx.json(systemInfoFixtures.showingNeither));
+    }),
+  ]
 }
 
-export const Night = Template.bind({});
-Night.args = {
-  hour: 2
+export const noUser = () => {
+    return (<HomePage />)
+}
+noUser.parameters = {
+  msw: [
+    rest.get('/api/systemInfo', (_req, res, ctx) => {
+      return res(ctx.json(systemInfoFixtures.showingNeither));
+    }),
+  ]
+}
+
+
+export const userWithNoName = () => {
+  return (<HomePage />)
+}
+userWithNoName.parameters = {
+  msw: [
+    rest.get('/api/currentUser', (_req, res, ctx) => {
+        return res(ctx.json(apiCurrentUserFixtures.userNoName));
+    }),
+    rest.get('/api/systemInfo', (_req, res, ctx) => {
+      return res(ctx.json(systemInfoFixtures.showingNeither));
+    }),
+  ]
 }
