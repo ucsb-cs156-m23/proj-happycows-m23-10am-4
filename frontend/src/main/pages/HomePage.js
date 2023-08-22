@@ -48,7 +48,7 @@ export default function HomePage({hour=null}) {
     }, [currentUser]
   );
 
-  const firstName = currentUser?.root ? currentUser?.root?.user?.givenName : "";
+  const firstName = (currentUser?.root?.user?.givenName) || "";
 
   const time = (hour===null) ? new Date().getHours() : hour;
   const Background = getBackgroundImage(time);
