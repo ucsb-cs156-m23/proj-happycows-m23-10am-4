@@ -74,6 +74,7 @@ describe("CommonsOverview tests", () => {
         expect(await screen.findByTestId("user-leaderboard-button")).toBeInTheDocument();
         const leaderboardButton = screen.getByTestId("user-leaderboard-button");
         fireEvent.click(leaderboardButton);
+        expect(toast).not.toHaveBeenCalled();
         //expect(mockNavigate).toBeCalledWith({ "to": "/leaderboard/1" });
     });
 

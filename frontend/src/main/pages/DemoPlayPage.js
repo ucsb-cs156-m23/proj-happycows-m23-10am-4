@@ -27,7 +27,7 @@ export default function DemoPlayPage() {
     };
 
     const onSell = () => {
-        toast(`Sold cow demo`);
+        toast(`Sell cow demo`);
     };
 
 
