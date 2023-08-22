@@ -76,20 +76,6 @@ export default function PlayPage() {
     );
   // Stryker restore all
 
-  // Stryker disable all 
-  const { data: userCommonsProfits } =
-    useBackend(
-      [`/api/profits/all/commonsid?commonsId=${commonsId}`],
-      {
-        method: "GET",
-        url: "/api/profits/all/commonsid",
-        params: {
-          commonsId: commonsId
-        }
-      }
-    );
-  // Stryker restore all 
-
 
   // Stryker disable all (can't check if commonsId is null because it is mocked)
   const objectToAxiosParamsBuy = (newUserCommons) => ({
