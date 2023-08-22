@@ -36,7 +36,7 @@ export default function PlayPage() {
 
         axios({
             method: "GET",
-            url: `/api/profits/paged/commonsid?commonsId=${commonsId}&page=${currentPage}&size=${userQueryPageSize}`,
+            url: `/api/profits/paged/commonsid?commonsId=${commonsId}&pageNumber=${currentPage}&pageSize=${userQueryPageSize}`,
         }).then(response => {
             setpageddata(response.data);
             console.log("axios");
