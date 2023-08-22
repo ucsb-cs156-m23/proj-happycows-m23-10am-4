@@ -4,7 +4,7 @@ import { useBackend } from "main/utils/useBackend";
 
 // Props for storybook manual injection
 
-const ChatDisplay = ({ commonsId, messages: messagesProp, userCommons: userCommonsListProp }) => {
+const ChatDisplay = ({ commonsId, messages, userCommons }) => {
     const initialMessagePageSize = 10;
     const refreshRate = 2000;
 
@@ -42,8 +42,8 @@ const ChatDisplay = ({ commonsId, messages: messagesProp, userCommons: userCommo
       
     // Stryker restore all
 
-    const messages = messagesProp || messagesData.content;
-    const userCommonsList = userCommonsListProp || userCommonsListData;
+    messages = messages || messagesData?.content;
+    const userCommonsList = userCommons || userCommonsListData;
   
     const sortedMessages = Array.isArray(messages) && messages.sort((a, b) => b.id - a.id);
 

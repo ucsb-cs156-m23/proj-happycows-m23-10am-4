@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 
 import { useBackendMutation } from "main/utils/useBackend";
 
-const ChatMessageCreate = ({ commonsId, submitAction: submitProp }) => {
+const ChatMessageCreate = ({ commonsId, submitAction }) => {
 
     const testid = "ChatMessageCreate";
     const initialMessagePageSize = 10;
@@ -23,7 +23,7 @@ const ChatMessageCreate = ({ commonsId, submitAction: submitProp }) => {
         [`/api/chat/get?page=0&size=${initialMessagePageSize}&commonsId=${commonsId}`]
     );
 
-    const submitAction = submitProp || (async (data) => {
+    submitAction = submitAction || (async (data) => {
         const escapedContent = encodeURIComponent(data.message);
         const escapedCommonsId = encodeURIComponent(Number(commonsId));
         const params = { content: escapedContent, commonsId: escapedCommonsId };
