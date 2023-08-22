@@ -11,6 +11,7 @@ import leaderboardFixtures from "fixtures/leaderboardFixtures";
 import { apiCurrentUserFixtures } from "fixtures/currentUserFixtures";
 import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
 import commonsPlusFixtures from "fixtures/commonsPlusFixtures";
+import { toast } from 'react-toastify';
 
 const mockNavigate = jest.fn();
 jest.mock("react-router-dom", () => ({
@@ -19,6 +20,10 @@ jest.mock("react-router-dom", () => ({
         commonsId: 1
     }),
     useNavigate: () => mockNavigate
+}));
+
+jest.mock('react-toastify', () => ({
+    toast: jest.fn(),
 }));
 
 describe("CommonsOverview tests", () => {
@@ -36,6 +41,19 @@ describe("CommonsOverview tests", () => {
         render(
             <CommonsOverview commonsPlus={commonsPlusFixtures.oneCommonsPlus[0]} />
         );
+    });
+
+    test("Popping out toast messages for visitor", async () => {
+        render(
+            <CommonsOverview commonsPlus={commonsPlusFixtures.threeCommonsPlus[1]} currentUser={null}/>
+        );
+        expect(await screen.findByTestId("user-leaderboard-button")).toBeInTheDocument();
+        fireEvent.click(screen.getByTestId("user-leaderboard-button"));
+        // Expect visitor receives toast message
+        expect(toast).toHaveBeenCalledWith(
+            'Please log in before trying the leaderboard feature'
+        );
+
     });
 
     test("Redirects to the LeaderboardPage for an admin when you click visit", async () => {

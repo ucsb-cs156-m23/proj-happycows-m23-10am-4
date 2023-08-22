@@ -1,8 +1,8 @@
 
 export function parseMoney(value) {
-    const prefixes = ["", "K", "M", "B", "T", "P", "E", "Z", "Y"];
+    const prefixes = ["", "K", "M", "B", "T", "P", "E", "Z", "Y", "R", "Q"];
     let scaledValue = value;
-    if (value <= 0.01){return "0";}
+    if (value < 0.01){return "0";}
 
     for (let i = prefixes.length - 1; i >= 1; i--) {
         const scale = Math.pow(10, i * 3);

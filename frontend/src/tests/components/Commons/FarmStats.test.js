@@ -15,7 +15,7 @@ describe("FarmStats tests", () => {
         );
 
         await waitFor (() => {
-            expect(screen.getByText(/Total Wealth: \$1000/)).toBeInTheDocument();
+            expect(screen.getByText(/Total Wealth: \$1.000K/)).toBeInTheDocument();
         });
 
         expect(screen.getByText(/Cow Health: 98%/)).toBeInTheDocument();
