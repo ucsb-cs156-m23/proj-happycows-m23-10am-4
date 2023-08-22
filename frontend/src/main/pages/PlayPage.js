@@ -33,6 +33,9 @@ export default function PlayPage() {
     }, []);
 
     useEffect(() => {
+    }, [pageddata]);
+
+    useEffect(() => {
         FetchData();
     }, [currentPage]);
 
@@ -59,11 +62,7 @@ export default function PlayPage() {
 
   return (
     <div data-testid="playpage-div">
-        {pageddata.length > 0 ? (
-            <PagedProfitsTable data={pageddata} onPageChange={handlePageChange} />
-        ) : (
-            <p>Loading...</p>
-        )}
+        <PagedProfitsTable data={pageddata} onPageChange={handlePageChange} />
     </div>
   )
 }
