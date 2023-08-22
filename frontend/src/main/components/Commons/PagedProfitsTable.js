@@ -7,6 +7,10 @@ const PagedProfitsTable = ({ data, onPageChange}) => {
     //eslint - disable next line
     const { content, pageable, _ , totalPages, totalElements} = data;
 
+    console.log("Table Debug");
+    console.log(content);
+    console.log(pageable);
+
 
     const renderPageItems = () => {
         const pageItems = [];
@@ -39,8 +43,7 @@ const PagedProfitsTable = ({ data, onPageChange}) => {
         return pageItems;
     };
 
-    console.log("Table Debug");
-    console.log(content);
+
 
     return (
         <div>

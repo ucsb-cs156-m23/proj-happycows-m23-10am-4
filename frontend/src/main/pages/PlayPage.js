@@ -57,15 +57,13 @@ export default function PlayPage() {
         FetchData();
     };
 
-
-
-
-
-
-
   return (
     <div data-testid="playpage-div">
-        <PagedProfitsTable data={pageddata} onPageChange={handlePageChange}></PagedProfitsTable>
+        {pageddata.length > 0 ? (
+            <PagedProfitsTable data={pageddata} onPageChange={handlePageChange} />
+        ) : (
+            <p>Loading...</p>
+        )}
     </div>
   )
 }
