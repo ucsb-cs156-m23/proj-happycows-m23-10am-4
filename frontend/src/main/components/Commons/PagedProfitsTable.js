@@ -60,6 +60,39 @@ const PagedProfitsTable = ({ data, onPageChange}) => {
 
             {/* Pagination component */}
             <Pagination>
+                <Pagination.First onClick={() => onPageChange(0)} />
+                <Pagination.Prev onClick={() => onPageChange(pageable.pageNumber - 1)} />
+
+                {/* Loop through the nearby pages */}
+                {Array.from({ length: totalPages }, (_, index) => {
+                    if (
+                        index >= pageable.pageNumber - 1 &&
+                        index <= pageable.pageNumber + 1
+                    ) {
+                        return (
+                            <Pagination.Item
+                                key={index}
+                                active={index === pageable.pageNumber}
+                                onClick={() => onPageChange(index)}
+                            >
+                                {index + 1}
+                            </Pagination.Item>
+                        );
+                    }
+                    return null;
+                })}
+
+                <Pagination.Next onClick={() => onPageChange(pageable.pageNumber + 1)} />
+                <Pagination.Last onClick={() => onPageChange(totalPages - 1)} />
+            </Pagination>
+        </div>
+    );
+};
+
+export default PagedProfitsTable;
+
+/*
+            <Pagination>
                 {Array.from({ length: totalPages }, (_, index) => (
                     <Pagination.Item
                         key={index}
@@ -70,8 +103,4 @@ const PagedProfitsTable = ({ data, onPageChange}) => {
                     </Pagination.Item>
                 ))}
             </Pagination>
-        </div>
-    );
-};
-
-export default PagedProfitsTable;
+*/
