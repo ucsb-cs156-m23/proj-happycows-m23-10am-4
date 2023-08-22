@@ -1,9 +1,7 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen} from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { MemoryRouter } from "react-router-dom";
-import AxiosMockAdapter from "axios-mock-adapter";
 import DemoPlayPage from "main/pages/DemoPlayPage";
-import {toast} from "react-toastify";
 
 
 jest.mock("react-router-dom", () => ({
