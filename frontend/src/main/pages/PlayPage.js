@@ -1,4 +1,5 @@
-import React from "react";
+/* eslint-disable */
+import React, { useState, useEffect } from "react";
 import { Container, CardGroup } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -13,10 +14,46 @@ import { useBackend, useBackendMutation } from "main/utils/useBackend";
 import { useCurrentUser } from "main/utils/currentUser";
 import Background from "../../assets/PlayPageBackground.png";
 
+import PagedProfitsTable from "main/components/Commons/PagedProfitsTable";
+import dummy from "../../assets/UserHomeDummy.json";
+
 export default function PlayPage() {
 
   const { commonsId } = useParams();
   const { data: currentUser } = useCurrentUser();
+
+    const [currentPage, setCurrentPage] = useState(0);
+    const [userQueryPageSize, setuserQueryPageSize] = useState(3);
+    const [pageddata, setpageddata] = useState([]);
+
+
+    useEffect(() => {
+        FetchData();
+    }, []);
+
+    const FetchData = () => {
+        const { data: temp } = useBackend(
+            [`/api/profits/paged/commonsid?commonsId=${commonsId}&page=${currentPage}&size=${userQueryPageSize}`],
+            {
+                method: "GET",
+                url: "/api/profits/paged/commonsid",
+                params: {
+                    commonsId: commonsId
+                }
+            }
+        );
+        setpageddata(temp);
+        console.log("Fetch");
+        console.log(pageddata);
+    };
+
+    const handlePageChange = (newPage) => {
+        setCurrentPage(newPage);
+        console.log("Index changed");
+        console.log(currentPage);
+        FetchData();
+    };
+
 
   // Stryker disable all 
   const { data: userCommons } =
@@ -46,7 +83,7 @@ export default function PlayPage() {
     );
   // Stryker restore all
 
-  // Stryker disable all 
+  // Stryker disable all
   const { data: userCommonsProfits } =
     useBackend(
       [`/api/profits/all/commonsid?commonsId=${commonsId}`],
@@ -58,7 +95,7 @@ export default function PlayPage() {
         }
       }
     );
-  // Stryker restore all 
+  // Stryker restore all
 
 
   // Stryker disable all (can't check if commonsId is null because it is mocked)
@@ -118,21 +155,10 @@ export default function PlayPage() {
   };
 
   return (
-    <div style={{ backgroundSize: 'cover', backgroundImage: `url(${Background})` }} data-testid="playpage-div">
-      <BasicLayout >
-        <Container >
-          {!!currentUser && <CommonsPlay currentUser={currentUser} />}
-          {!!commonsPlus && <CommonsOverview commonsPlus={commonsPlus} currentUser={currentUser} />}
-          <br />
-          {!!userCommons && !!commonsPlus &&
-            <CardGroup >
-              <ManageCows userCommons={userCommons} commons={commonsPlus.commons} onBuy={onBuy} onSell={onSell} />
-              <FarmStats userCommons={userCommons} />
-              <Profits userCommons={userCommons} profits={userCommonsProfits} />
-            </CardGroup>
-          }
-        </Container>
-      </BasicLayout>
+    <div data-testid="playpage-div">
+        <BasicLayout >
+            <PagedProfitsTable data={pageddata} onPageChange={handlePageChange}></PagedProfitsTable>
+        </BasicLayout>
     </div>
   )
 }
