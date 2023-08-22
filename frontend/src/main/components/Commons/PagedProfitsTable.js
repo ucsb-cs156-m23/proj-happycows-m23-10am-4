@@ -60,11 +60,15 @@ const PagedProfitsTable = ({ data, onPageChange}) => {
 
             {/* Pagination component */}
             <Pagination>
-                <Pagination.First onClick={() => onPageChange(0)} />
-                <Pagination.Prev onClick={() => onPageChange(pageable.pageNumber - 1)} />
-                {renderPageItems()}
-                <Pagination.Next onClick={() => onPageChange(pageable.pageNumber + 1)} />
-                <Pagination.Last onClick={() => onPageChange(totalPages - 1)} />
+                {Array.from({ length: totalPages }, (_, index) => (
+                    <Pagination.Item
+                        key={index}
+                        active={index === pageable['pageNumber']}
+                        onClick={() => onPageChange(index)}
+                    >
+                        {index + 1}
+                    </Pagination.Item>
+                ))}
             </Pagination>
         </div>
     );

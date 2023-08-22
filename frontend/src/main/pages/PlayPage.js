@@ -33,9 +33,6 @@ export default function PlayPage() {
     }, []);
 
     useEffect(() => {
-    }, [pageddata]);
-
-    useEffect(() => {
         FetchData();
     }, [currentPage]);
 
