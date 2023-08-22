@@ -60,35 +60,39 @@ const PagedProfitsTable = ({ data, onPageChange}) => {
                         testid={"ProfitsTable"}
                     />
                 </Card.Body>
+
+
+                {/* Pagination component */}
+                <div className="d-flex justify-content-center">
+                    <Pagination>
+                        <Pagination.First onClick={() => onPageChange(0)} />
+                        <Pagination.Prev onClick={() => onPageChange(pageable.pageNumber - 1)} />
+
+                        {/* Loop through the nearby pages */}
+                        {Array.from({ length: totalPages }, (_, index) => {
+                            if (
+                                index >= pageable.pageNumber - 1 &&
+                                index <= pageable.pageNumber + 1
+                            ) {
+                                return (
+                                    <Pagination.Item
+                                        key={index}
+                                        active={index === pageable.pageNumber}
+                                        onClick={() => onPageChange(index)}
+                                    >
+                                        {index + 1}
+                                    </Pagination.Item>
+                                );
+                            }
+                            return null;
+                        })}
+
+                        <Pagination.Next onClick={() => onPageChange(pageable.pageNumber + 1)} />
+                        <Pagination.Last onClick={() => onPageChange(totalPages - 1)} />
+                    </Pagination>
+                </div>
             </Card>
 
-            {/* Pagination component at the bottom */}
-            <Pagination>
-                <Pagination.First onClick={() => onPageChange(0)} />
-                <Pagination.Prev onClick={() => onPageChange(pageable.pageNumber - 1)} />
-
-                {/* Loop through the nearby pages */}
-                {Array.from({ length: totalPages }, (_, index) => {
-                    if (
-                        index >= pageable.pageNumber - 2 &&
-                        index <= pageable.pageNumber + 2
-                    ) {
-                        return (
-                            <Pagination.Item
-                                key={index}
-                                active={index === pageable.pageNumber}
-                                onClick={() => onPageChange(index)}
-                            >
-                                {index + 1}
-                            </Pagination.Item>
-                        );
-                    }
-                    return null;
-                })}
-
-                <Pagination.Next onClick={() => onPageChange(pageable.pageNumber + 1)} />
-                <Pagination.Last onClick={() => onPageChange(totalPages - 1)} />
-            </Pagination>
         </div>
     );
 };
