@@ -32,6 +32,10 @@ export default function PlayPage() {
         FetchData();
     }, []);
 
+    useEffect(() => {
+        FetchData();
+    }, [currentPage]);
+
     const FetchData = () => {
 
         axios({
