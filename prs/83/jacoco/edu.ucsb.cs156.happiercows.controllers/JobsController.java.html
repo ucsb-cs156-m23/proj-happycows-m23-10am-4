@@ -96,7 +96,12 @@ import edu.ucsb.cs156.happiercows.services.jobs.JobService;
 <span class="fc" id="L96">        .sleepMs(sleepMs)</span>
 <span class="fc" id="L97">        .build();</span>
 
-<span class="fc" id="L99">        return jobService.runAsJob(testJob);</span>
+        // Reference: frontend/src/components/Jobs/TestJobForm.js
+<span class="fc bfc" id="L100" title="All 4 branches covered.">        if (sleepMs &lt; 0 || sleepMs &gt; 60000) {</span>
+<span class="fc" id="L101">            throw new IllegalArgumentException(&quot;sleepMs must be between 0 and 60000&quot;);</span>
+        }
+
+<span class="fc" id="L104">        return jobService.runAsJob(testJob);</span>
     }
 
     @Operation(summary = &quot;Launch Job to Milk the Cows (click fail if you want to test exception handling)&quot;)
@@ -104,8 +109,8 @@ import edu.ucsb.cs156.happiercows.services.jobs.JobService;
     @PostMapping(&quot;/launch/milkthecowjob&quot;)
     public Job launchTestJob(
     ) {
-<span class="fc" id="L107">        JobContextConsumer milkTheCowsJob = milkTheCowsJobFactory.create();</span>
-<span class="fc" id="L108">        return jobService.runAsJob(milkTheCowsJob);</span>
+<span class="fc" id="L112">        JobContextConsumer milkTheCowsJob = milkTheCowsJobFactory.create();</span>
+<span class="fc" id="L113">        return jobService.runAsJob(milkTheCowsJob);</span>
     }
 
     @Operation(summary = &quot;Launch Job to Update Cow Health&quot;)
@@ -113,8 +118,8 @@ import edu.ucsb.cs156.happiercows.services.jobs.JobService;
     @PostMapping(&quot;/launch/updatecowhealth&quot;)
     public Job updateCowHealth(
     ) { 
-<span class="fc" id="L116">        JobContextConsumer updateCowHealthJob = updateCowHealthJobFactory.create();</span>
-<span class="fc" id="L117">        return jobService.runAsJob(updateCowHealthJob);</span>
+<span class="fc" id="L121">        JobContextConsumer updateCowHealthJob = updateCowHealthJobFactory.create();</span>
+<span class="fc" id="L122">        return jobService.runAsJob(updateCowHealthJob);</span>
     }
 
     @Operation(summary = &quot;Launch Job to Set Cow Health&quot;)
@@ -124,8 +129,14 @@ import edu.ucsb.cs156.happiercows.services.jobs.JobService;
         @Parameter(name=&quot;commonsID&quot;) @RequestParam Long commonsID, 
         @Parameter(name=&quot;health&quot;) @RequestParam double health
     ) { 
-<span class="fc" id="L127">        JobContextConsumer setCowHealthJob = setCowHealthJobFactory.create(commonsID, health);</span>
-<span class="fc" id="L128">        return jobService.runAsJob(setCowHealthJob);</span>
+<span class="fc" id="L132">        JobContextConsumer setCowHealthJob = setCowHealthJobFactory.create(commonsID, health);</span>
+
+        // Reference: frontend/src/components/Jobs/SetCowHealthForm.js
+<span class="fc bfc" id="L135" title="All 4 branches covered.">        if (health &lt; 0 || health &gt; 100) {</span>
+<span class="fc" id="L136">            throw new IllegalArgumentException(&quot;health must be between 0 and 100&quot;);</span>
+        }
+
+<span class="fc" id="L139">        return jobService.runAsJob(setCowHealthJob);</span>
     }
 
     @Operation(summary = &quot;Launch Job to Produce Instructor Report&quot;)
@@ -133,8 +144,8 @@ import edu.ucsb.cs156.happiercows.services.jobs.JobService;
     @PostMapping(&quot;/launch/instructorreport&quot;)
     public Job instructorReport(
     ) { 
-<span class="fc" id="L136">        InstructorReportJob instructorReportJob = (InstructorReportJob) instructorReportJobFactory.create();</span>
-<span class="fc" id="L137">        return jobService.runAsJob(instructorReportJob);</span>
+<span class="fc" id="L147">        InstructorReportJob instructorReportJob = (InstructorReportJob) instructorReportJobFactory.create();</span>
+<span class="fc" id="L148">        return jobService.runAsJob(instructorReportJob);</span>
     }
 
     @Operation(summary = &quot;Launch Job to Produce Instructor Report for a single commons&quot;)
@@ -144,8 +155,8 @@ import edu.ucsb.cs156.happiercows.services.jobs.JobService;
          @Parameter(name=&quot;commonsId&quot;) @RequestParam Long commonsId
     ) { 
 
-<span class="fc" id="L147">        InstructorReportJobSingleCommons instructorReportJobSingleCommons = (InstructorReportJobSingleCommons) instructorReportJobSingleCommonsFactory.create(commonsId);</span>
-<span class="fc" id="L148">        return jobService.runAsJob(instructorReportJobSingleCommons);</span>
+<span class="fc" id="L158">        InstructorReportJobSingleCommons instructorReportJobSingleCommons = (InstructorReportJobSingleCommons) instructorReportJobSingleCommonsFactory.create(commonsId);</span>
+<span class="fc" id="L159">        return jobService.runAsJob(instructorReportJobSingleCommons);</span>
     }
 
     @Operation(summary = &quot;Launch Job to Record the Stats of all Commons&quot;)
@@ -154,8 +165,8 @@ import edu.ucsb.cs156.happiercows.services.jobs.JobService;
     public Job recordCommonStats(
     ) { 
 
-<span class="fc" id="L157">        RecordCommonStatsJob recordCommonStatsJob = (RecordCommonStatsJob) recordCommonStatsJobFactory.create();</span>
-<span class="fc" id="L158">        return jobService.runAsJob(recordCommonStatsJob);</span>
+<span class="fc" id="L168">        RecordCommonStatsJob recordCommonStatsJob = (RecordCommonStatsJob) recordCommonStatsJobFactory.create();</span>
+<span class="fc" id="L169">        return jobService.runAsJob(recordCommonStatsJob);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
