@@ -120,11 +120,8 @@ export default function PlayPage() {
 
   const [isChatOpen, setIsChatOpen] = useState(false);
 
-  var prevState = false;
-
   const toggleChatWindow = () => {
     setIsChatOpen((prevState) => !prevState);
-    prevState = !prevState;
   };
 
   const chatButtonStyle = {
