@@ -64,9 +64,7 @@ export default function DemoPlayPage() {
 
     return (
         <div data-testid="playpage-div">
-            <BasicLayout >
                 <PagedProfitsTable data={pageddata} onPageChange={handlePageChange}></PagedProfitsTable>
-            </BasicLayout>
         </div>
     )
 }
