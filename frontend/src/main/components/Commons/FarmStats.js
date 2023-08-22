@@ -1,6 +1,7 @@
 import React from "react";
 import { Card } from "react-bootstrap";
 import { ProgressBar } from "react-bootstrap";
+import {parseMoney} from "main/utils/MoneyParsing";
 
 const FarmStats = ({userCommons}) => {
     return (
@@ -9,7 +10,7 @@ const FarmStats = ({userCommons}) => {
         <Card.Body>
             {/* update total wealth and cow health with data from fixture */}
             <Card.Title className="text-center">
-                💰 Total Wealth: ${userCommons.totalWealth.toFixed(2)}
+                💰 Total Wealth: ${parseMoney(userCommons.totalWealth)}
             </Card.Title>
             <Card.Text>
                 Total Cows Bought: {userCommons.cowsBought}

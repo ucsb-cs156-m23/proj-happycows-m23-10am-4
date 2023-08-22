@@ -12,12 +12,14 @@ import dummy from "assets/UserHomeDummy.json";
 
 export default function DemoPlayPage() {
 
+    // eslint-disable-next-line no-unused-vars
     const  commonsId  = 0;
-    const  currentUser  = 0;
+    const  currentUser  = null;
 
     const userCommons = dummy['SessionInfo'];
     const commonsPlus = dummy['SessionInfo2'];
     const userCommonsProfits = dummy['Transactions'];
+    // eslint-disable-next-line no-unused-vars
     const userPagedProfits = dummy['PagedTransactions'];
 
     const onBuy = () => {
@@ -33,16 +35,14 @@ export default function DemoPlayPage() {
         <div data-testid="playpage-div">
             <BasicLayout >
                 <Container >
-                    {!!currentUser && <CommonsPlay currentUser={currentUser} />}
-                    {!!commonsPlus && <CommonsOverview commonsPlus={commonsPlus} currentUser={currentUser} />}
+                    <CommonsPlay currentUser={currentUser} />
+                    <CommonsOverview commonsPlus={commonsPlus} currentUser={currentUser} />
                     <br />
-                    {!!userCommons && !!commonsPlus &&
-                        <CardGroup >
-                            <ManageCows userCommons={userCommons} commons={commonsPlus.commons} onBuy={onBuy} onSell={onSell} />
-                            <FarmStats userCommons={userCommons} />
-                            <Profits userCommons={userCommons} profits={userCommonsProfits} />
-                        </CardGroup>
-                    }
+                    <CardGroup >
+                        <ManageCows userCommons={userCommons} commons={commonsPlus.commons} onBuy={onBuy} onSell={onSell} />
+                        <FarmStats userCommons={userCommons} />
+                        <Profits userCommons={userCommons} profits={userCommonsProfits} />
+                    </CardGroup>
                 </Container>
             </BasicLayout>
         </div>

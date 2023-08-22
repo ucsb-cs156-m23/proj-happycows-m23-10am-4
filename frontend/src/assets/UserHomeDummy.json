@@ -7,9 +7,9 @@
 
   "SessionInfo": {
     "username": "Visitor",
-    "totalWealth": 500.5,
+    "totalWealth": 5564500000,
     "numOfCows": 10,
-    "cowHealth": 0.5,
+    "cowHealth": 20.5,
     "cowsBought": 10,
     "cowsSold": 0,
     "cowDeaths": 0,
