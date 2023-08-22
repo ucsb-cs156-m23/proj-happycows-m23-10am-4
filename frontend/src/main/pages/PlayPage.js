@@ -58,9 +58,14 @@ export default function PlayPage() {
     };
 
 
+
+
+
+
+
   return (
     <div data-testid="playpage-div">
-            <PagedProfitsTable data={pageddata} onPageChange={handlePageChange}></PagedProfitsTable>
+        <PagedProfitsTable data={pageddata} onPageChange={handlePageChange}></PagedProfitsTable>
     </div>
   )
 }
