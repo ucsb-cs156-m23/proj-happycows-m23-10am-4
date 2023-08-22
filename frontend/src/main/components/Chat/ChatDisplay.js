@@ -42,7 +42,7 @@ const ChatDisplay = ({ commonsId, messages, userCommons }) => {
       
     // Stryker restore all
 
-    messages = messages || messagesData?.content;
+    messages = messages || messagesData.content;
     const userCommonsList = userCommons || userCommonsListData;
   
     const sortedMessages = Array.isArray(messages) && messages.sort((a, b) => b.id - a.id);

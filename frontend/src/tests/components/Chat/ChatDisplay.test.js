@@ -73,6 +73,7 @@ describe("ChatDisplay tests", () => {
     await waitFor(() => {
         expect(screen.getByTestId("ChatDisplay")).toBeInTheDocument();
     });
+    
     expect(screen.queryByText("Anonymous")).not.toBeInTheDocument();
     expect(screen.queryByText("George Washington (1)")).not.toBeInTheDocument();
     expect(screen.queryByText("Hello World")).not.toBeInTheDocument();
