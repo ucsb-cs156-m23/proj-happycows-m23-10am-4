@@ -16,6 +16,7 @@ import Background from "../../assets/PlayPageBackground.png";
 
 import PagedProfitsTable from "main/components/Commons/PagedProfitsTable";
 import dummy from "../../assets/UserHomeDummy.json";
+import axios from "axios";
 
 export default function PlayPage() {
 

@@ -34,13 +34,97 @@ export default function DemoPlayPage() {
         FetchData();
     };
 
+    const fummy = {
+        "content": [
+            {
+                "id": 11,
+                "userCommons": {
+                    "username": "Yuanchen Meng",
+                    "totalWealth": 999999999999481.4,
+                    "numOfCows": 23,
+                    "cowHealth": 0.20000000000001,
+                    "cowsBought": 23,
+                    "cowsSold": 0,
+                    "cowDeaths": 0,
+                    "commonsId": 1,
+                    "userId": 5
+                },
+                "amount": 1150,
+                "timestamp": "2023-08-15T04:00:00.046697",
+                "numCows": 23,
+                "avgCowHealth": 100
+            },
+            {
+                "id": 14,
+                "userCommons": {
+                    "username": "Yuanchen Meng",
+                    "totalWealth": 999999999999481.4,
+                    "numOfCows": 23,
+                    "cowHealth": 0.20000000000001,
+                    "cowsBought": 23,
+                    "cowsSold": 0,
+                    "cowDeaths": 0,
+                    "commonsId": 1,
+                    "userId": 5
+                },
+                "amount": 575,
+                "timestamp": "2023-08-16T02:56:32.332651",
+                "numCows": 23,
+                "avgCowHealth": 50
+            },
+            {
+                "id": 19,
+                "userCommons": {
+                    "username": "Yuanchen Meng",
+                    "totalWealth": 999999999999481.4,
+                    "numOfCows": 23,
+                    "cowHealth": 0.20000000000001,
+                    "cowsBought": 23,
+                    "cowsSold": 0,
+                    "cowDeaths": 0,
+                    "commonsId": 1,
+                    "userId": 5
+                },
+                "amount": 3.45,
+                "timestamp": "2023-08-16T04:00:00.060382",
+                "numCows": 23,
+                "avgCowHealth": 0.3
+            }
+        ],
+        "pageable": {
+            "sort": {
+                "sorted": false,
+                "empty": true,
+                "unsorted": true
+            },
+            "pageNumber": 0,
+            "pageSize": 3,
+            "offset": 0,
+            "paged": true,
+            "unpaged": false
+        },
+        "last": false,
+        "totalPages": 3,
+        "totalElements": 9,
+        "sort": {
+            "sorted": false,
+            "empty": true,
+            "unsorted": true
+        },
+        "number": 0,
+        "size": 3,
+        "first": true,
+        "numberOfElements": 3,
+        "empty": false
+    }
+
 
 
 
 
     return (
         <div data-testid="playpage-div">
-                <PagedProfitsTable data={null} onPageChange={handlePageChange}></PagedProfitsTable>
+                <PagedProfitsTable data={fummy} onPageChange={handlePageChange}></PagedProfitsTable>
         </div>
     )
 }
