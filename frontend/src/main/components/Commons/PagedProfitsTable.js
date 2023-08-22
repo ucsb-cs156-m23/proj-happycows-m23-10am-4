@@ -6,6 +6,7 @@ import { Pagination } from 'react-bootstrap';
 const PagedProfitsTable = ({ data, onPageChange}) => {
     //eslint - disable next line
     const { content, pageable, _ , totalPages, totalElements} = data;
+    console.log("Table Debug");
     console.log(content);
 
     return (

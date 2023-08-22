@@ -13,21 +13,46 @@ import Profits from "main/components/Commons/Profits";
 
 import PagedProfitsTable from "main/components/Commons/PagedProfitsTable";
 import dummy from "assets/UserHomeDummy.json";
+import {useBackend} from "../utils/useBackend";
 
 export default function DemoPlayPage() {
 
     const [currentPage, setCurrentPage] = useState(0);
+    const [userQueryPageSize, setuserQueryPageSize] = useState(3);
+    const [pageddata, setpageddata] = useState([]);
 
-    // eslint-disable-next-line no-unused-vars
     const  commonsId  = 0;
     const  currentUser  = null;
 
     const userCommons = dummy['SessionInfo'];
     const commonsPlus = dummy['SessionInfo2'];
-    const userCommonsProfits = dummy['Transactions'];
-    //const userPagedProfits = dummy['PagedTransactions'];
 
+    useEffect(() => {
+        FetchData();
+    }, []);
 
+    const FetchData = () => {
+        const { data: userCommonsProfits } = useBackend(
+            [`/api/profits/paged/commonsid?commonsId=${commonsId}&page=${currentPage}&size=${userQueryPageSize}`],
+            {
+                method: "GET",
+                url: "/api/profits/paged/commonsid",
+                params: {
+                    commonsId: commonsId
+                }
+            }
+        );
+        setpageddata(userCommonsProfits);
+        console.log("Fetch");
+        console.log(pageddata);
+    };
+
+    const handlePageChange = (newPage) => {
+        setCurrentPage(newPage);
+        console.log("Index changed");
+        console.log(currentPage);
+        FetchData();
+    };
 
     const onBuy = () => {
         toast(`Buy cow demo`);
@@ -37,16 +62,10 @@ export default function DemoPlayPage() {
         toast(`Sell cow demo`);
     };
 
-    const handlePageChange = (newPage) => {
-        setCurrentPage(newPage);
-        // TODO Fetch data for the new page and update the data object
-    };
-
-
     return (
         <div data-testid="playpage-div">
             <BasicLayout >
-                <PagedProfitsTable data={dummy['PagedTransactions']}  onPageChange={handlePageChange}></PagedProfitsTable>
+                <PagedProfitsTable data={pageddata} onPageChange={handlePageChange}></PagedProfitsTable>
             </BasicLayout>
         </div>
     )
