@@ -16,6 +16,8 @@ import { hasRole, useCurrentUser } from "main/utils/currentUser";
 import PlayPage from "main/pages/PlayPage";
 import NotFoundPage from "main/pages/NotFoundPage";
 
+import DemoPlayPage from "main/pages/DemoPlayPage";
+
 function App() {
 
   const { data: currentUser } = useCurrentUser();
@@ -53,6 +55,7 @@ function App() {
            </>
           )
         }
+        <Route path="/demo/play" element={<DemoPlayPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>
