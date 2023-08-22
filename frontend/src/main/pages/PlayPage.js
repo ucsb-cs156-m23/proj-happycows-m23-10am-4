@@ -35,7 +35,7 @@ export default function PlayPage() {
     useEffect(() => {
         FetchData();
     }, [currentPage]);
-    /*
+
         const FetchData = () => {
 
         axios({
@@ -49,24 +49,26 @@ export default function PlayPage() {
         })
          .catch(error => console.log(error));
     };
-    * */
-    
+    /*
 
-    const FetchData = () => {
-        const { data: temp } = useBackend(
-            [`/api/profits/paged/commonsid?commonsId=${commonsId}&pageNumber=${currentPage}&pageSize=${userQueryPageSize}`],
-            {
-                method: "GET",
-                url: "/api/profits/paged/commonsid",
-                params: {
-                    commonsId: commonsId
-                }
-            }
-        );
-        setpageddata(temp);
-        console.log("Fetch");
-        console.log(pageddata);
-    };
+
+   const FetchData = () => {
+       const { data: temp } = useBackend(
+           [`/api/profits/paged/commonsid?commonsId=${commonsId}&pageNumber=${currentPage}&pageSize=${userQueryPageSize}`],
+           {
+               method: "GET",
+               url: "/api/profits/paged/commonsid",
+               params: {
+                   commonsId: commonsId
+               }
+           }
+       );
+       setpageddata(temp);
+       console.log("Fetch");
+       console.log(pageddata);
+   };
+
+    */
 
     const handlePageChange = (newPage) => {
         setCurrentPage(newPage);
@@ -75,9 +77,134 @@ export default function PlayPage() {
         FetchData();
     };
 
+
+
+
+
+
+
+
+    // Stryker disable all
+    const { data: userCommons } =
+        useBackend(
+            [`/api/usercommons/forcurrentuser?commonsId=${commonsId}`],
+            {
+                method: "GET",
+                url: "/api/usercommons/forcurrentuser",
+                params: {
+                    commonsId: commonsId
+                }
+            }
+        );
+    // Stryker restore all
+
+    // Stryker disable all
+    const { data: commonsPlus } =
+        useBackend(
+            [`/api/commons/plus?id=${commonsId}`],
+            {
+                method: "GET",
+                url: "/api/commons/plus",
+                params: {
+                    id: commonsId
+                }
+            }
+        );
+    // Stryker restore all
+
+    // Stryker disable all
+    // Stryker disable all
+    const { data: userCommonsProfits } =
+        useBackend(
+            [`/api/profits/all/commonsid?commonsId=${commonsId}`],
+            {
+                method: "GET",
+                url: "/api/profits/all/commonsid",
+                params: {
+                    commonsId: commonsId
+                }
+            }
+        );
+    // Stryker restore all
+    // Stryker restore all
+
+
+    // Stryker disable all (can't check if commonsId is null because it is mocked)
+    const objectToAxiosParamsBuy = (newUserCommons) => ({
+        url: "/api/usercommons/buy",
+        method: "PUT",
+        data: newUserCommons,
+        params: {
+            commonsId: commonsId
+        }
+    });
+    // Stryker restore all
+
+
+    // Stryker disable all
+    const mutationbuy = useBackendMutation(
+        objectToAxiosParamsBuy,
+        null,
+        // Stryker disable next-line all : hard to set up test for caching
+        [`/api/usercommons/forcurrentuser?commonsId=${commonsId}`]
+    );
+    // Stryker restore all
+
+
+    const onBuy = (userCommons) => {
+        mutationbuy.mutate(userCommons)
+    };
+
+
+    const onSuccessSell = () => {
+        toast(`Cow sold!`);
+    }
+
+    // Stryker disable all
+    const objectToAxiosParamsSell = (newUserCommons) => ({
+        url: "/api/usercommons/sell",
+        method: "PUT",
+        data: newUserCommons,
+        params: {
+            commonsId: commonsId
+        }
+    });
+    // Stryker restore all
+
+
+    // Stryker disable all
+    const mutationsell = useBackendMutation(
+        objectToAxiosParamsSell,
+        { onSuccess: onSuccessSell },
+        [`/api/usercommons/forcurrentuser?commonsId=${commonsId}`]
+    );
+    // Stryker restore all
+
+
+    const onSell = (userCommons) => {
+        mutationsell.mutate(userCommons)
+    };
+
+
+
   return (
     <div data-testid="playpage-div">
-        <PagedProfitsTable data={pageddata} onPageChange={handlePageChange} />
+        <BasicLayout >
+            <Container >
+                {!!currentUser && <CommonsPlay currentUser={currentUser} />}
+                {!!commonsPlus && <CommonsOverview commonsPlus={commonsPlus} currentUser={currentUser} />}
+                <br />
+                {!!userCommons && !!commonsPlus &&
+                    <CardGroup >
+                        <ManageCows userCommons={userCommons} commons={commonsPlus.commons} onBuy={onBuy} onSell={onSell} />
+                        <FarmStats userCommons={userCommons} />
+                        <Profits userCommons={userCommons} profits={userCommonsProfits} />
+                    </CardGroup>
+                }
+            </Container>
+            <PagedProfitsTable data={pageddata} onPageChange={handlePageChange} />
+        </BasicLayout>
+
     </div>
   )
 }
