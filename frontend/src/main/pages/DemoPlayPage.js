@@ -27,26 +27,6 @@ export default function DemoPlayPage() {
     const userCommons = dummy['SessionInfo'];
     const commonsPlus = dummy['SessionInfo2'];
 
-    useEffect(() => {
-        FetchData();
-    }, []);
-
-    const FetchData = () => {
-        const { data: userCommonsProfits } = useBackend(
-            [`/api/profits/paged/commonsid?commonsId=${commonsId}&page=${currentPage}&size=${userQueryPageSize}`],
-            {
-                method: "GET",
-                url: "/api/profits/paged/commonsid",
-                params: {
-                    commonsId: commonsId
-                }
-            }
-        );
-        setpageddata(userCommonsProfits);
-        console.log("Fetch");
-        console.log(pageddata);
-    };
-
     const handlePageChange = (newPage) => {
         setCurrentPage(newPage);
         console.log("Index changed");
@@ -54,17 +34,13 @@ export default function DemoPlayPage() {
         FetchData();
     };
 
-    const onBuy = () => {
-        toast(`Buy cow demo`);
-    };
 
-    const onSell = () => {
-        toast(`Sell cow demo`);
-    };
+
+
 
     return (
         <div data-testid="playpage-div">
-                <PagedProfitsTable data={pageddata} onPageChange={handlePageChange}></PagedProfitsTable>
+                <PagedProfitsTable data={null} onPageChange={handlePageChange}></PagedProfitsTable>
         </div>
     )
 }

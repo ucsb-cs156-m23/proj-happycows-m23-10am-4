@@ -32,19 +32,17 @@ export default function PlayPage() {
     }, []);
 
     const FetchData = () => {
-        const { data: temp } = useBackend(
-            [`/api/profits/paged/commonsid?commonsId=${commonsId}&page=${currentPage}&size=${userQueryPageSize}`],
-            {
-                method: "GET",
-                url: "/api/profits/paged/commonsid",
-                params: {
-                    commonsId: commonsId
-                }
-            }
-        );
-        setpageddata(temp);
-        console.log("Fetch");
-        console.log(pageddata);
+
+        axios({
+            method: "GET",
+            url: `/api/profits/paged/commonsid?commonsId=${commonsId}&page=${currentPage}&size=${userQueryPageSize}`,
+        }).then(response => {
+            setpageddata(response.data);
+            console.log("axios");
+            console.log(response);
+            console.log(response.data);
+        })
+         .catch(error => console.log(error));
     };
 
     const handlePageChange = (newPage) => {
