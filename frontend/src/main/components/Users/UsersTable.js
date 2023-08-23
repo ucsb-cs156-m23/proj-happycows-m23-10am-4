@@ -57,14 +57,6 @@ export default function UsersTable({ users }) {
         }
     ];
 
-    /*
-    const columnsWithHide = [
-        ...columns,
-        ButtonColumn("Hide", "danger", deleteCallback, "UsersTable"),
-        ButtonColumn("Unhide", "success", unhideCallback, "UsersTable")
-    ];
-    */
-
     // if this row is an admin, disable the hide/unhide buttons
     // if this row is hidden, disable the hide button
     // if this row is not hidden, disable the unhide button

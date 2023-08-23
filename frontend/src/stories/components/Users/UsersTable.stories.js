@@ -34,19 +34,3 @@ export const OneUsers = Template.bind({});
 OneUsers.args = {
     users: usersFixtures.threeUsers.slice(0,1)
 }
-
-/*
-export const ThreeCommonsAdmin = Template.bind({});
-
-ThreeCommonsAdmin.args = {
-    commons: commonsPlusFixtures.threeCommonsPlus,
-    currentUser: currentUserFixtures.adminUser
-};
-
-export const OneCommonsAdmin = Template.bind({});
-
-OneCommonsAdmin.args = {
-    commons: commonsPlusFixtures.oneCommonsPlus,
-    currentUser: currentUserFixtures.adminUser
-}
-*/
