@@ -42,9 +42,9 @@ export default function PlayPage() {
 
     const handlePageChange = React.useCallback(newPage => {
         setCurrentPage(newPage);
-        FetchData();
+        FetchData();},
         // Stryker disable next-line ArrayDeclaration : no need to test what happens if [] is replaced with ["Stryker was here"]
-        }, [FetchData]);
+         [FetchData]);
 
 
   // Stryker disable all 
