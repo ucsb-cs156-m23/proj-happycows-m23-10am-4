@@ -26,13 +26,9 @@ export default function PlayPage() {
     const [pageddata, setpageddata] = useState([]);
 
     // Stryker disable next-line all:[] replaced with "str" doesn't make sense
-    useEffect(() => {FetchData();}, []);
+    // useEffect(() => {FetchData();}, []);
 
     useEffect(() => {
-        FetchData();
-    }, [currentPage]);
-
-    const FetchData = () => {
         axios({
             // Stryker disable next-line all:"GET" replace by "" still calls GET method
             method: "GET",
@@ -40,11 +36,17 @@ export default function PlayPage() {
         }).then(response => {
             setpageddata(response.data);
         })
-    };
+    }, [currentPage, commonsId, userQueryPageSize]);
 
     const handlePageChange = (newPage) => {
         setCurrentPage(newPage);
-        FetchData();
+        axios({
+            // Stryker disable next-line all:"GET" replace by "" still calls GET method
+            method: "GET",
+            url: `/api/profits/paged/commonsid?commonsId=${commonsId}&pageNumber=${currentPage}&pageSize=${userQueryPageSize}`,
+        }).then(response => {
+            setpageddata(response.data);
+        })
     };
 
   // Stryker disable all 
