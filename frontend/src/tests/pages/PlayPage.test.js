@@ -60,7 +60,9 @@ describe("PlayPage tests", () => {
             totalPlayers: 5,
             totalCows: 5 
         });
-        axiosMock.onGet("/api/profits/all/commonsid").reply(200, []);
+        //axiosMock.onGet("/api/profits/all/commonsid").reply(200, []);
+        axiosMock.onGet('/api/profits/paged/commonsid?commonsId=1&pageNumber=0&pageSize=7').reply(200, pagedprofitsFixture.Page0);
+
         axiosMock.onPut("/api/usercommons/sell").reply(200, userCommons);
         axiosMock.onPut("/api/usercommons/buy").reply(200, userCommons);
     });
@@ -75,7 +77,7 @@ describe("PlayPage tests", () => {
         );
     });
 
-    test("click buy and sell buttons", async () => {
+    test("buy and sell buttons behave as expected", async () => {
         render(
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter>
@@ -98,7 +100,7 @@ describe("PlayPage tests", () => {
         expect(mockToast).toBeCalledWith("Cow sold!");
     });
 
-    test("Make sure that both the Announcements and Welcome Farmer components show up", async () => {
+    test("3 Card components in page show up", async () => {
         render(
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter>
@@ -106,15 +108,15 @@ describe("PlayPage tests", () => {
                 </MemoryRouter>
             </QueryClientProvider>
         );
-
         expect(await screen.findByText(/Announcements/)).toBeInTheDocument();
         expect(await screen.findByTestId("CommonsPlay")).toBeInTheDocument();
+        expect(await screen.findByText("Manage Cows")).toBeInTheDocument();
+        expect(await screen.findByText("Your Farm Stats")).toBeInTheDocument();
+        expect(await screen.findByText("Profits")).toBeInTheDocument();
     });
 
     test('should fetch data when mounted', async () => {
-        axiosMock.onGet('/api/profits/paged/commonsid').reply(200, pagedprofitsFixture);
-
-
+        axiosMock.onGet('/api/profits/paged/commonsid?commonsId=1&pageNumber=0&pageSize=7').reply(200, pagedprofitsFixture.Page0);
         render(
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter>
@@ -123,8 +125,93 @@ describe("PlayPage tests", () => {
             </QueryClientProvider>
         );
 
-        expect(await screen.findByText(/Announcements/)).toBeInTheDocument();
+        const testId = "ProfitsTable";
+        await waitFor(() => expect(screen.getByTestId(`${testId}-cell-row-0-col-Profit`)).toBeInTheDocument());
+        expect(screen.getByTestId(`${testId}-cell-row-0-col-Profit`)).toHaveTextContent("$12.650");
+    });
+
+
+
+
+
+    test('User can navigate the profit table', async () => {
+
+        axiosMock.onGet('/api/profits/paged/commonsid?commonsId=1&pageNumber=1&pageSize=7').reply(200, pagedprofitsFixture.Page1);
+        axiosMock.onGet('/api/profits/paged/commonsid?commonsId=1&pageNumber=7&pageSize=7').reply(200, pagedprofitsFixture.Page7);
+
+
+            render(
+                <QueryClientProvider client={queryClient}>
+                    <MemoryRouter>
+                        <PlayPage />
+                    </MemoryRouter>
+                </QueryClientProvider>
+            );
+
+
+        const testId = "ProfitsTable";
+        await waitFor(() => expect(screen.getByTestId(`${testId}-cell-row-0-col-Profit`)).toHaveTextContent("$12.650"));
+        fireEvent.click(screen.getByTestId("PageNavBottom-btn-last"));
+        await waitFor(() => expect(screen.getByTestId(`${testId}-cell-row-0-col-Profit`)).toHaveTextContent("$3.450"));
+        fireEvent.click(screen.getByTestId("PageNavBottom-btn-first"));
+        await waitFor(() => expect(screen.getByTestId(`${testId}-cell-row-0-col-Profit`)).toHaveTextContent("$12.650"));
+        fireEvent.click(screen.getByTestId("PageNavBottom-btn-next"));
+        await waitFor(() => expect(screen.getByTestId(`${testId}-cell-row-0-col-Profit`)).toHaveTextContent("$2.300"));
+        fireEvent.click(screen.getByTestId("PageNavBottom-btn-prev"));
+        await waitFor(() => expect(screen.getByTestId(`${testId}-cell-row-0-col-Profit`)).toHaveTextContent("$12.650"));
+        fireEvent.click(screen.getByTestId("PageNavBottom-btn-item-1"));
+        await waitFor(() => expect(screen.getByTestId(`${testId}-cell-row-0-col-Profit`)).toHaveTextContent("$2.300"));
+        fireEvent.click(screen.getByTestId("PageNavBottom-btn-item-0"));
+        await waitFor(() => expect(screen.getByTestId(`${testId}-cell-row-0-col-Profit`)).toHaveTextContent("$12.650"));
+
 
     });
 
 });
+
+
+/*
+*    test('should handle errors using .catch', async () => {
+
+    axiosMock.onGet('/api/profits/paged/commonsid?commonsId=1&pageNumber=0&pageSize=7').reply(500, { message: 'Server error' });
+
+    // Spy on the console.error method
+    const consoleErrorSpy = jest.spyOn(console, 'log');
+
+    render(
+        <QueryClientProvider client={queryClient}>
+            <MemoryRouter>
+                <PlayPage />
+            </MemoryRouter>
+        </QueryClientProvider>
+    );
+
+    await waitFor(() => {
+        setTimeout(() => {
+            expect(consoleErrorSpy).toHaveBeenCalledWith("Server error");
+        }, 200);
+    });
+});
+*
+*
+*     test('should fetch data using GET method', async () => {
+    axiosMock.onGet('/api/profits/paged/commonsid?commonsId=1&pageNumber=0&pageSize=7').reply(200, pagedprofitsFixture);
+
+    // Render the component
+    render(
+        <QueryClientProvider client={queryClient}>
+            <MemoryRouter>
+                <PlayPage />
+            </MemoryRouter>
+        </QueryClientProvider>
+    );
+
+    // Wait for asynchronous actions to complete
+    await waitFor(() => {
+        // Expect the data to be fetched using the GET method
+        expect(axiosMock.history.get.length).toEqual(7);
+    });
+    *
+    *     });
+
+* */

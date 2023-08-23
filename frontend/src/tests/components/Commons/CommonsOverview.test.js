@@ -10,6 +10,7 @@ import commonsFixtures from "fixtures/commonsFixtures";
 import leaderboardFixtures from "fixtures/leaderboardFixtures";
 import { apiCurrentUserFixtures } from "fixtures/currentUserFixtures";
 import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
+import  pagedprofitsFixture  from "fixtures/pagedprofitsFixture";
 import commonsPlusFixtures from "fixtures/commonsPlusFixtures";
 import { toast } from 'react-toastify';
 
@@ -61,6 +62,7 @@ describe("CommonsOverview tests", () => {
         axiosMock.onGet("/api/currentUser").reply(200, apiCurrentUserFixtures.adminUser);
         axiosMock.onGet("/api/commons/plus", {params: {id:1}}).reply(200, commonsPlusFixtures.oneCommonsPlus[0]);
         axiosMock.onGet("/api/leaderboard/all").reply(200, leaderboardFixtures.threeUserCommonsLB);
+        axiosMock.onGet('/api/profits/paged/commonsid?commonsId=1&pageNumber=0&pageSize=7').reply(200, pagedprofitsFixture.Page0);
         render(
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter>
@@ -91,6 +93,7 @@ describe("CommonsOverview tests", () => {
         axiosMock.onGet("/api/currentUser").reply(200, apiCurrentUserFixtures.userOnly);
         axiosMock.onGet("/api/commons/plus", {params: {id:1}}).reply(200, ourCommonsPlus);
         axiosMock.onGet("/api/leaderboard/all").reply(200, leaderboardFixtures.threeUserCommonsLB);
+        axiosMock.onGet('/api/profits/paged/commonsid?commonsId=1&pageNumber=0&pageSize=7').reply(200, pagedprofitsFixture.Page0);
         render(
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter>

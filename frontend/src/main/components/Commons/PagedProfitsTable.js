@@ -63,10 +63,10 @@ const PagedProfitsTable = ({ data, onPageChange}) => {
 
 
                 {/* Pagination component */}
-                <div className="d-flex justify-content-center">
-                    <Pagination>
-                        <Pagination.First onClick={() => onPageChange(0)} />
-                        <Pagination.Prev onClick={() => onPageChange(pageable.pageNumber - 1)} />
+                <div data-testid="PageNavBottom" className="d-flex justify-content-center">
+                    <Pagination >
+                        <Pagination.First onClick={() => onPageChange(0)} data-testid="PageNavBottom-btn-first"/>
+                        <Pagination.Prev onClick={() => onPageChange(pageable.pageNumber - 1)} data-testid="PageNavBottom-btn-prev"/>
 
                         {/* Loop through the nearby pages */}
                         {Array.from({ length: totalPages }, (_, index) => {
@@ -79,6 +79,7 @@ const PagedProfitsTable = ({ data, onPageChange}) => {
                                         key={index}
                                         active={index === pageable.pageNumber}
                                         onClick={() => onPageChange(index)}
+                                        data-testid = {`PageNavBottom-btn-item-${index}`}
                                     >
                                         {index + 1}
                                     </Pagination.Item>
@@ -87,8 +88,8 @@ const PagedProfitsTable = ({ data, onPageChange}) => {
                             return null;
                         })}
 
-                        <Pagination.Next onClick={() => onPageChange(pageable.pageNumber + 1)} />
-                        <Pagination.Last onClick={() => onPageChange(totalPages - 1)} />
+                        <Pagination.Next onClick={() => onPageChange(pageable.pageNumber + 1)} data-testid="PageNavBottom-btn-next"/>
+                        <Pagination.Last onClick={() => onPageChange(totalPages - 1)} data-testid="PageNavBottom-btn-last" />
                     </Pagination>
                 </div>
             </Card>

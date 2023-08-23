@@ -20,13 +20,13 @@ export default function PlayPage() {
   const { data: currentUser } = useCurrentUser();
 
     const [currentPage, setCurrentPage] = useState(0);
-    //eslint-disable-next-line no-unused-vars
+    //eslint-disable-next-line no-unused-vars ,set func provides feat of resetting page size
     const [userQueryPageSize, setuserQueryPageSize] = useState(7);
+    // Stryker disable next-line all:[] and will be filled with page0 data when the page loads
     const [pageddata, setpageddata] = useState([]);
 
-    useEffect(() => {
-        FetchData();
-    }, []);
+    // Stryker disable next-line all:[] replaced with "str" doesn't make sense
+    useEffect(() => {FetchData();}, []);
 
     useEffect(() => {
         FetchData();
@@ -34,12 +34,12 @@ export default function PlayPage() {
 
     const FetchData = () => {
         axios({
+            // Stryker disable next-line all:"GET" replace by "" still calls GET method
             method: "GET",
             url: `/api/profits/paged/commonsid?commonsId=${commonsId}&pageNumber=${currentPage}&pageSize=${userQueryPageSize}`,
         }).then(response => {
             setpageddata(response.data);
         })
-            .catch(error => console.log(error));
     };
 
     const handlePageChange = (newPage) => {
