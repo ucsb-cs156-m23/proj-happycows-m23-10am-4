@@ -2,7 +2,7 @@ GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_
 happycows,edu.ucsb.cs156.happiercows.services,CommonStatsService,0,56,0,0,0,14,0,4,0,4
 happycows,edu.ucsb.cs156.happiercows.services,SystemInfoService,0,3,0,0,0,1,0,1,0,1
 happycows,edu.ucsb.cs156.happiercows.services,CurrentUserService,0,10,0,2,0,2,0,3,0,2
-happycows,edu.ucsb.cs156.happiercows.services,CommonsPlusBuilderService,65,0,0,0,13,0,4,0,4,0
+happycows,edu.ucsb.cs156.happiercows.services,CommonsPlusBuilderService,0,65,0,0,0,13,0,4,0,4
 happycows,edu.ucsb.cs156.happiercows.services,ReportService,0,152,0,2,0,39,0,6,0,5
 happycows,edu.ucsb.cs156.happiercows.services,SystemInfoServiceImpl,0,30,0,0,0,10,0,3,0,3
 happycows,edu.ucsb.cs156.happiercows.services,GrantedAuthoritiesService,0,21,0,0,0,7,0,3,0,3
@@ -18,7 +18,7 @@ happycows,edu.ucsb.cs156.happiercows.helpers,CommonStatsCSVHelper,0,108,0,2,0,21
 happycows,edu.ucsb.cs156.happiercows.services.jobs,JobService,0,55,0,0,0,19,0,3,0,3
 happycows,edu.ucsb.cs156.happiercows.services.jobs,JobContext,0,48,0,4,0,7,0,4,0,2
 happycows,edu.ucsb.cs156.happiercows.jobs,RecordCommonStatsJobFactory,0,11,0,0,0,2,0,2,0,2
-happycows,edu.ucsb.cs156.happiercows.jobs,UpdateCowHealthJob,0,215,0,12,0,41,0,12,0,6
+happycows,edu.ucsb.cs156.happiercows.jobs,UpdateCowHealthJob,0,197,0,12,0,36,0,11,0,5
 happycows,edu.ucsb.cs156.happiercows.jobs,RecordCommonStatsJob,0,69,0,2,0,10,0,2,0,1
 happycows,edu.ucsb.cs156.happiercows.jobs,TestJob,0,31,0,4,0,10,0,3,0,1
 happycows,edu.ucsb.cs156.happiercows.jobs,InstructorReportJobSingleCommonsFactory,0,10,0,0,0,2,0,2,0,2
