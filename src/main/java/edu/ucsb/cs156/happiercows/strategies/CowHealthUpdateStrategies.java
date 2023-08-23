@@ -23,7 +23,7 @@ public enum CowHealthUpdateStrategies implements CowHealthUpdateStrategy {
             if (user.getUser().isHidden()) {
                 return user.getCowHealth();
             }
-            return user.getCowHealth() - (totalCows - commons.getCarryingCapacity()) * commons.getDegradationRate();
+            return user.getCowHealth() - (totalCows - commons.getEffectiveCapacity()) * commons.getDegradationRate();
         }
     },
     Constant("Constant", "Cow health changes increases/decreases by the degradation rate, depending on if the number of cows exceeds the carrying capacity.") {
@@ -33,7 +33,7 @@ public enum CowHealthUpdateStrategies implements CowHealthUpdateStrategy {
             if (user.getUser().isHidden()) {
                 return user.getCowHealth();
             }
-            if (totalCows <= commons.getCarryingCapacity()) {
+            if (totalCows <= commons.getEffectiveCapacity()) {
                 return user.getCowHealth() + commons.getDegradationRate();
             } else {
                 return user.getCowHealth() - commons.getDegradationRate();
