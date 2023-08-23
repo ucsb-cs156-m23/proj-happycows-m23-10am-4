@@ -11,6 +11,7 @@ import leaderboardFixtures from "fixtures/leaderboardFixtures";
 import { apiCurrentUserFixtures } from "fixtures/currentUserFixtures";
 import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
 import commonsPlusFixtures from "fixtures/commonsPlusFixtures";
+import { toast } from 'react-toastify';
 
 const mockNavigate = jest.fn();
 jest.mock("react-router-dom", () => ({
@@ -19,6 +20,10 @@ jest.mock("react-router-dom", () => ({
         commonsId: 1
     }),
     useNavigate: () => mockNavigate
+}));
+
+jest.mock('react-toastify', () => ({
+    toast: jest.fn(),
 }));
 
 describe("CommonsOverview tests", () => {
@@ -56,7 +61,8 @@ describe("CommonsOverview tests", () => {
         expect(await screen.findByTestId("user-leaderboard-button")).toBeInTheDocument();
         const leaderboardButton = screen.getByTestId("user-leaderboard-button");
         fireEvent.click(leaderboardButton);
-        //expect(mockNavigate).toBeCalledWith({ "to": "/leaderboard/1" });
+        expect(toast).not.toHaveBeenCalled();
+        expect(mockNavigate).toBeCalledWith( "/leaderboard/4" );
     });
 
     test("No LeaderboardPage for an ordinary user when commons has showLeaderboard = false", async () => {

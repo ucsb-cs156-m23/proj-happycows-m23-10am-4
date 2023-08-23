@@ -9,6 +9,7 @@ import BasicLayout from "main/layouts/BasicLayout/BasicLayout";
 import { useBackend } from "main/utils/useBackend";
 import { useCurrentUser } from "main/utils/currentUser";
 import Background from "../../assets/PlayPageBackground.png";
+import {parseMoney} from "main/utils/MoneyParsing";
 
 
 export default function LeaderboardPage() {
@@ -47,6 +48,13 @@ export default function LeaderboardPage() {
   // Stryker restore all 
 
   const showLeaderboard = (hasRole(currentUser, "ROLE_ADMIN") || commons.showLeaderboard );
+
+    // Parse Wealth attribute
+    const parsedData = userCommons.map(item => ({
+        ...item,
+        totalWealth: parseMoney(item.totalWealth)
+    }));
+
   return (
     <div data-testid={"LeaderboardPage-main-div"} style={{backgroundSize: 'cover', backgroundImage: `url(${Background})`}}>
         <BasicLayout>
@@ -54,7 +62,7 @@ export default function LeaderboardPage() {
                 <h1>Leaderboard</h1>
                 {
                   showLeaderboard?
-                  (<LeaderboardTable leaderboardUsers={userCommons} currentUser={currentUser} />) :
+                  (<LeaderboardTable leaderboardUsers={parsedData} currentUser={currentUser} />) :
                   (<p>You're not authorized to see the leaderboard.</p>)
                 }
                 </div>
