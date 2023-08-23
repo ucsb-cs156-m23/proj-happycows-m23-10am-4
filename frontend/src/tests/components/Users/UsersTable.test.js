@@ -63,4 +63,20 @@ describe("UserTable tests", () => {
         expect(screen.getByTestId(`${testId}-cell-row-1-col-hide-button`)).toBeEnabled();
         expect(screen.getByTestId(`${testId}-cell-row-1-col-unhide-button`)).toBeDisabled();
       });
+
+    test("admin will always disable both buttons", () => {
+        const testId = "UsersTable";
+        let baseUser = usersFixtures.threeUsers[0];
+
+        baseUser.admin = true;
+        baseUser.hidden = true;
+        render(
+            <QueryClientProvider client={queryClient}>
+                <UsersTable users={[baseUser]}/>
+            </QueryClientProvider>
+        );
+
+        expect(screen.getByTestId(`${testId}-cell-row-0-col-hide-button`)).toBeDisabled();
+        expect(screen.getByTestId(`${testId}-cell-row-0-col-unhide-button`)).toBeDisabled();
+      });
 });

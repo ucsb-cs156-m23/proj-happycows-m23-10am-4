@@ -70,10 +70,7 @@ export default function UsersTable({ users }) {
                     variant={"danger"}
                     onClick={() => deleteCallback(cell)}
                     data-testid={`UsersTable-cell-row-${cell.row.index}-col-${cell.column.id}-button`}
-                    disabled={cell.row.values["hidden"] === "true" || 
-                    // Stryker disable all : backend does not support admin hiding
-                    cell.row.values["admin"] === "true"
-                    // Stryker restore all
+                    disabled={cell.row.values["hidden"] === "true" || cell.row.values["admin"] === "true"
                     }
                 >
                     {"Hide"}
@@ -88,10 +85,7 @@ export default function UsersTable({ users }) {
                     variant={"success"}
                     onClick={() => unhideCallback(cell)}
                     data-testid={`UsersTable-cell-row-${cell.row.index}-col-${cell.column.id}-button`}
-                    disabled={cell.row.values["hidden"] === "false" ||
-                    // Stryker disable all : backend does not support admin hiding
-                    cell.row.values["admin"] === "true"
-                    // Stryker restore all
+                    disabled={cell.row.values["hidden"] === "false" || cell.row.values["admin"] === "true"
                 }
                 >
                     {"Unhide"}
