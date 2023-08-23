@@ -25,29 +25,27 @@ export default function PlayPage() {
     // Stryker disable next-line all:[] and will be filled with page0 data when the page loads
     const [pageddata, setpageddata] = useState([]);
 
-    // Stryker disable next-line all:[] replaced with "str" doesn't make sense
-    // useEffect(() => {FetchData();}, []);
+
+    const FetchData = React.useCallback(() => {
+        axios({
+            // Stryker disable next-line all:"GET" replace by "" still calls GET method
+            method: "GET",
+            url: `/api/profits/paged/commonsid?commonsId=${commonsId}&pageNumber=${currentPage}&pageSize=${userQueryPageSize}`,
+        }).then(response => {
+            setpageddata(response.data);
+        });
+    }, [commonsId, currentPage, userQueryPageSize]);
 
     useEffect(() => {
-        axios({
-            // Stryker disable next-line all:"GET" replace by "" still calls GET method
-            method: "GET",
-            url: `/api/profits/paged/commonsid?commonsId=${commonsId}&pageNumber=${currentPage}&pageSize=${userQueryPageSize}`,
-        }).then(response => {
-            setpageddata(response.data);
-        })
-    }, [currentPage, commonsId, userQueryPageSize]);
+        FetchData();
+    }, [FetchData]);
 
-    const handlePageChange = (newPage) => {
+    const handlePageChange = React.useCallback(newPage => {
         setCurrentPage(newPage);
-        axios({
-            // Stryker disable next-line all:"GET" replace by "" still calls GET method
-            method: "GET",
-            url: `/api/profits/paged/commonsid?commonsId=${commonsId}&pageNumber=${currentPage}&pageSize=${userQueryPageSize}`,
-        }).then(response => {
-            setpageddata(response.data);
-        })
-    };
+        FetchData();
+        // Stryker disable next-line ArrayDeclaration : no need to test what happens if [] is replaced with ["Stryker was here"]
+        }, [FetchData]);
+
 
   // Stryker disable all 
   const { data: userCommons } =
