@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserCommonsController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">example</a> &gt; <a href="index.source.html" class="el_package">edu.ucsb.cs156.happiercows.controllers</a> &gt; <span class="el_source">UserCommonsController.java</span></div><h1>UserCommonsController.java</h1><pre class="source lang-java linenums">package edu.ucsb.cs156.happiercows.controllers;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserCommonsController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">happycows</a> &gt; <a href="index.source.html" class="el_package">edu.ucsb.cs156.happiercows.controllers</a> &gt; <span class="el_source">UserCommonsController.java</span></div><h1>UserCommonsController.java</h1><pre class="source lang-java linenums">package edu.ucsb.cs156.happiercows.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -127,17 +127,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 
 <span class="fc bfc" id="L129" title="All 2 branches covered.">        if(userCommons.getNumOfCows() &gt;= 1 ){</span>
-<span class="fc" id="L130">          userCommons.setTotalWealth(userCommons.getTotalWealth() + commons.getCowPrice());</span>
-<span class="fc" id="L131">          userCommons.setNumOfCows(userCommons.getNumOfCows() - 1);</span>
-<span class="fc" id="L132">          userCommons.setCowsSold(userCommons.getCowsSold() + 1);</span>
-        }
+<span class="fc" id="L130">          double cowValue = commons.getCowPrice() * userCommons.getCowHealth() / 100;</span>
+<span class="fc" id="L131">          userCommons.setTotalWealth(userCommons.getTotalWealth() + cowValue);</span>
+<span class="fc" id="L132">          userCommons.setNumOfCows(userCommons.getNumOfCows() - 1);</span>
+<span class="fc" id="L133">          userCommons.setCowsSold(userCommons.getCowsSold() + 1);</span>
+<span class="fc" id="L134">        }</span>
         else{
-<span class="fc" id="L135">          throw new NoCowsException(&quot;You have no cows to sell!&quot;);</span>
+<span class="fc" id="L136">          throw new NoCowsException(&quot;You have no cows to sell!&quot;);</span>
         }
-<span class="fc" id="L137">        userCommonsRepository.save(userCommons);</span>
+<span class="fc" id="L138">        userCommonsRepository.save(userCommons);</span>
 
-<span class="fc" id="L139">        String body = mapper.writeValueAsString(userCommons);</span>
-<span class="fc" id="L140">        return ResponseEntity.ok().body(body);</span>
+<span class="fc" id="L140">        String body = mapper.writeValueAsString(userCommons);</span>
+<span class="fc" id="L141">        return ResponseEntity.ok().body(body);</span>
     }
 
     
@@ -146,11 +147,11 @@ import org.springframework.web.bind.annotation.PostMapping;
     @GetMapping(&quot;/commons/all&quot;)
     public  ResponseEntity&lt;String&gt; getUsersCommonsByCommonsId(
         @Parameter(name=&quot;commonsId&quot;) @RequestParam Long commonsId) throws JsonProcessingException {
-<span class="fc" id="L149">      Iterable&lt;UserCommons&gt; uc = userCommonsRepository.findByCommonsId(commonsId);</span>
+<span class="fc" id="L150">      Iterable&lt;UserCommons&gt; uc = userCommonsRepository.findByCommonsId(commonsId);</span>
       
    
-<span class="fc" id="L152">    String body = mapper.writeValueAsString(uc);</span>
-<span class="fc" id="L153">    return ResponseEntity.ok().body(body);</span>
+<span class="fc" id="L153">    String body = mapper.writeValueAsString(uc);</span>
+<span class="fc" id="L154">    return ResponseEntity.ok().body(body);</span>
   }
 
 }
