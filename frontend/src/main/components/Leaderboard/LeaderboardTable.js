@@ -1,6 +1,5 @@
 import OurTable from "main/components/OurTable";
 import { hasRole } from "main/utils/currentUser";
-import {parseMoney} from "../../utils/MoneyParsing";
 
 // should take in a players list from a commons
 export default function LeaderboardTable({ leaderboardUsers , currentUser }) {
@@ -67,14 +66,8 @@ export default function LeaderboardTable({ leaderboardUsers , currentUser }) {
 
     const columnsToDisplay = hasRole(currentUser, "ROLE_ADMIN") ? columnsIfAdmin : columns;
 
-    // Parse Wealth attribute
-    const parsedData = leaderboardUsers.map(item => ({
-        ...item,
-        totalWealth: '$' + parseMoney(item.totalWealth)
-    }));
-
     return <OurTable
-        data={parsedData}
+        data={leaderboardUsers}
         columns={columnsToDisplay}
         testid={testid}
     />;
