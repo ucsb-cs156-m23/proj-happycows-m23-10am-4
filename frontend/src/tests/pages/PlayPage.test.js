@@ -126,7 +126,7 @@ describe("PlayPage tests", () => {
         );
 
         const testId = "ProfitsTable";
-        await waitFor(() => expect(screen.getByTestId(`${testId}-cell-row-0-col-Profit`)).toBeInTheDocument());
+        await screen.findByTestId(`${testId}-cell-row-0-col-Profit`);
         expect(screen.getByTestId(`${testId}-cell-row-0-col-Profit`)).toHaveTextContent("$12.650");
     });
 
