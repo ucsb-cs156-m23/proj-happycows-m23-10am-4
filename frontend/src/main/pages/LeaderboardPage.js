@@ -9,7 +9,6 @@ import BasicLayout from "main/layouts/BasicLayout/BasicLayout";
 import { useBackend } from "main/utils/useBackend";
 import { useCurrentUser } from "main/utils/currentUser";
 import Background from "../../assets/PlayPageBackground.png";
-import {parseMoney} from "main/utils/MoneyParsing";
 
 
 export default function LeaderboardPage() {

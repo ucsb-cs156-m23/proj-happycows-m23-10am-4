@@ -20,8 +20,8 @@ export default function PlayPage() {
   const { data: currentUser } = useCurrentUser();
 
     const [currentPage, setCurrentPage] = useState(0);
-    //eslint-disable-next-line no-unused-vars ,set func provides feat of resetting page size
-    const [userQueryPageSize, setuserQueryPageSize] = useState(7);
+    //eslint-disable-next-line no-unused-vars
+    const [userQueryPageSize, setuserQueryPageSize] = useState(7); // set func provides feat of resetting page size
     // Stryker disable next-line all:[] and will be filled with page0 data when the page loads
     const [pageddata, setpageddata] = useState([]);
 

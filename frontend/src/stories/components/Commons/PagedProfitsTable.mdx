@@ -1,0 +1,25 @@
+import { Meta, Story, Canvas } from "@storybook/addon-docs/blocks";
+import { action } from "@storybook/addon-actions";
+import PagedProfitsTable from "main/components/Commons/PagedProfitsTable";
+import pagedprofitsFixture from "fixtures/pagedprofitsFixture";
+
+<Meta
+  title="components/Commons/PagedProfitsTable"
+  component={PagedProfitsTable}
+/>
+
+# Profits
+
+Given profits data, display it as paged table.
+
+<Canvas>
+  <Story name="Empty data">
+    <PagedProfitsTable data={} />
+  </Story>
+  <Story name="Invalid data">
+    <PagedProfitsTable data={"I'm-invalid"} />
+  </Story>
+  <Story name="Sample First Page">
+    <PagedProfitsTable data={pagedprofitsFixture.Page0} />
+  </Story>
+</Canvas>
