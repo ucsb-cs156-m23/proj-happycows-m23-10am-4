@@ -112,7 +112,7 @@ public class AverageCowHealthServiceTests {
         when(commonsRepository.findById(17L)).thenReturn(Optional.of(commons));
         when(userCommonsRepository.findByCommonsId(commons.getId()))
                 .thenReturn(Arrays.asList(userCommons1));
-        when(commonsRepository.getNumUsers(commons.getId())).thenReturn(Optional.of(Integer.valueOf(1)));
+        when(commonsRepository.getNumNonHiddenUsers(commons.getId())).thenReturn(Optional.of(Integer.valueOf(1)));
         when(commonsRepository.getNumCows(commons.getId())).thenReturn(Optional.of(Integer.valueOf(20)));
         when(userRepository.findById(42L)).thenReturn(Optional.of(user1));
 
@@ -131,7 +131,7 @@ public class AverageCowHealthServiceTests {
         when(commonsRepository.findById(17L)).thenReturn(Optional.of(commons));
         when(userCommonsRepository.findByCommonsId(commons.getId()))
                 .thenReturn(Arrays.asList(userCommons1,userCommons2));
-        when(commonsRepository.getNumUsers(commons.getId())).thenReturn(Optional.of(Integer.valueOf(1)));
+        when(commonsRepository.getNumNonHiddenUsers(commons.getId())).thenReturn(Optional.of(Integer.valueOf(1)));
         when(commonsRepository.getNumCows(commons.getId())).thenReturn(Optional.of(Integer.valueOf(120)));
         when(userRepository.findById(42L)).thenReturn(Optional.of(user1));
         when(userRepository.findById(43L)).thenReturn(Optional.of(user2));
