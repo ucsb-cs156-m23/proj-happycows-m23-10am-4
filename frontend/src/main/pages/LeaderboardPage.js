@@ -49,12 +49,6 @@ export default function LeaderboardPage() {
 
   const showLeaderboard = (hasRole(currentUser, "ROLE_ADMIN") || commons.showLeaderboard );
 
-    // Parse Wealth attribute
-    const parsedData = userCommons.map(item => ({
-        ...item,
-        totalWealth: parseMoney(item.totalWealth)
-    }));
-
   return (
     <div data-testid={"LeaderboardPage-main-div"} style={{backgroundSize: 'cover', backgroundImage: `url(${Background})`}}>
         <BasicLayout>
@@ -62,7 +56,7 @@ export default function LeaderboardPage() {
                 <h1>Leaderboard</h1>
                 {
                   showLeaderboard?
-                  (<LeaderboardTable leaderboardUsers={parsedData} currentUser={currentUser} />) :
+                  (<LeaderboardTable leaderboardUsers={userCommons} currentUser={currentUser} />) :
                   (<p>You're not authorized to see the leaderboard.</p>)
                 }
                 </div>

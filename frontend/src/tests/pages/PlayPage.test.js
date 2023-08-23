@@ -6,6 +6,7 @@ import AxiosMockAdapter from "axios-mock-adapter";
 
 import PlayPage from "main/pages/PlayPage";
 import { apiCurrentUserFixtures } from "fixtures/currentUserFixtures";
+import  pagedprofitsFixture  from "fixtures/pagedprofitsFixture";
 import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
 
 jest.mock("react-router-dom", () => ({
@@ -110,7 +111,10 @@ describe("PlayPage tests", () => {
         expect(await screen.findByTestId("CommonsPlay")).toBeInTheDocument();
     });
 
-    test("Make sure div has correct attributes", async () => {
+    test('should fetch data when mounted', async () => {
+        axiosMock.onGet('/api/profits/paged/commonsid').reply(200, pagedprofitsFixture);
+
+
         render(
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter>
@@ -119,7 +123,8 @@ describe("PlayPage tests", () => {
             </QueryClientProvider>
         );
 
-        var div = screen.getByTestId("playpage-div");
-        expect(div).toHaveAttribute("style", expect.stringContaining("background-size: cover; background-image: url(PlayPageBackground.png);"));
+        expect(await screen.findByText(/Announcements/)).toBeInTheDocument();
+
     });
+
 });

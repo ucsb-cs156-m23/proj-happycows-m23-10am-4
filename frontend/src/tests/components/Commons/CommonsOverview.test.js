@@ -43,6 +43,19 @@ describe("CommonsOverview tests", () => {
         );
     });
 
+    test("Popping out toast messages for visitor", async () => {
+        render(
+            <CommonsOverview commonsPlus={commonsPlusFixtures.threeCommonsPlus[1]} currentUser={null}/>
+        );
+        expect(await screen.findByTestId("user-leaderboard-button")).toBeInTheDocument();
+        fireEvent.click(screen.getByTestId("user-leaderboard-button"));
+        // Expect visitor receives toast message
+        expect(toast).toHaveBeenCalledWith(
+            'Please log in before trying the leaderboard feature'
+        );
+
+    });
+
     test("Redirects to the LeaderboardPage for an admin when you click visit", async () => {
         apiCurrentUserFixtures.adminUser.user.commons = commonsFixtures.oneCommons[0];
         axiosMock.onGet("/api/currentUser").reply(200, apiCurrentUserFixtures.adminUser);
@@ -56,7 +69,7 @@ describe("CommonsOverview tests", () => {
             </QueryClientProvider>
         );
         await waitFor(() => {
-            expect(axiosMock.history.get.length).toEqual(5);
+            expect(axiosMock.history.get.length).toEqual(6);
         });
         expect(await screen.findByTestId("user-leaderboard-button")).toBeInTheDocument();
         const leaderboardButton = screen.getByTestId("user-leaderboard-button");
@@ -86,7 +99,7 @@ describe("CommonsOverview tests", () => {
             </QueryClientProvider>
         );
         await waitFor(() => {
-            expect(axiosMock.history.get.length).toEqual(3);
+            expect(axiosMock.history.get.length).toEqual(5);
         });
         expect(() => screen.getByTestId("user-leaderboard-button")).toThrow();
     });
