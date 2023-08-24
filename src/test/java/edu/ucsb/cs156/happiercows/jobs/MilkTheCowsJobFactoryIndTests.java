@@ -10,13 +10,13 @@ import org.springframework.boot.test.autoconfigure.web.client.RestClientTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import edu.ucsb.cs156.happiercows.repositories.CommonsRepository;
+import edu.ucsb.cs156.happiercows.repositories.ProfitRepository;
 import edu.ucsb.cs156.happiercows.repositories.UserCommonsRepository;
 import edu.ucsb.cs156.happiercows.repositories.UserRepository;
-import edu.ucsb.cs156.happiercows.services.CommonsPlusBuilderService;
 
-@RestClientTest(UpdateCowHealthJobFactory.class)
+@RestClientTest(MilkTheCowsJobFactoryInd.class)
 @AutoConfigureDataJpa
-public class UpdateCowHealthJobFactoryTests {
+public class MilkTheCowsJobFactoryIndTests {
 
     @MockBean
     CommonsRepository commonsRepository;
@@ -27,22 +27,23 @@ public class UpdateCowHealthJobFactoryTests {
     @MockBean
     UserRepository userRepository;
 
-    @Autowired
-    UpdateCowHealthJobFactory updateCowHealthJobFactory;
-
     @MockBean
-    CommonsPlusBuilderService commonsPlusBuilderService;
+    ProfitRepository profitRepository;
+
+    @Autowired
+    MilkTheCowsJobFactoryInd MilkTheCowsJobFactoryInd;
 
     @Test
     void test_create() throws Exception {
 
         // Act
-        UpdateCowHealthJob updateCowHealthJob = (UpdateCowHealthJob) updateCowHealthJobFactory.create();
+        MilkTheCowsJobInd milkTheCowsJobInd = (MilkTheCowsJobInd) MilkTheCowsJobFactoryInd.create(1L);
 
         // Assert
-        assertEquals(commonsRepository,updateCowHealthJob.getCommonsRepository());
-        assertEquals(userCommonsRepository,updateCowHealthJob.getUserCommonsRepository());
-        assertEquals(userRepository,updateCowHealthJob.getUserRepository());
+        assertEquals(commonsRepository,milkTheCowsJobInd.getCommonsRepository());
+        assertEquals(userCommonsRepository,milkTheCowsJobInd.getUserCommonsRepository());
+        assertEquals(userRepository,milkTheCowsJobInd.getUserRepository());
+        assertEquals(profitRepository,milkTheCowsJobInd.getProfitRepository());
 
     }
 }

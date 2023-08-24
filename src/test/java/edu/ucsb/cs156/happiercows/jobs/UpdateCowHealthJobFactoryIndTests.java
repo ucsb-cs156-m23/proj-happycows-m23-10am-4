@@ -14,9 +14,9 @@ import edu.ucsb.cs156.happiercows.repositories.UserCommonsRepository;
 import edu.ucsb.cs156.happiercows.repositories.UserRepository;
 import edu.ucsb.cs156.happiercows.services.CommonsPlusBuilderService;
 
-@RestClientTest(UpdateCowHealthJobFactory.class)
+@RestClientTest(UpdateCowHealthJobFactoryInd.class)
 @AutoConfigureDataJpa
-public class UpdateCowHealthJobFactoryTests {
+public class UpdateCowHealthJobFactoryIndTests {
 
     @MockBean
     CommonsRepository commonsRepository;
@@ -27,22 +27,23 @@ public class UpdateCowHealthJobFactoryTests {
     @MockBean
     UserRepository userRepository;
 
-    @Autowired
-    UpdateCowHealthJobFactory updateCowHealthJobFactory;
-
     @MockBean
     CommonsPlusBuilderService commonsPlusBuilderService;
+
+    @Autowired
+    UpdateCowHealthJobFactoryInd updateCowHealthJobFactoryInd;
 
     @Test
     void test_create() throws Exception {
 
         // Act
-        UpdateCowHealthJob updateCowHealthJob = (UpdateCowHealthJob) updateCowHealthJobFactory.create();
+        UpdateCowHealthJobInd updateCowHealthJobInd = (UpdateCowHealthJobInd) updateCowHealthJobFactoryInd.create(1L);
 
         // Assert
-        assertEquals(commonsRepository,updateCowHealthJob.getCommonsRepository());
-        assertEquals(userCommonsRepository,updateCowHealthJob.getUserCommonsRepository());
-        assertEquals(userRepository,updateCowHealthJob.getUserRepository());
+        assertEquals(commonsRepository,updateCowHealthJobInd.getCommonsRepository());
+        assertEquals(userCommonsRepository,updateCowHealthJobInd.getUserCommonsRepository());
+        assertEquals(userRepository,updateCowHealthJobInd.getUserRepository());
+        assertEquals(commonsPlusBuilderService,updateCowHealthJobInd.getCommonsPlusBuilderService());
 
     }
 }
