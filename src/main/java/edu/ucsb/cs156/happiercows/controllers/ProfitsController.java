@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Tag(name = "Profits")
 @RequestMapping("/api/profits")
@@ -80,18 +81,19 @@ public class ProfitsController extends ApiController {
 
         allProfits.sort((profit1, profit2) -> profit2.getTimestamp().compareTo(profit1.getTimestamp()));
 
-        System.out.println("------A-----");
-        System.out.println(allProfits);
-        System.out.println("-----B------");
+
         log.info("------A-----");
-        log.info(allProfits.toString());
+        List<String> timestamps = allProfits.stream()
+                .map(profit -> profit.getTimestamp().toString())
+                .collect(Collectors.toList());
+
+        log.info("Timestamps: {}", timestamps);
         log.info("------B-----");
 
         int start = pageNumber * pageSize;
         int end = Math.min((start + pageSize), allProfits.size());
         List<Profit> paginatedProfits = allProfits.subList(start, end);
-        System.out.println(paginatedProfits);
-        log.info(paginatedProfits.toString());
+        //log.info(paginatedProfits.toString());
 
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
         Page<Profit> profitsPage = new PageImpl<>(paginatedProfits, pageable, allProfits.size());
