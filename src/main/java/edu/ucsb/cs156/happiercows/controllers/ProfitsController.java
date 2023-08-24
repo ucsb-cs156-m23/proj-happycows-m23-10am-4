@@ -78,11 +78,16 @@ public class ProfitsController extends ApiController {
 
         Collections.reverse(allProfits);
 
-        //allProfits.sort((profit1, profit2) -> profit2.getTimestamp().compareTo(profit1.getTimestamp()));
+        allProfits.sort((profit1, profit2) -> profit2.getTimestamp().compareTo(profit1.getTimestamp()));
+
+        System.out.println("------A-----");
+        System.out.println(allProfits);
+        System.out.println("-----B------");
 
         int start = pageNumber * pageSize;
         int end = Math.min((start + pageSize), allProfits.size());
         List<Profit> paginatedProfits = allProfits.subList(start, end);
+        System.out.println(paginatedProfits);
 
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
         Page<Profit> profitsPage = new PageImpl<>(paginatedProfits, pageable, allProfits.size());
