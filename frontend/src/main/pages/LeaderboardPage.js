@@ -51,7 +51,6 @@ export default function LeaderboardPage() {
   const navigate = useNavigate();
 
   const showLeaderboard = (hasRole(currentUser, "ROLE_ADMIN") || commons.showLeaderboard );
-
   return (
     <div data-testid={"LeaderboardPage-main-div"} style={{backgroundSize: 'cover', backgroundImage: `url(${Background})`}}>
         <BasicLayout>
