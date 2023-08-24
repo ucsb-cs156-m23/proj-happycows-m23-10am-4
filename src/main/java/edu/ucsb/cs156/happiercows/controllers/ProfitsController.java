@@ -83,11 +83,15 @@ public class ProfitsController extends ApiController {
         System.out.println("------A-----");
         System.out.println(allProfits);
         System.out.println("-----B------");
+        log.info("------A-----");
+        log.info(allProfits.toString());
+        log.info("------B-----");
 
         int start = pageNumber * pageSize;
         int end = Math.min((start + pageSize), allProfits.size());
         List<Profit> paginatedProfits = allProfits.subList(start, end);
         System.out.println(paginatedProfits);
+        log.info(paginatedProfits.toString());
 
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
         Page<Profit> profitsPage = new PageImpl<>(paginatedProfits, pageable, allProfits.size());
