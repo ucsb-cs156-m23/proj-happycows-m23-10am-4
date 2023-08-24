@@ -65,41 +65,6 @@ describe("AdminJobsPage tests", () => {
     expect(await screen.findByText("Instructor Report")).toBeInTheDocument();  
   });
 
-  // test("user can submit a test job", async () => {
-  //   render(
-  //     <QueryClientProvider client={queryClient}>
-  //       <MemoryRouter>
-  //         <AdminJobsPage />
-  //       </MemoryRouter>
-  //     </QueryClientProvider>
-  //   );
-
-  //   expect(await screen.findByText("Test Job")).toBeInTheDocument();
-
-  //   const testJobButton = screen.getByText("Test Job");
-  //   expect(testJobButton).toBeInTheDocument();
-  //   testJobButton.click();
-
-  //   expect(await screen.findByTestId("TestJobForm-fail")).toBeInTheDocument();
-
-  //   const sleepMsInput = screen.getByTestId("TestJobForm-sleepMs");
-  //   const submitButton = screen.getByTestId("TestJobForm-Submit-Button");
-
-  //   expect(sleepMsInput).toBeInTheDocument();
-  //   expect(submitButton).toBeInTheDocument();
-
-  //   fireEvent.change(sleepMsInput, { target: { value: "0" } });
-  //   submitButton.click();
-
-  //   await waitFor(() => expect(axiosMock.history.post.length).toBe(1));
-
-  //   expect(axiosMock.history.post[0].url).toBe(
-  //     "/api/jobs/launch/testjob?fail=false&sleepMs=0"
-  //   );
-
-  //   expect(mockToast).toHaveBeenCalledWith("Submitted job: Test Job");
-  // });
-
   test("user can submit a set cow health job", async () => {
     axiosMock.onGet("/api/commons/all").reply(200, commonsFixtures.threeCommons);
 
