@@ -1,24 +1,24 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import {render, screen, waitFor} from "@testing-library/react";
 import PagedProfitsTable from "main/components/Commons/PagedProfitsTable";
 import profitsFixtures from "fixtures/pagedprofitsFixture";
 
-describe("Paged Profit Table tests",  () => {
+describe("Paged Profit Table tests", () => {
     test("renders without crashing for empty profits", () => {
         render(
-            <PagedProfitsTable data={[]} />
+            <PagedProfitsTable data={[]}/>
         );
     });
 
     test("First Page and basic components are rendered as expected", async () => {
         render(
-            <PagedProfitsTable data={profitsFixtures.Page0} />
+            <PagedProfitsTable data={profitsFixtures.Page0}/>
         );
-        await waitFor(()=>{
-            expect(screen.getByTestId("ProfitsTable-header-Profit") ).toBeInTheDocument();
+        await waitFor(() => {
+            expect(screen.getByTestId("ProfitsTable-header-Profit")).toBeInTheDocument();
         });
 
         // Check header
-        const expectedHeaders = [ "Profit", "Date", "Health", "Cows"];
+        const expectedHeaders = ["Profit", "Date", "Health", "Cows"];
         expectedHeaders.forEach((headerText) => {
             const header = screen.getByText(headerText);
             expect(header).toBeInTheDocument();
@@ -55,7 +55,7 @@ describe("Paged Profit Table tests",  () => {
 
     test("Last Page and basic components are rendered as expected", async () => {
         render(
-            <PagedProfitsTable data={profitsFixtures.Page7} />
+            <PagedProfitsTable data={profitsFixtures.Page7}/>
         );
 
         await waitFor(() => expect(screen.getByTestId(`ProfitsTable-cell-row-0-col-Profit`)).toHaveTextContent("$3.450"));

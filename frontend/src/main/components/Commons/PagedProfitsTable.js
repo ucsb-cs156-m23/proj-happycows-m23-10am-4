@@ -1,14 +1,14 @@
 import React from 'react';
-import { Pagination } from 'react-bootstrap';
-import { Card } from "react-bootstrap";
+import {Pagination} from 'react-bootstrap';
+import {Card} from "react-bootstrap";
 import {timestampToDate} from "../../utils/dateUtils";
 import OurTable from "../OurTable";
 import {parseMoney} from "main/utils/MoneyParsing"
 
 
-const PagedProfitsTable = ({ data, onPageChange}) => {
+const PagedProfitsTable = ({data, onPageChange}) => {
     //eslint-disable-next-line no-unused-vars
-    const { content, pageable, _ , totalPages} = data;
+    const {content, pageable, _, totalPages} = data;
 
     const profitsForTable = React.useMemo(() => {
         return content
@@ -66,12 +66,13 @@ const PagedProfitsTable = ({ data, onPageChange}) => {
 
                 {/* Pagination component */}
                 <div data-testid="PageNavBottom" className="d-flex justify-content-center">
-                    <Pagination >
+                    <Pagination>
                         <Pagination.First onClick={() => onPageChange(0)} data-testid="PageNavBottom-btn-first"/>
-                        <Pagination.Prev onClick={() => onPageChange(pageable.pageNumber - 1)} data-testid="PageNavBottom-btn-prev"/>
+                        <Pagination.Prev onClick={() => onPageChange(pageable.pageNumber - 1)}
+                                         data-testid="PageNavBottom-btn-prev"/>
 
                         {/* Loop through the nearby pages */}
-                        {Array.from({ length: totalPages }, (_, index) => {
+                        {Array.from({length: totalPages}, (_, index) => {
                             if (
                                 index >= pageable.pageNumber - 1 &&
                                 index <= pageable.pageNumber + 1
@@ -82,7 +83,7 @@ const PagedProfitsTable = ({ data, onPageChange}) => {
                                         // Stryker disable next-line all : hard to check parent attribute unless accessing DOM
                                         active={index === pageable.pageNumber}
                                         onClick={() => onPageChange(index)}
-                                        data-testid = {`PageNavBottom-btn-item-${index}`}
+                                        data-testid={`PageNavBottom-btn-item-${index}`}
                                     >
                                         {index + 1}
                                     </Pagination.Item>
@@ -91,8 +92,10 @@ const PagedProfitsTable = ({ data, onPageChange}) => {
                             return null;
                         })}
 
-                        <Pagination.Next onClick={() => onPageChange(pageable.pageNumber + 1)} data-testid="PageNavBottom-btn-next"/>
-                        <Pagination.Last onClick={() => onPageChange(totalPages - 1)} data-testid="PageNavBottom-btn-last" />
+                        <Pagination.Next onClick={() => onPageChange(pageable.pageNumber + 1)}
+                                         data-testid="PageNavBottom-btn-next"/>
+                        <Pagination.Last onClick={() => onPageChange(totalPages - 1)}
+                                         data-testid="PageNavBottom-btn-last"/>
                     </Pagination>
                 </div>
             </Card>

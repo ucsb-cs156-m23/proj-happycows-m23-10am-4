@@ -1,13 +1,13 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
-import { QueryClient, QueryClientProvider } from "react-query";
-import { MemoryRouter } from "react-router-dom";
+import {fireEvent, render, screen, waitFor} from "@testing-library/react";
+import {QueryClient, QueryClientProvider} from "react-query";
+import {MemoryRouter} from "react-router-dom";
 import axios from "axios";
 import AxiosMockAdapter from "axios-mock-adapter";
 
 import PlayPage from "main/pages/PlayPage";
-import { apiCurrentUserFixtures } from "fixtures/currentUserFixtures";
-import  pagedprofitsFixture  from "fixtures/pagedprofitsFixture";
-import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
+import {apiCurrentUserFixtures} from "fixtures/currentUserFixtures";
+import pagedprofitsFixture from "fixtures/pagedprofitsFixture";
+import {systemInfoFixtures} from "fixtures/systemInfoFixtures";
 
 jest.mock("react-router-dom", () => ({
     ...jest.requireActual("react-router-dom"),
@@ -41,8 +41,8 @@ describe("PlayPage tests", () => {
         axiosMock.resetHistory();
         axiosMock.onGet("/api/currentUser").reply(200, apiCurrentUserFixtures.userOnly);
         axiosMock.onGet("/api/systemInfo").reply(200, systemInfoFixtures.showingNeither);
-        axiosMock.onGet("/api/usercommons/forcurrentuser", { params: { commonsId: 1 } }).reply(200, userCommons);
-        axiosMock.onGet("/api/commons", { params: { id: 1 } }).reply(200, {
+        axiosMock.onGet("/api/usercommons/forcurrentuser", {params: {commonsId: 1}}).reply(200, userCommons);
+        axiosMock.onGet("/api/commons", {params: {id: 1}}).reply(200, {
             id: 1,
             name: "Sample Commons"
         });
@@ -52,13 +52,13 @@ describe("PlayPage tests", () => {
                 name: "Sample Commons"
             }
         ]);
-        axiosMock.onGet("/api/commons/plus", { params: { id: 1 } }).reply(200, {
+        axiosMock.onGet("/api/commons/plus", {params: {id: 1}}).reply(200, {
             commons: {
                 id: 1,
                 name: "Sample Commons"
             },
             totalPlayers: 5,
-            totalCows: 5 
+            totalCows: 5
         });
         //axiosMock.onGet("/api/profits/all/commonsid").reply(200, []);
         axiosMock.onGet('/api/profits/paged/commonsid?commonsId=1&pageNumber=0&pageSize=7').reply(200, pagedprofitsFixture.Page0);
@@ -71,7 +71,7 @@ describe("PlayPage tests", () => {
         render(
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter>
-                    <PlayPage />
+                    <PlayPage/>
                 </MemoryRouter>
             </QueryClientProvider>
         );
@@ -81,7 +81,7 @@ describe("PlayPage tests", () => {
         render(
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter>
-                    <PlayPage />
+                    <PlayPage/>
                 </MemoryRouter>
             </QueryClientProvider>
         );
@@ -104,7 +104,7 @@ describe("PlayPage tests", () => {
         render(
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter>
-                    <PlayPage />
+                    <PlayPage/>
                 </MemoryRouter>
             </QueryClientProvider>
         );
@@ -120,7 +120,7 @@ describe("PlayPage tests", () => {
         render(
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter>
-                    <PlayPage />
+                    <PlayPage/>
                 </MemoryRouter>
             </QueryClientProvider>
         );
@@ -131,23 +131,18 @@ describe("PlayPage tests", () => {
     });
 
 
-
-
-
     test('User can navigate the profit table', async () => {
 
         axiosMock.onGet('/api/profits/paged/commonsid?commonsId=1&pageNumber=1&pageSize=7').reply(200, pagedprofitsFixture.Page1);
         axiosMock.onGet('/api/profits/paged/commonsid?commonsId=1&pageNumber=7&pageSize=7').reply(200, pagedprofitsFixture.Page7);
 
-
-            render(
-                <QueryClientProvider client={queryClient}>
-                    <MemoryRouter>
-                        <PlayPage />
-                    </MemoryRouter>
-                </QueryClientProvider>
-            );
-
+        render(
+            <QueryClientProvider client={queryClient}>
+                <MemoryRouter>
+                    <PlayPage/>
+                </MemoryRouter>
+            </QueryClientProvider>
+        );
 
         const testId = "ProfitsTable";
         await waitFor(() => expect(screen.getByTestId(`${testId}-cell-row-0-col-Profit`)).toHaveTextContent("$12.650"));
@@ -164,54 +159,6 @@ describe("PlayPage tests", () => {
         fireEvent.click(screen.getByTestId("PageNavBottom-btn-item-0"));
         await waitFor(() => expect(screen.getByTestId(`${testId}-cell-row-0-col-Profit`)).toHaveTextContent("$12.650"));
 
-
     });
 
 });
-
-
-/*
-*    test('should handle errors using .catch', async () => {
-
-    axiosMock.onGet('/api/profits/paged/commonsid?commonsId=1&pageNumber=0&pageSize=7').reply(500, { message: 'Server error' });
-
-    // Spy on the console.error method
-    const consoleErrorSpy = jest.spyOn(console, 'log');
-
-    render(
-        <QueryClientProvider client={queryClient}>
-            <MemoryRouter>
-                <PlayPage />
-            </MemoryRouter>
-        </QueryClientProvider>
-    );
-
-    await waitFor(() => {
-        setTimeout(() => {
-            expect(consoleErrorSpy).toHaveBeenCalledWith("Server error");
-        }, 200);
-    });
-});
-*
-*
-*     test('should fetch data using GET method', async () => {
-    axiosMock.onGet('/api/profits/paged/commonsid?commonsId=1&pageNumber=0&pageSize=7').reply(200, pagedprofitsFixture);
-
-    // Render the component
-    render(
-        <QueryClientProvider client={queryClient}>
-            <MemoryRouter>
-                <PlayPage />
-            </MemoryRouter>
-        </QueryClientProvider>
-    );
-
-    // Wait for asynchronous actions to complete
-    await waitFor(() => {
-        // Expect the data to be fetched using the GET method
-        expect(axiosMock.history.get.length).toEqual(7);
-    });
-    *
-    *     });
-
-* */
