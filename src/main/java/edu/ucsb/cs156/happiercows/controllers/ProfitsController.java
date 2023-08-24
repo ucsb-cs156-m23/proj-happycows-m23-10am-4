@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Tag(name = "Profits")
@@ -75,7 +76,9 @@ public class ProfitsController extends ApiController {
         List<Profit> allProfits = new ArrayList<>();
         iterableProfits.forEach(allProfits::add);
 
-        allProfits.sort((profit1, profit2) -> profit2.getTimestamp().compareTo(profit1.getTimestamp()));
+        Collections.reverse(allProfits);
+
+        //allProfits.sort((profit1, profit2) -> profit2.getTimestamp().compareTo(profit1.getTimestamp()));
 
         int start = pageNumber * pageSize;
         int end = Math.min((start + pageSize), allProfits.size());

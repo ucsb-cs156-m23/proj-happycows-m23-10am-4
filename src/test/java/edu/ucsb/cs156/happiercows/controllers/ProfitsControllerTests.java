@@ -72,7 +72,7 @@ public class ProfitsControllerTests extends ControllerTestCase {
     Profit p3 = Profit.builder().id(43).amount(3.45).timestamp(t3).userCommons(uc1).numCows(1).avgCowHealth(80).build();
 
     List<Profit> profits = List.of(p1);
-    List<Profit> profits2 = List.of(p1, p2, p3);
+    List<Profit> profits2 = List.of(p2, p1, p3);
 
     @WithMockUser(roles = {"USER"})
     @Test
