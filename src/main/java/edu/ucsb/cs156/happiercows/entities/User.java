@@ -27,6 +27,9 @@ public class User {
     private String hostedDomain;
     private boolean admin;
 
+    @Builder.Default
+    private boolean isHidden = false;
+
     // this is used by the frontend
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_commons",
@@ -42,5 +45,9 @@ public class User {
     @Override
     public String toString() {
         return String.format("User: id=%d email=%s", id, email);
+    }
+
+    public void setHidden(boolean isHidden) {
+        this.isHidden = isHidden;
     }
 }
