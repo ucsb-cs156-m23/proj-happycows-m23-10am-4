@@ -64,10 +64,12 @@ public class ProfitsControllerTests extends ControllerTestCase {
             .commons(commons).build();
 
     LocalDateTime t1 = LocalDateTime.parse("2022-03-05T15:50:10");
+    LocalDateTime t2 = LocalDateTime.parse("2022-03-01T15:50:10");
+    LocalDateTime t3 = LocalDateTime.parse("2022-03-07T15:50:10");
 
     Profit p1 = Profit.builder().id(41).amount(123.45).timestamp(t1).userCommons(uc1).numCows(1).avgCowHealth(80).build();
-    Profit p2 = Profit.builder().id(42).amount(23.45).timestamp(t1).userCommons(uc1).numCows(1).avgCowHealth(80).build();
-    Profit p3 = Profit.builder().id(43).amount(3.45).timestamp(t1).userCommons(uc1).numCows(1).avgCowHealth(80).build();
+    Profit p2 = Profit.builder().id(42).amount(23.45).timestamp(t2).userCommons(uc1).numCows(1).avgCowHealth(80).build();
+    Profit p3 = Profit.builder().id(43).amount(3.45).timestamp(t3).userCommons(uc1).numCows(1).avgCowHealth(80).build();
 
     List<Profit> profits = List.of(p1);
     List<Profit> profits2 = List.of(p1, p2, p3);
@@ -164,7 +166,7 @@ public class ProfitsControllerTests extends ControllerTestCase {
         Page<Profit> profitPage = new PageImpl<>(profits2);
         when(profitRepository.findAllByUserCommons(eq(uc1))).thenReturn(profitPage);
 
-        MvcResult response = mockMvc.perform(get("/api/profits/paged/commonsid?commonsId=2&pageNumber=1&pageSize=2"))
+        MvcResult response = mockMvc.perform(get("/api/profits/paged/commonsid?commonsId=2&pageNumber=0&pageSize=2"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.content").isArray())
@@ -172,6 +174,11 @@ public class ProfitsControllerTests extends ControllerTestCase {
 
         String responseString = response.getResponse().getContentAsString();
         JsonNode jsonResponse = objectMapper.readTree(responseString);
+
+        JsonNode date1 = jsonResponse.get("content").get(0).get("timestamp");
+        JsonNode date2 = jsonResponse.get("content").get(1).get("timestamp");
+        assertEquals(t3, LocalDateTime.parse(date1.asText()));
+        assertEquals(t1, LocalDateTime.parse(date2.asText()));
 
         assertEquals(3, jsonResponse.get("totalElements").asInt());
         assertEquals(2, jsonResponse.get("totalPages").asInt());

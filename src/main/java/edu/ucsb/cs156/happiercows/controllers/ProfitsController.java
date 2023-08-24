@@ -75,6 +75,8 @@ public class ProfitsController extends ApiController {
         List<Profit> allProfits = new ArrayList<>();
         iterableProfits.forEach(allProfits::add);
 
+        allProfits.sort((profit1, profit2) -> profit2.getTimestamp().compareTo(profit1.getTimestamp()));
+
         int start = pageNumber * pageSize;
         int end = Math.min((start + pageSize), allProfits.size());
         List<Profit> paginatedProfits = allProfits.subList(start, end);
