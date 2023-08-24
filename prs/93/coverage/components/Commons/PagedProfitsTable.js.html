@@ -166,7 +166,10 @@
 <a name='L101'></a><a href='#L101'>101</a>
 <a name='L102'></a><a href='#L102'>102</a>
 <a name='L103'></a><a href='#L103'>103</a>
-<a name='L104'></a><a href='#L104'>104</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L104'></a><a href='#L104'>104</a>
+<a name='L105'></a><a href='#L105'>105</a>
+<a name='L106'></a><a href='#L106'>106</a>
+<a name='L107'></a><a href='#L107'>107</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -240,6 +243,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">376x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -260,6 +264,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -269,17 +274,18 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import React from 'react';
-import { Pagination } from 'react-bootstrap';
-import { Card } from "react-bootstrap";
+import {Pagination} from 'react-bootstrap';
+import {Card} from "react-bootstrap";
 import {timestampToDate} from "../../utils/dateUtils";
 import OurTable from "../OurTable";
 import {parseMoney} from "main/utils/MoneyParsing"
 &nbsp;
 &nbsp;
-const PagedProfitsTable = ({ data, onPageChange}) =&gt; {
+const PagedProfitsTable = ({data, onPageChange}) =&gt; {
     //eslint-disable-next-line no-unused-vars
-    const { content, pageable, _ , totalPages} = data;
+    const {content, pageable, _, totalPages} = data;
 &nbsp;
     const profitsForTable = React.useMemo(() =&gt; {
         return content
@@ -337,12 +343,13 @@ const PagedProfitsTable = ({ data, onPageChange}) =&gt; {
 &nbsp;
                 {/* Pagination component */}
                 &lt;div data-testid="PageNavBottom" className="d-flex justify-content-center"&gt;
-                    &lt;Pagination &gt;
+                    &lt;Pagination&gt;
                         &lt;Pagination.First onClick={() =&gt; onPageChange(0)} data-testid="PageNavBottom-btn-first"/&gt;
-                        &lt;Pagination.Prev onClick={() =&gt; onPageChange(pageable.pageNumber - 1)} data-testid="PageNavBottom-btn-prev"/&gt;
+                        &lt;Pagination.Prev onClick={() =&gt; onPageChange(pageable.pageNumber - 1)}
+                                         data-testid="PageNavBottom-btn-prev"/&gt;
 &nbsp;
                         {/* Loop through the nearby pages */}
-                        {Array.from({ length: totalPages }, (_, index) =&gt; {
+                        {Array.from({length: totalPages}, (_, index) =&gt; {
                             if (
                                 index &gt;= pageable.pageNumber - 1 &amp;&amp;
                                 index &lt;= pageable.pageNumber + 1
@@ -353,7 +360,7 @@ const PagedProfitsTable = ({ data, onPageChange}) =&gt; {
                                         // Stryker disable next-line all : hard to check parent attribute unless accessing DOM
                                         active={index === pageable.pageNumber}
                                         onClick={() =&gt; onPageChange(index)}
-                                        data-testid = {`PageNavBottom-btn-item-${index}`}
+                                        data-testid={`PageNavBottom-btn-item-${index}`}
                                     &gt;
                                         {index + 1}
                                     &lt;/Pagination.Item&gt;
@@ -362,8 +369,10 @@ const PagedProfitsTable = ({ data, onPageChange}) =&gt; {
                             return null;
                         })}
 &nbsp;
-                        &lt;Pagination.Next onClick={() =&gt; onPageChange(pageable.pageNumber + 1)} data-testid="PageNavBottom-btn-next"/&gt;
-                        &lt;Pagination.Last onClick={() =&gt; onPageChange(totalPages - 1)} data-testid="PageNavBottom-btn-last" /&gt;
+                        &lt;Pagination.Next onClick={() =&gt; onPageChange(pageable.pageNumber + 1)}
+                                         data-testid="PageNavBottom-btn-next"/&gt;
+                        &lt;Pagination.Last onClick={() =&gt; onPageChange(totalPages - 1)}
+                                         data-testid="PageNavBottom-btn-last"/&gt;
                     &lt;/Pagination&gt;
                 &lt;/div&gt;
             &lt;/Card&gt;
@@ -379,7 +388,7 @@ export default PagedProfitsTable;</pre></td></tr></table></pre>
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at Wed Aug 23 2023 19:38:59 GMT-0700 (Pacific Daylight Time)
+                at Wed Aug 23 2023 20:04:54 GMT-0700 (Pacific Daylight Time)
             </div>
         <script src="../../prettify.js"></script>
         <script>
