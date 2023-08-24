@@ -11,7 +11,8 @@ const usersFixtures = {
             "emailVerified": true,
             "locale": "en",
             "hostedDomain": "ucsb.edu",
-            "admin": true
+            "admin": true,
+            "hidden": false
         },
         {
             "id": 2,
@@ -24,7 +25,8 @@ const usersFixtures = {
             "emailVerified": true,
             "locale": "en",
             "hostedDomain": null,
-            "admin": false
+            "admin": false,
+            "hidden": false
         },
         {
             "id": 3,
@@ -37,7 +39,8 @@ const usersFixtures = {
             "emailVerified": true,
             "locale": "en",
             "hostedDomain": null,
-            "admin": false
+            "admin": false,
+            "hidden": false
         }
     ]
 }
