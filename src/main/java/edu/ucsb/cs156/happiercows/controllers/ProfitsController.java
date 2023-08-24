@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -79,7 +80,7 @@ public class ProfitsController extends ApiController {
 
         //Collections.reverse(allProfits);
 
-        allProfits.sort((profit1, profit2) -> Long.compare(profit2.getId(), profit1.getId()));
+        allProfits.sort(Comparator.comparingLong(Profit::getId));
 
 
         int start = pageNumber * pageSize;
