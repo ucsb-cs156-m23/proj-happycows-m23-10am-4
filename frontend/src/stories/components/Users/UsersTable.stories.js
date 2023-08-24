@@ -21,9 +21,11 @@ Empty.args = {
 };
 
 export const ThreeUsers = Template.bind({});
+let threeUsersCopy = JSON.parse(JSON.stringify(usersFixtures.threeUsers));
+threeUsersCopy[2]["hidden"] = true;
 
 ThreeUsers.args = {
-    users: usersFixtures.threeUsers
+    users: threeUsersCopy
 };
 
 export const OneUsers = Template.bind({});

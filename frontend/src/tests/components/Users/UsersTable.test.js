@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 
 describe("UserTable tests", () => {
     const queryClient = new QueryClient();
+
     test("renders without crashing for empty table", () => {
         render(
             <QueryClientProvider client={queryClient}>
@@ -16,7 +17,7 @@ describe("UserTable tests", () => {
     test("renders without crashing for three users", () => {
         render(
             <QueryClientProvider client={queryClient}>
-                    <UsersTable users={usersFixtures.threeUsers} />
+                <UsersTable users={usersFixtures.threeUsers} />
             </QueryClientProvider>
         );
     });
