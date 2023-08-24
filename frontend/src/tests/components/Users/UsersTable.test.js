@@ -1,33 +1,42 @@
 import { render, screen } from "@testing-library/react";
 import UsersTable from "main/components/Users/UsersTable";
 import usersFixtures from "fixtures/usersFixtures";
+import { QueryClient, QueryClientProvider } from "react-query";
 
 describe("UserTable tests", () => {
+    const queryClient = new QueryClient();
     test("renders without crashing for empty table", () => {
         render(
-            <UsersTable users={[]} />
+            <QueryClientProvider client={queryClient}>
+                <UsersTable users={[]} />
+            </QueryClientProvider>
         );
     });
 
     test("renders without crashing for three users", () => {
         render(
-            <UsersTable users={usersFixtures.threeUsers} />
+            <QueryClientProvider client={queryClient}>
+                    <UsersTable users={usersFixtures.threeUsers} />
+            </QueryClientProvider>
         );
     });
 
     test("Has the expected colum headers and content", () => {
         render(
-          <UsersTable users={usersFixtures.threeUsers}/>
+            <QueryClientProvider client={queryClient}>
+                    <UsersTable users={usersFixtures.threeUsers} />
+            </QueryClientProvider>
         );
     
-        const expectedHeaders = ["id", "First Name", "Last Name", "Email", "Admin"];
-        const expectedFields = ["id", "givenName", "familyName", "email", "admin"];
+        const expectedHeaders = ["id", "First Name", "Last Name", "Email", "Admin", "Hidden", "Hide", "Unhide"];
+        const expectedFields = ["id", "givenName", "familyName", "email", "admin", "hidden", "hide", "unhide"];
         const testId = "UsersTable";
 
-        expectedHeaders.forEach( (headerText)=> {
-            const header = screen.getByText(headerText);
+        for (let i = 0; i < expectedHeaders.length; i++) {
+            const header = screen.getByTestId(`${testId}-header-${expectedFields[i]}`);
             expect(header).toBeInTheDocument();
-        });
+            expect(header).toHaveTextContent(expectedHeaders[i]);
+        }
 
         expectedFields.forEach( (field)=> {
           const header = screen.getByTestId(`${testId}-cell-row-0-col-${field}`);
