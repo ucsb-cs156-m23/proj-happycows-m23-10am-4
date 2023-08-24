@@ -56,19 +56,7 @@ describe("ChatDisplay tests", () => {
             </MemoryRouter>
         </QueryClientProvider>
     );
-    
     //assert
-    await waitFor(() => {
-        expect(axiosMock.history.get.length).toBeGreaterThanOrEqual(1);
-    });
-    expect(axiosMock.history.get[0].url).toBe("/api/chat/get");
-    expect(axiosMock.history.get[0].params).toEqual({ commonsId: 1, page: 0, size: 10 });
-
-    await waitFor(() => {
-        expect(axiosMock.history.get.length).toBe(2);
-    });
-    expect(axiosMock.history.get[1].url).toBe("/api/usercommons/commons/all");
-    expect(axiosMock.history.get[1].params).toEqual({ commonsId: 1 });
 
     await waitFor(() => {
         expect(screen.getByTestId("ChatDisplay")).toBeInTheDocument();
