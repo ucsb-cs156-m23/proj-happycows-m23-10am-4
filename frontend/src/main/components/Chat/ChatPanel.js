@@ -3,10 +3,10 @@ import { Stack } from 'react-bootstrap'; // Assuming you're using react-bootstra
 import ChatMessageCreate from 'main/components/Chat/ChatMessageCreate';
 import ChatDisplay from 'main/components/Chat/ChatDisplay';
 
-const ChatPanel = ({ commonsId, messages: messagesProp, userCommons: userCommonsProp }) => {
+const ChatPanel = ({ commonsId}) => {
   return (
     <Stack gap={2} style={{ backgroundColor: 'white' }} data-testid="ChatPanel" > 
-      <ChatDisplay commonsId={commonsId} messages={messagesProp} userCommons={userCommonsProp} />
+      <ChatDisplay commonsId={commonsId} />
       <ChatMessageCreate commonsId={commonsId} />
     </Stack>
   );
