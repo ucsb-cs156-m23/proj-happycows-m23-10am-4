@@ -26,9 +26,9 @@ export default function CommonsOverview({ commonsPlus, currentUser }) {
                     </Col>
                     <Col>
                         {showLeaderboard &&
-                        (<Button variant="outline-success" data-testid="user-leaderboard-button" onClick={leaderboardButtonClick}>
-                            Leaderboard
-                        </Button>)}
+                            (<Button variant="outline-success" data-testid="user-leaderboard-button" onClick={leaderboardButtonClick}>
+                                Leaderboard
+                            </Button>)}
                     </Col>
                 </Row>
             </Card.Body>

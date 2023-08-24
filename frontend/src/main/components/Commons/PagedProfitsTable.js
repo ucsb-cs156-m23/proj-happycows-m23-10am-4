@@ -10,14 +10,16 @@ const PagedProfitsTable = ({ data, onPageChange}) => {
     //eslint-disable-next-line no-unused-vars
     const { content, pageable, _ , totalPages} = data;
 
-    const profitsForTable =
-        content ?
-            content.map(item => ({
+    const profitsForTable = React.useMemo(() => {
+        return content
+            ? content.map(item => ({
                 date: timestampToDate(item.timestamp),
                 ...item
-            })) :
+            }))
             // Stryker disable next-line ArrayDeclaration : no need to test what happens if [] is replaced with ["Stryker was here"]
-            [];
+            : [];
+    }, [content]);
+
     profitsForTable.reverse();
 
     // Stryker disable ArrayDeclaration : [columns] and [students] are performance optimization; mutation preserves correctness
@@ -77,6 +79,7 @@ const PagedProfitsTable = ({ data, onPageChange}) => {
                                 return (
                                     <Pagination.Item
                                         key={index}
+                                        // Stryker disable next-line all : hard to check parent attribute unless accessing DOM
                                         active={index === pageable.pageNumber}
                                         onClick={() => onPageChange(index)}
                                         data-testid = {`PageNavBottom-btn-item-${index}`}

@@ -1,42 +1,53 @@
 import OurTable from "main/components/OurTable";
 import { hasRole } from "main/utils/currentUser";
-import {parseMoney} from "../../utils/MoneyParsing";
 
 // should take in a players list from a commons
 export default function LeaderboardTable({ leaderboardUsers , currentUser }) {
 
+    const USD = new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD"
+    });
+
     const columns = [
         {
             Header: 'User Id',
-            accessor: 'userId', 
+            accessor: 'userId',
         },
         {
             Header: 'Username',
-            accessor: 'username', 
+            accessor: 'username',
         },
         {
             Header: 'Total Wealth',
-            accessor: 'totalWealth',
+            id: 'totalWealth',
+            accessor: (row, _rowIndex) => {
+                return USD.format(row.totalWealth);
+            },
+            Cell: (props) => {
+                return (
+                    <div style={{textAlign: "right"}}>{props.value}</div>)
+            },
         },
         {
             Header: 'Cows Owned',
-            accessor: 'numOfCows', 
+            accessor: 'numOfCows',
         },
         {
             Header: 'Cow Health',
-            accessor: 'cowHealth', 
+            accessor: 'cowHealth',
         },
         {
             Header: 'Cows Bought',
-            accessor: 'cowsBought', 
+            accessor: 'cowsBought',
         },
         {
             Header: 'Cows Sold',
-            accessor: 'cowsSold', 
+            accessor: 'cowsSold',
         },
         {
             Header: 'Cow Deaths',
-            accessor: 'cowDeaths', 
+            accessor: 'cowDeaths',
         },
     ];
 
@@ -55,14 +66,8 @@ export default function LeaderboardTable({ leaderboardUsers , currentUser }) {
 
     const columnsToDisplay = hasRole(currentUser, "ROLE_ADMIN") ? columnsIfAdmin : columns;
 
-    // Parse Wealth attribute
-    const parsedData = leaderboardUsers.map(item => ({
-        ...item,
-        totalWealth: '$' + parseMoney(item.totalWealth)
-    }));
-
     return <OurTable
-        data={parsedData}
+        data={leaderboardUsers}
         columns={columnsToDisplay}
         testid={testid}
     />;

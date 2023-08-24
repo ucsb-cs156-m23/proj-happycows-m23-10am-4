@@ -4,9 +4,9 @@ import { MemoryRouter } from "react-router-dom";
 import axios from "axios";
 import AxiosMockAdapter from "axios-mock-adapter";
 
-import CommonsOverview from "main/components/Commons/CommonsOverview"; 
+import CommonsOverview from "main/components/Commons/CommonsOverview";
 import PlayPage from "main/pages/PlayPage";
-import commonsFixtures from "fixtures/commonsFixtures"; 
+import commonsFixtures from "fixtures/commonsFixtures";
 import leaderboardFixtures from "fixtures/leaderboardFixtures";
 import { apiCurrentUserFixtures } from "fixtures/currentUserFixtures";
 import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
@@ -71,7 +71,7 @@ describe("CommonsOverview tests", () => {
             </QueryClientProvider>
         );
         await waitFor(() => {
-            expect(axiosMock.history.get.length).toEqual(6);
+            expect(axiosMock.history.get.length).toEqual(5);
         });
         expect(await screen.findByTestId("user-leaderboard-button")).toBeInTheDocument();
         const leaderboardButton = screen.getByTestId("user-leaderboard-button");
@@ -102,7 +102,7 @@ describe("CommonsOverview tests", () => {
             </QueryClientProvider>
         );
         await waitFor(() => {
-            expect(axiosMock.history.get.length).toEqual(5);
+            expect(axiosMock.history.get.length).toEqual(4);
         });
         expect(() => screen.getByTestId("user-leaderboard-button")).toThrow();
     });

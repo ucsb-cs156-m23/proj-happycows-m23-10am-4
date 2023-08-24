@@ -16,8 +16,8 @@ import axios from "axios";
 
 export default function PlayPage() {
 
-  const { commonsId } = useParams();
-  const { data: currentUser } = useCurrentUser();
+    const { commonsId } = useParams();
+    const { data: currentUser } = useCurrentUser();
 
     const [currentPage, setCurrentPage] = useState(0);
     //eslint-disable-next-line no-unused-vars
@@ -25,129 +25,129 @@ export default function PlayPage() {
     // Stryker disable next-line all:[] and will be filled with page0 data when the page loads
     const [pageddata, setpageddata] = useState([]);
 
-    // Stryker disable next-line all:[] replaced with "str" doesn't make sense
-    useEffect(() => {FetchData();}, []);
 
-    useEffect(() => {
-        FetchData();
-    }, [currentPage]);
-
-    const FetchData = () => {
+    const FetchData = React.useCallback(() => {
         axios({
             // Stryker disable next-line all:"GET" replace by "" still calls GET method
             method: "GET",
             url: `/api/profits/paged/commonsid?commonsId=${commonsId}&pageNumber=${currentPage}&pageSize=${userQueryPageSize}`,
         }).then(response => {
             setpageddata(response.data);
-        })
-    };
+        });
+    }, [commonsId, currentPage, userQueryPageSize]);
 
-    const handlePageChange = (newPage) => {
-        setCurrentPage(newPage);
+    useEffect(() => {
         FetchData();
+    }, [FetchData]);
+
+    const handlePageChange = React.useCallback(newPage => {
+            setCurrentPage(newPage);
+            FetchData();},
+        // Stryker disable next-line ArrayDeclaration : no need to test what happens if [] is replaced with ["Stryker was here"]
+        [FetchData]);
+
+
+    // Stryker disable all
+    const { data: userCommons } =
+        useBackend(
+            [`/api/usercommons/forcurrentuser?commonsId=${commonsId}`],
+            {
+                method: "GET",
+                url: "/api/usercommons/forcurrentuser",
+                params: {
+                    commonsId: commonsId
+                }
+            }
+        );
+    // Stryker restore all
+
+    // Stryker disable all
+    const { data: commonsPlus } =
+        useBackend(
+            [`/api/commons/plus?id=${commonsId}`],
+            {
+                method: "GET",
+                url: "/api/commons/plus",
+                params: {
+                    id: commonsId
+                }
+            }
+        );
+    // Stryker restore all
+
+
+    // Stryker disable all (can't check if commonsId is null because it is mocked)
+    const objectToAxiosParamsBuy = (newUserCommons) => ({
+        url: "/api/usercommons/buy",
+        method: "PUT",
+        data: newUserCommons,
+        params: {
+            commonsId: commonsId
+        }
+    });
+    // Stryker restore all
+
+
+    // Stryker disable all
+    const mutationbuy = useBackendMutation(
+        objectToAxiosParamsBuy,
+        null,
+        // Stryker disable next-line all : hard to set up test for caching
+        [`/api/usercommons/forcurrentuser?commonsId=${commonsId}`]
+    );
+    // Stryker restore all
+
+
+    const onBuy = (userCommons) => {
+        mutationbuy.mutate(userCommons)
     };
 
-  // Stryker disable all 
-  const { data: userCommons } =
-    useBackend(
-      [`/api/usercommons/forcurrentuser?commonsId=${commonsId}`],
-      {
-        method: "GET",
-        url: "/api/usercommons/forcurrentuser",
-        params: {
-          commonsId: commonsId
-        }
-      }
-    );
-  // Stryker restore all 
 
-  // Stryker disable all
-  const { data: commonsPlus } =
-    useBackend(
-      [`/api/commons/plus?id=${commonsId}`],
-      {
-        method: "GET",
-        url: "/api/commons/plus",
-        params: {
-          id: commonsId
-        }
-      }
-    );
-  // Stryker restore all
-
-
-  // Stryker disable all (can't check if commonsId is null because it is mocked)
-  const objectToAxiosParamsBuy = (newUserCommons) => ({
-    url: "/api/usercommons/buy",
-    method: "PUT",
-    data: newUserCommons,
-    params: {
-      commonsId: commonsId
+    const onSuccessSell = () => {
+        toast(`Cow sold!`);
     }
-  });
-  // Stryker restore all
+
+    // Stryker disable all
+    const objectToAxiosParamsSell = (newUserCommons) => ({
+        url: "/api/usercommons/sell",
+        method: "PUT",
+        data: newUserCommons,
+        params: {
+            commonsId: commonsId
+        }
+    });
+    // Stryker restore all
 
 
-  // Stryker disable all 
-  const mutationbuy = useBackendMutation(
-    objectToAxiosParamsBuy,
-    null,
-    // Stryker disable next-line all : hard to set up test for caching
-    [`/api/usercommons/forcurrentuser?commonsId=${commonsId}`]
-  );
-  // Stryker restore all 
+    // Stryker disable all
+    const mutationsell = useBackendMutation(
+        objectToAxiosParamsSell,
+        { onSuccess: onSuccessSell },
+        [`/api/usercommons/forcurrentuser?commonsId=${commonsId}`]
+    );
+    // Stryker restore all
 
 
-  const onBuy = (userCommons) => {
-    mutationbuy.mutate(userCommons)
-  };
+    const onSell = (userCommons) => {
+        mutationsell.mutate(userCommons)
+    };
 
-
-  const onSuccessSell = () => {
-    toast(`Cow sold!`);
-  }
-
-  // Stryker disable all 
-  const objectToAxiosParamsSell = (newUserCommons) => ({
-    url: "/api/usercommons/sell",
-    method: "PUT",
-    data: newUserCommons,
-    params: {
-      commonsId: commonsId
-    }
-  });
-  // Stryker restore all 
-
-
-  // Stryker disable all 
-  const mutationsell = useBackendMutation(
-    objectToAxiosParamsSell,
-    { onSuccess: onSuccessSell },
-    [`/api/usercommons/forcurrentuser?commonsId=${commonsId}`]
-  );
-  // Stryker restore all 
-
-
-  const onSell = (userCommons) => {
-    mutationsell.mutate(userCommons)
-  };
-
-  return (
-    <div data-testid="playpage-div">
-      <BasicLayout >
-        <Container >
-          {!!currentUser && <CommonsPlay currentUser={currentUser} />}
-          {!!commonsPlus && <CommonsOverview commonsPlus={commonsPlus} currentUser={currentUser} />}
-          <br />
-          {!!userCommons && !!commonsPlus &&
-            <CardGroup >
-              <ManageCows userCommons={userCommons} commons={commonsPlus.commons} onBuy={onBuy} onSell={onSell} />
-              <FarmStats userCommons={userCommons} />
-              <PagedProfitsTable data={pageddata} onPageChange={handlePageChange} />
-            </CardGroup>
-          }
-        </Container>
-      </BasicLayout>
-    </div>
-  )
+    return (
+        <div data-testid="playpage-div">
+            <BasicLayout >
+                <Container >
+                    {!!currentUser && <CommonsPlay currentUser={currentUser} />}
+                    {!!commonsPlus && <CommonsOverview commonsPlus={commonsPlus} currentUser={currentUser} />}
+                    <br />
+                    {!!userCommons && !!commonsPlus &&
+                        <CardGroup >
+                            <ManageCows userCommons={userCommons} commons={commonsPlus.commons} onBuy={onBuy} onSell={onSell} />
+                            <FarmStats userCommons={userCommons} />
+                            <PagedProfitsTable data={pageddata} onPageChange={handlePageChange} />
+                        </CardGroup>
+                    }
+                </Container>
+            </BasicLayout>
+        </div>
+    )
 }

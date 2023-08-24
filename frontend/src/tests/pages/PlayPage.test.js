@@ -58,7 +58,7 @@ describe("PlayPage tests", () => {
                 name: "Sample Commons"
             },
             totalPlayers: 5,
-            totalCows: 5 
+            totalCows: 5
         });
         //axiosMock.onGet("/api/profits/all/commonsid").reply(200, []);
         axiosMock.onGet('/api/profits/paged/commonsid?commonsId=1&pageNumber=0&pageSize=7').reply(200, pagedprofitsFixture.Page0);
@@ -126,7 +126,7 @@ describe("PlayPage tests", () => {
         );
 
         const testId = "ProfitsTable";
-        await waitFor(() => expect(screen.getByTestId(`${testId}-cell-row-0-col-Profit`)).toBeInTheDocument());
+        await screen.findByTestId(`${testId}-cell-row-0-col-Profit`);
         expect(screen.getByTestId(`${testId}-cell-row-0-col-Profit`)).toHaveTextContent("$12.650");
     });
 
@@ -140,13 +140,13 @@ describe("PlayPage tests", () => {
         axiosMock.onGet('/api/profits/paged/commonsid?commonsId=1&pageNumber=7&pageSize=7').reply(200, pagedprofitsFixture.Page7);
 
 
-            render(
-                <QueryClientProvider client={queryClient}>
-                    <MemoryRouter>
-                        <PlayPage />
-                    </MemoryRouter>
-                </QueryClientProvider>
-            );
+        render(
+            <QueryClientProvider client={queryClient}>
+                <MemoryRouter>
+                    <PlayPage />
+                </MemoryRouter>
+            </QueryClientProvider>
+        );
 
 
         const testId = "ProfitsTable";
@@ -168,50 +168,3 @@ describe("PlayPage tests", () => {
     });
 
 });
-
-
-/*
-*    test('should handle errors using .catch', async () => {
-
-    axiosMock.onGet('/api/profits/paged/commonsid?commonsId=1&pageNumber=0&pageSize=7').reply(500, { message: 'Server error' });
-
-    // Spy on the console.error method
-    const consoleErrorSpy = jest.spyOn(console, 'log');
-
-    render(
-        <QueryClientProvider client={queryClient}>
-            <MemoryRouter>
-                <PlayPage />
-            </MemoryRouter>
-        </QueryClientProvider>
-    );
-
-    await waitFor(() => {
-        setTimeout(() => {
-            expect(consoleErrorSpy).toHaveBeenCalledWith("Server error");
-        }, 200);
-    });
-});
-*
-*
-*     test('should fetch data using GET method', async () => {
-    axiosMock.onGet('/api/profits/paged/commonsid?commonsId=1&pageNumber=0&pageSize=7').reply(200, pagedprofitsFixture);
-
-    // Render the component
-    render(
-        <QueryClientProvider client={queryClient}>
-            <MemoryRouter>
-                <PlayPage />
-            </MemoryRouter>
-        </QueryClientProvider>
-    );
-
-    // Wait for asynchronous actions to complete
-    await waitFor(() => {
-        // Expect the data to be fetched using the GET method
-        expect(axiosMock.history.get.length).toEqual(7);
-    });
-    *
-    *     });
-
-* */

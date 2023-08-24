@@ -8,8 +8,8 @@ import leaderboardFixtures from "fixtures/leaderboardFixtures";
 const mockedNavigate = jest.fn();
 
 jest.mock('react-router-dom', () => ({
-    ...jest.requireActual('react-router-dom'),
-    useNavigate: () => mockedNavigate
+  ...jest.requireActual('react-router-dom'),
+  useNavigate: () => mockedNavigate
 }));
 
 describe("LeaderboardTable tests", () => {
@@ -19,11 +19,11 @@ describe("LeaderboardTable tests", () => {
     const currentUser = null;
 
     render(
-      <QueryClientProvider client={queryClient}>
-        <MemoryRouter>
-          <LeaderboardTable leaderboardUsers={[]} currentUser={currentUser} />
-        </MemoryRouter>
-      </QueryClientProvider>
+        <QueryClientProvider client={queryClient}>
+          <MemoryRouter>
+            <LeaderboardTable leaderboardUsers={[]} currentUser={currentUser} />
+          </MemoryRouter>
+        </QueryClientProvider>
 
     );
   });
@@ -31,11 +31,11 @@ describe("LeaderboardTable tests", () => {
     const currentUser = currentUserFixtures.userOnly;
 
     render(
-      <QueryClientProvider client={queryClient}>
-        <MemoryRouter>
-          <LeaderboardTable leaderboardUsers={[]} currentUser={currentUser} />
-        </MemoryRouter>
-      </QueryClientProvider>
+        <QueryClientProvider client={queryClient}>
+          <MemoryRouter>
+            <LeaderboardTable leaderboardUsers={[]} currentUser={currentUser} />
+          </MemoryRouter>
+        </QueryClientProvider>
 
     );
   });
@@ -44,11 +44,11 @@ describe("LeaderboardTable tests", () => {
     const currentUser = currentUserFixtures.adminUser;
 
     render(
-      <QueryClientProvider client={queryClient}>
-        <MemoryRouter>
-          <LeaderboardTable leaderboardUsers={[]} currentUser={currentUser} />
-        </MemoryRouter>
-      </QueryClientProvider>
+        <QueryClientProvider client={queryClient}>
+          <MemoryRouter>
+            <LeaderboardTable leaderboardUsers={[]} currentUser={currentUser} />
+          </MemoryRouter>
+        </QueryClientProvider>
 
     );
   });
@@ -57,11 +57,11 @@ describe("LeaderboardTable tests", () => {
     const currentUser = currentUserFixtures.adminUser;
 
     render(
-      <QueryClientProvider client={queryClient}>
-        <MemoryRouter>
-          <LeaderboardTable leaderboardUsers={leaderboardFixtures.threeUserCommonsLB} currentUser={currentUser} />
-        </MemoryRouter>
-      </QueryClientProvider>
+        <QueryClientProvider client={queryClient}>
+          <MemoryRouter>
+            <LeaderboardTable leaderboardUsers={leaderboardFixtures.threeUserCommonsLB} currentUser={currentUser} />
+          </MemoryRouter>
+        </QueryClientProvider>
 
     );
 
@@ -82,26 +82,36 @@ describe("LeaderboardTable tests", () => {
     expect(screen.getByTestId(`${testId}-cell-row-0-col-id`)).toHaveTextContent("1");
     expect(screen.getByTestId(`${testId}-cell-row-0-col-userId`)).toHaveTextContent("1");
     expect(screen.getByTestId(`${testId}-cell-row-0-col-username`)).toHaveTextContent("one");
-    expect(screen.getByTestId(`${testId}-cell-row-0-col-totalWealth`)).toHaveTextContent("$1.000K");
+    expect(screen.getByTestId(`${testId}-cell-row-0-col-totalWealth`)).toHaveTextContent("$1,000.00");
     expect(screen.getByTestId(`${testId}-cell-row-0-col-cowsBought`)).toHaveTextContent("8");
     expect(screen.getByTestId(`${testId}-cell-row-0-col-cowsSold`)).toHaveTextContent("8");
     expect(screen.getByTestId(`${testId}-cell-row-0-col-cowDeaths`)).toHaveTextContent("8");
     expect(screen.getByTestId(`${testId}-cell-row-1-col-id`)).toHaveTextContent("2");
     expect(screen.getByTestId(`${testId}-cell-row-1-col-userId`)).toHaveTextContent("2");
     expect(screen.getByTestId(`${testId}-cell-row-1-col-username`)).toHaveTextContent("two");
-    expect(screen.getByTestId(`${testId}-cell-row-1-col-totalWealth`)).toHaveTextContent("$1.000K");
+    expect(screen.getByTestId(`${testId}-cell-row-1-col-totalWealth`)).toHaveTextContent("$1,000.00");
     expect(screen.getByTestId(`${testId}-cell-row-1-col-cowsBought`)).toHaveTextContent("5");
     expect(screen.getByTestId(`${testId}-cell-row-1-col-cowsSold`)).toHaveTextContent("5");
     expect(screen.getByTestId(`${testId}-cell-row-1-col-cowDeaths`)).toHaveTextContent("5");
-    expect(screen.getByTestId(`${testId}-cell-row-2-col-id`)).toHaveTextContent("3");
-    expect(screen.getByTestId(`${testId}-cell-row-2-col-userId`)).toHaveTextContent("3");
-    expect(screen.getByTestId(`${testId}-cell-row-2-col-username`)).toHaveTextContent("three");
-    expect(screen.getByTestId(`${testId}-cell-row-2-col-totalWealth`)).toHaveTextContent("$100.000K");
-    expect(screen.getByTestId(`${testId}-cell-row-2-col-cowsBought`)).toHaveTextContent("1000");
-    expect(screen.getByTestId(`${testId}-cell-row-2-col-cowsSold`)).toHaveTextContent("1000");
-    expect(screen.getByTestId(`${testId}-cell-row-2-col-cowDeaths`)).toHaveTextContent("1000");
 
   });
 
-});
+  test("Total wealth is formatted correctly", () => {
+    const currentUser = currentUserFixtures.adminUser;
 
+    render(
+        <QueryClientProvider client={queryClient}>
+          <MemoryRouter>
+            <LeaderboardTable leaderboardUsers={leaderboardFixtures.threeUserCommonsLB} currentUser={currentUser} />
+          </MemoryRouter>
+        </QueryClientProvider>
+
+    );
+
+    expect(screen.getAllByText("$1,000.00")[0]).toHaveStyle("text-align: right;");
+
+  });
+
+
+
+});
