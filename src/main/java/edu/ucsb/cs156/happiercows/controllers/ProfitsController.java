@@ -77,23 +77,14 @@ public class ProfitsController extends ApiController {
         List<Profit> allProfits = new ArrayList<>();
         iterableProfits.forEach(allProfits::add);
 
-        Collections.reverse(allProfits);
+        //Collections.reverse(allProfits);
 
-        allProfits.sort((profit1, profit2) -> profit2.getTimestamp().compareTo(profit1.getTimestamp()));
+        allProfits.sort((profit1, profit2) -> Long.compare(profit2.getId(), profit1.getId()));
 
-
-        log.info("------A-----");
-        List<String> timestamps = allProfits.stream()
-                .map(profit -> profit.getTimestamp().toString())
-                .collect(Collectors.toList());
-
-        log.info("Timestamps: {}", timestamps);
-        log.info("------B-----");
 
         int start = pageNumber * pageSize;
         int end = Math.min((start + pageSize), allProfits.size());
         List<Profit> paginatedProfits = allProfits.subList(start, end);
-        //log.info(paginatedProfits.toString());
 
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
         Page<Profit> profitsPage = new PageImpl<>(paginatedProfits, pageable, allProfits.size());
