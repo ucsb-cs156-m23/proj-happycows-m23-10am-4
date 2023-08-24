@@ -37,7 +37,7 @@ noUser.parameters = {
 export const userWithNoGivenName = () => {
   return (<HomePage />)
 }
-userWithNoName.parameters = {
+userWithNoGivenName.parameters = {
   msw: [
     rest.get('/api/currentUser', (_req, res, ctx) => {
         return res(ctx.json(apiCurrentUserFixtures.userNoGivenName));
