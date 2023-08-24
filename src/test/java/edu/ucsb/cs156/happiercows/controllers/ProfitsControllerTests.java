@@ -63,8 +63,8 @@ public class ProfitsControllerTests extends ControllerTestCase {
     UserCommons uc1 = UserCommons.builder().user(user)
             .commons(commons).build();
 
-    LocalDateTime t1 = LocalDateTime.parse("2022-03-05T15:50:10");
-    LocalDateTime t2 = LocalDateTime.parse("2022-03-01T15:50:10");
+    LocalDateTime t1 = LocalDateTime.parse("2022-03-01T15:50:10");
+    LocalDateTime t2 = LocalDateTime.parse("2022-03-05T15:50:10");
     LocalDateTime t3 = LocalDateTime.parse("2022-03-07T15:50:10");
 
     Profit p1 = Profit.builder().id(41).amount(123.45).timestamp(t1).userCommons(uc1).numCows(1).avgCowHealth(80).build();
@@ -177,11 +177,11 @@ public class ProfitsControllerTests extends ControllerTestCase {
 
         JsonNode date1 = jsonResponse.get("content").get(0).get("timestamp");
         JsonNode date2 = jsonResponse.get("content").get(1).get("timestamp");
-        assertEquals(t3, LocalDateTime.parse(date1.asText()));
-        assertEquals(t1, LocalDateTime.parse(date2.asText()));
+        assertEquals(t2, LocalDateTime.parse(date1.asText()));
+        assertEquals(t3, LocalDateTime.parse(date2.asText()));
 
         assertEquals(3, jsonResponse.get("totalElements").asInt());
         assertEquals(2, jsonResponse.get("totalPages").asInt());
-        assertEquals(p3.getAmount(), jsonResponse.get("content").get(0).get("amount").asDouble(), 0.01);
+        assertEquals(p2.getAmount(), jsonResponse.get("content").get(0).get("amount").asDouble(), 0.01);
     }
 }
