@@ -38,6 +38,8 @@ public class UpdateCowHealthJob implements JobContextConsumer {
 
             Commons commons = commonsPlus.getCommons();
             
+            // accept function is the entry point for external calls,
+            // so we just need to make sure runUpdateJobInCommons handles hidden users
             runUpdateJobInCommons(commons, commonsPlus, commonsPlusBuilderService, commonsRepository, userCommonsRepository, ctx);
             
         }
@@ -76,7 +78,7 @@ public class UpdateCowHealthJob implements JobContextConsumer {
             }
 
             int carryingCapacity = commonsPlus.getEffectiveCapacity();
-            Iterable<UserCommons> allUserCommons = userCommonsRepository.findByCommonsId(commons.getId());
+            Iterable<UserCommons> allUserCommons = userCommonsRepository.findNonHiddenByCommonsId(commons.getId());
 
             Integer totalCows = commonsRepository.getNumCows(commons.getId()).orElseThrow(() -> new RuntimeException("Error calling getNumCows(" + commons.getId() + ")"));
 
