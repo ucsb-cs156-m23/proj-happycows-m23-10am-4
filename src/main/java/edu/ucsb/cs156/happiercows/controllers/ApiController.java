@@ -3,6 +3,7 @@ package edu.ucsb.cs156.happiercows.controllers;
 import edu.ucsb.cs156.happiercows.errors.EntityNotFoundException;
 import edu.ucsb.cs156.happiercows.errors.NoCowsException;
 import edu.ucsb.cs156.happiercows.errors.NotEnoughMoneyException;
+import edu.ucsb.cs156.happiercows.errors.UserHiddenException;
 import net.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -41,6 +42,15 @@ public abstract class ApiController {
   @ExceptionHandler({ NoCowsException.class, NotEnoughMoneyException.class})
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   public Object handleBadRequest(Throwable e) {
+    return Map.of(
+      "type", e.getClass().getSimpleName(),
+      "message", e.getMessage()
+    );
+  }
+
+  @ExceptionHandler({ UserHiddenException.class })
+  @ResponseStatus(HttpStatus.FORBIDDEN)
+  public Object handleForbidden(Throwable e) {
     return Map.of(
       "type", e.getClass().getSimpleName(),
       "message", e.getMessage()
