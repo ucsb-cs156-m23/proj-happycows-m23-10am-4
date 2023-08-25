@@ -3,6 +3,7 @@ package edu.ucsb.cs156.happiercows.strategies;
 import edu.ucsb.cs156.happiercows.entities.Commons;
 import edu.ucsb.cs156.happiercows.entities.CommonsPlus;
 import edu.ucsb.cs156.happiercows.entities.UserCommons;
+import edu.ucsb.cs156.happiercows.entities.User;
 import edu.ucsb.cs156.happiercows.services.CommonsPlusBuilderService;
 
 import org.junit.jupiter.api.Test;
@@ -22,10 +23,16 @@ class CowHealthUpdateStrategyTests {
     .capacityPerUser(20)
     .carryingCapacity(100)
     .build();
-    UserCommons user = UserCommons.builder().cowHealth(50).build();
+
+    User non_hidden_user = User.builder().id(1L).fullName("Chris Gaucho").email("test@ucsb.edu").build();
+    User hidden_user = User.builder().id(2L).fullName("Chris Gaucho").email("test@ucsb.edu").isHidden(true).build();
+
+    UserCommons user = UserCommons.builder().user(non_hidden_user).cowHealth(50).build();
+    UserCommons hiddenUser = UserCommons.builder().user(hidden_user).cowHealth(50).build();
 
     CommonsPlus commonsPlus = CommonsPlus.builder().commons(commons).totalCows(0).totalUsers(1).build();
-    
+    CommonsPlus commonsPlusHidden = CommonsPlus.builder().commons(commons).totalCows(0).totalUsers(1).build();    
+
     @Test
     void get_name_and_description() {
         assertEquals("Linear", CowHealthUpdateStrategies.Linear.name());
@@ -61,5 +68,29 @@ class CowHealthUpdateStrategyTests {
         assertEquals(50.0, formula.calculateNewCowHealth(commonsPlus, user, 110));
         assertEquals(50.0, formula.calculateNewCowHealth(commonsPlus, user, 100));
         assertEquals(50.0, formula.calculateNewCowHealth(commonsPlus, user, 90));
+    }
+
+    @Test
+    void test_hidden() {
+        var formula = CowHealthUpdateStrategies.Linear;
+
+        // for hidden users, the health should not change
+        assertEquals(50.0, formula.calculateNewCowHealth(commonsPlusHidden, hiddenUser, 110));
+        assertEquals(50.0, formula.calculateNewCowHealth(commonsPlusHidden, hiddenUser, 100));
+        assertEquals(50.0, formula.calculateNewCowHealth(commonsPlusHidden, hiddenUser, 90));
+
+        formula = CowHealthUpdateStrategies.Constant;
+
+        // for hidden users, the health should not change
+        assertEquals(50.0, formula.calculateNewCowHealth(commonsPlusHidden, hiddenUser, 110));
+        assertEquals(50.0, formula.calculateNewCowHealth(commonsPlusHidden, hiddenUser, 100));
+        assertEquals(50.0, formula.calculateNewCowHealth(commonsPlusHidden, hiddenUser, 90));
+
+        formula = CowHealthUpdateStrategies.Noop;
+
+        // for hidden users, the health should not change
+        assertEquals(50.0, formula.calculateNewCowHealth(commonsPlusHidden, hiddenUser, 110));
+        assertEquals(50.0, formula.calculateNewCowHealth(commonsPlusHidden, hiddenUser, 100));
+        assertEquals(50.0, formula.calculateNewCowHealth(commonsPlusHidden, hiddenUser, 90));
     }
 }
