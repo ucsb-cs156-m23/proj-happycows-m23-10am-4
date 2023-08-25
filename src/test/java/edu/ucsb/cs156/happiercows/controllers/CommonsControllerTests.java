@@ -33,6 +33,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
@@ -1235,6 +1236,54 @@ public class CommonsControllerTests extends ControllerTestCase {
         assertEquals(100, commonsPlus.getEffectiveCapacity());
     }
 
+    @WithMockUser(roles = {"USER"})
+    @Test
+    public void getCommonPlusTest_HiddenUser() throws Exception {
+        currentUserService.setHidden(true);
+        MvcResult response = mockMvc.perform(get("/api/commons/plus?id=18"))
+                .andExpect(status().isForbidden()).andReturn();
+        Map<String, Object> responseMap = responseToJson(response);
+        assertEquals(responseMap.get("message"), "User with id 1 is hidden");
+        assertEquals(responseMap.get("type"), "UserHiddenException");
+        currentUserService.setHidden(false);
+    }
 
+    @WithMockUser(roles = {"USER"})
+    @Test
+    public void getCommons_HiddenUser() throws Exception {
+        currentUserService.setHidden(true);
+        MvcResult response = mockMvc.perform(get("/api/commons?id=18"))
+                .andExpect(status().isForbidden()).andReturn();
+        Map<String, Object> responseMap = responseToJson(response);
+        assertEquals(responseMap.get("message"), "User with id 1 is hidden");
+        assertEquals(responseMap.get("type"), "UserHiddenException");
+        currentUserService.setHidden(false);
+    }
+
+    @WithMockUser(roles = {"USER"})
+    @Test
+    public void getHealthUpdateStrategiesTest_HiddenUser() throws Exception {
+        currentUserService.setHidden(true);
+        MvcResult response = mockMvc.perform(
+                get("/api/commons/all-health-update-strategies")
+        ).andExpect(status().isForbidden()).andReturn();
+        Map<String, Object> responseMap = responseToJson(response);
+        assertEquals(responseMap.get("message"), "User with id 1 is hidden");
+        assertEquals(responseMap.get("type"), "UserHiddenException");
+        currentUserService.setHidden(false);
+    }
+
+    @WithMockUser(roles = {"USER"})
+    @Test
+    public void joinCommons_HiddenUser() throws Exception {
+        currentUserService.setHidden(true);
+        MvcResult response = mockMvc
+        .perform(post("/api/commons/join?commonsId=2").with(csrf()))
+        .andExpect(status().isForbidden()).andReturn();
+        Map<String, Object> responseMap = responseToJson(response);
+        assertEquals(responseMap.get("message"), "User with id 1 is hidden");
+        assertEquals(responseMap.get("type"), "UserHiddenException");
+        currentUserService.setHidden(false);
+    }
 }
 
