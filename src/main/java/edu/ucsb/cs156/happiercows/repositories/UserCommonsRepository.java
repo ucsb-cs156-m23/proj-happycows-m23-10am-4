@@ -14,4 +14,6 @@ public interface UserCommonsRepository extends CrudRepository<UserCommons, UserC
     Optional<UserCommons> findByCommonsIdAndUserId(Long commonsId, Long userId);
     @Query("SELECT uc FROM user_commons uc WHERE uc.commons.id = :commonsId")
     Iterable<UserCommons> findByCommonsId(Long commonsId);
+    @Query("SELECT uc FROM user_commons uc WHERE uc.commons.id = :commonsId AND uc.user.isHidden = false")
+    Iterable<UserCommons> findNonHiddenByCommonsId(Long commonsId);
 }

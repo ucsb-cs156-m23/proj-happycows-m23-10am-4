@@ -113,7 +113,7 @@ public class SetCowHealthJobTests {
                 .build();
 
         when(commonsRepository.findById(117L)).thenReturn(Optional.of(testCommons));
-        when(userCommonsRepository.findByCommonsId(testCommons.getId()))
+        when(userCommonsRepository.findNonHiddenByCommonsId(testCommons.getId()))
                 .thenReturn(userCommonsList);
         when(userRepository.findById(1L)).thenReturn(Optional.of(user));
 
