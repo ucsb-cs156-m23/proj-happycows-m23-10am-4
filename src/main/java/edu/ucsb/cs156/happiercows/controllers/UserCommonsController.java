@@ -19,6 +19,7 @@ import edu.ucsb.cs156.happiercows.entities.Commons;
 import edu.ucsb.cs156.happiercows.errors.EntityNotFoundException;
 import edu.ucsb.cs156.happiercows.errors.NoCowsException;
 import edu.ucsb.cs156.happiercows.errors.NotEnoughMoneyException;
+import edu.ucsb.cs156.happiercows.errors.UserHiddenException;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
@@ -63,6 +64,9 @@ public class UserCommonsController extends ApiController {
   @GetMapping("/forcurrentuser")
   public UserCommons getUserCommonsById(
       @Parameter(name="commonsId") @RequestParam Long commonsId) throws JsonProcessingException {
+    if (getCurrentUser().getUser().isHidden()) {
+        throw new UserHiddenException(getCurrentUser().getUser().getId());
+    }
 
     User u = getCurrentUser().getUser();
     Long userId = u.getId();
@@ -77,7 +81,9 @@ public class UserCommonsController extends ApiController {
   @PutMapping("/buy")
   public ResponseEntity<String> putUserCommonsByIdBuy(
           @Parameter(name="commonsId") @RequestParam Long commonsId) throws NotEnoughMoneyException, JsonProcessingException{
-
+        if (getCurrentUser().getUser().isHidden()) {
+          throw new UserHiddenException(getCurrentUser().getUser().getId());
+        }
         User u = getCurrentUser().getUser();
         Long userId = u.getId();
 
@@ -106,6 +112,9 @@ public class UserCommonsController extends ApiController {
   @PutMapping("/sell")
   public ResponseEntity<String> putUserCommonsByIdSell(
           @Parameter(name="commonsId") @RequestParam Long commonsId) throws NoCowsException, JsonProcessingException {
+        if (getCurrentUser().getUser().isHidden()) {
+          throw new UserHiddenException(getCurrentUser().getUser().getId());
+        }
         User u = getCurrentUser().getUser();
         Long userId = u.getId();
 
