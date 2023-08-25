@@ -95,7 +95,7 @@ public class MilkTheCowsJobIndTests {
                 .build();
 
         when(commonsRepository.findAll()).thenReturn(Arrays.asList(testCommons));
-        when(userCommonsRepository.findByCommonsId(testCommons.getId()))
+        when(userCommonsRepository.findNonHiddenByCommonsId(testCommons.getId()))
                 .thenReturn(Arrays.asList(origUserCommons));
         when(commonsRepository.getNumCows(testCommons.getId())).thenReturn(Optional.of(Integer.valueOf(1)));
         when(userRepository.findById(1L)).thenReturn(Optional.of(user));

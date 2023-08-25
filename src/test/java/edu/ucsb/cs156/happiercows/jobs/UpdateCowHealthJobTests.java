@@ -105,7 +105,7 @@ public class UpdateCowHealthJobTests {
         List<CommonsPlus> listOfCommonsPlus = List.of(commonsPlus);
         
         when(commonsRepository.findAll()).thenReturn(listOfCommons);
-        when(userCommonsRepository.findByCommonsId(commons.getId())).thenReturn(List.of(userCommons));
+        when(userCommonsRepository.findNonHiddenByCommonsId(commons.getId())).thenReturn(List.of(userCommons));
         when(commonsRepository.getNumCows(commons.getId())).thenReturn(Optional.of(totalCows));
         when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
         when(commonsRepository.getNumNonHiddenUsers(commons.getId())).thenReturn(Optional.of(numUsers));
@@ -214,7 +214,7 @@ public class UpdateCowHealthJobTests {
                 when(commonsRepository.findAll()).thenReturn(commonsList);
                 when(commonsPlusBuilderService.convertToCommonsPlus(eq(commonsList))).thenReturn(commonsPlusList);
                 when(commonsPlusBuilderService.toCommonsPlus(eq(commons))).thenReturn(commonsPlus);
-                when(userCommonsRepository.findByCommonsId(commons.getId()))
+                when(userCommonsRepository.findNonHiddenByCommonsId(commons.getId()))
                                 .thenReturn(List.of(userCommons1, userCommons2));
                 when(commonsRepository.getNumCows(commons.getId())).thenReturn(Optional.of(99));
                 when(userRepository.findById(1L)).thenReturn(Optional.of(user));
@@ -303,7 +303,7 @@ public class UpdateCowHealthJobTests {
                 when(commonsPlusBuilderService.toCommonsPlus(eq(commons))).thenReturn(commonsPlus);
 
                 when(commonsRepository.findAll()).thenReturn(List.of(commons));
-                when(userCommonsRepository.findByCommonsId(commons.getId())).thenReturn(List.of(userCommons));
+                when(userCommonsRepository.findNonHiddenByCommonsId(commons.getId())).thenReturn(List.of(userCommons));
                 when(commonsRepository.getNumCows(commons.getId())).thenReturn(Optional.of(99));
                 when(userRepository.findById(1L)).thenReturn(Optional.of(user));
                 when(commonsRepository.getNumNonHiddenUsers(commons.getId())).thenReturn(Optional.of(1));

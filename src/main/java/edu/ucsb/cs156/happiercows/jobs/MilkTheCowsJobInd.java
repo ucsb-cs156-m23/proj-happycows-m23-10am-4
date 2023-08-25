@@ -42,7 +42,8 @@ public class MilkTheCowsJobInd implements JobContextConsumer {
             double milkPrice = commonMilked.getMilkPrice();
             ctx.log("Milking cows for Commons: " + name + ", Milk Price: " + formatDollars(milkPrice));
 
-            Iterable<UserCommons> allUserCommons = userCommonsRepository.findByCommonsId(commonMilked.getId());
+            // only the non-hidden users
+            Iterable<UserCommons> allUserCommons = userCommonsRepository.findNonHiddenByCommonsId(commonMilked.getId());
 
             for (UserCommons userCommons : allUserCommons) {
                 MilkTheCowsJob.milkCows(ctx, commonMilked, userCommons, profitRepository, userCommonsRepository);

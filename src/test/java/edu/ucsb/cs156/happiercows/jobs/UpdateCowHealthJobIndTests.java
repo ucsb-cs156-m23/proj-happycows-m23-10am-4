@@ -118,7 +118,7 @@ public class UpdateCowHealthJobIndTests {
         commons.setBelowCapacityHealthUpdateStrategy(CowHealthUpdateStrategies.Linear);
 
         when(commonsRepository.findAll()).thenReturn(listOfCommons);
-        when(userCommonsRepository.findByCommonsId(commons.getId())).thenReturn(List.of(userCommons));
+        when(userCommonsRepository.findNonHiddenByCommonsId(commons.getId())).thenReturn(List.of(userCommons));
         when(commonsRepository.getNumCows(commons.getId())).thenReturn(Optional.of(1));
         when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
         when(commonsRepository.getNumNonHiddenUsers(commons.getId())).thenReturn(Optional.of(1));

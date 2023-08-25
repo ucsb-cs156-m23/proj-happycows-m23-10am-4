@@ -110,7 +110,7 @@ public class AverageCowHealthServiceTests {
         // arrange
 
         when(commonsRepository.findById(17L)).thenReturn(Optional.of(commons));
-        when(userCommonsRepository.findByCommonsId(commons.getId()))
+        when(userCommonsRepository.findNonHiddenByCommonsId(commons.getId()))
                 .thenReturn(Arrays.asList(userCommons1));
         when(commonsRepository.getNumNonHiddenUsers(commons.getId())).thenReturn(Optional.of(Integer.valueOf(1)));
         when(commonsRepository.getNumCows(commons.getId())).thenReturn(Optional.of(Integer.valueOf(20)));
@@ -129,7 +129,7 @@ public class AverageCowHealthServiceTests {
         // arrange
 
         when(commonsRepository.findById(17L)).thenReturn(Optional.of(commons));
-        when(userCommonsRepository.findByCommonsId(commons.getId()))
+        when(userCommonsRepository.findNonHiddenByCommonsId(commons.getId()))
                 .thenReturn(Arrays.asList(userCommons1,userCommons2));
         when(commonsRepository.getNumNonHiddenUsers(commons.getId())).thenReturn(Optional.of(Integer.valueOf(1)));
         when(commonsRepository.getNumCows(commons.getId())).thenReturn(Optional.of(Integer.valueOf(120)));
@@ -146,7 +146,7 @@ public class AverageCowHealthServiceTests {
 
     @Test
     void test_getAverageCowHealthThrowsException() {
-        when(userCommonsRepository.findByCommonsId(1L)).thenReturn(Arrays.asList());
+        when(userCommonsRepository.findNonHiddenByCommonsId(1L)).thenReturn(Arrays.asList());
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
             averageCowHealthService.getAverageCowHealth(1L);
@@ -155,7 +155,7 @@ public class AverageCowHealthServiceTests {
 
     @Test
     void test_getTotalNumCowsThrowsException() {
-        when(userCommonsRepository.findByCommonsId(1L)).thenReturn(Arrays.asList());
+        when(userCommonsRepository.findNonHiddenByCommonsId(1L)).thenReturn(Arrays.asList());
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
             averageCowHealthService.getTotalNumCows(1L);

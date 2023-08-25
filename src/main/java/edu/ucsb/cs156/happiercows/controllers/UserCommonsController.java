@@ -142,7 +142,7 @@ public class UserCommonsController extends ApiController {
 
     
 
-    @Operation(summary = "Get all user commons for a specific commons")
+    @Operation(summary = "Get all user commons for a specific commons (including hidden users)")
     @GetMapping("/commons/all")
     public  ResponseEntity<String> getUsersCommonsByCommonsId(
         @Parameter(name="commonsId") @RequestParam Long commonsId) throws JsonProcessingException {

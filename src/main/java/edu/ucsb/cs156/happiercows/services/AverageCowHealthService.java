@@ -16,10 +16,11 @@ public class AverageCowHealthService {
     @Autowired
     UserCommonsRepository userCommonsRepository;
 
+    // Non-hidden usercommons only
     public int getTotalNumCows(Long commonsId) {
         commonsRepository.findById(commonsId).orElseThrow(() -> new IllegalArgumentException(String.format("Commons with id %d not found", commonsId)));
 
-        Iterable<UserCommons> allUserCommons = userCommonsRepository.findByCommonsId(commonsId);
+        Iterable<UserCommons> allUserCommons = userCommonsRepository.findNonHiddenByCommonsId(commonsId);
 
         int totalNumCows = 0;
 
@@ -33,7 +34,7 @@ public class AverageCowHealthService {
     public double getAverageCowHealth(Long commonsId) {
         commonsRepository.findById(commonsId).orElseThrow(() -> new IllegalArgumentException(String.format("Commons with id %d not found", commonsId)));
 
-        Iterable<UserCommons> allUserCommons = userCommonsRepository.findByCommonsId(commonsId);
+        Iterable<UserCommons> allUserCommons = userCommonsRepository.findNonHiddenByCommonsId(commonsId);
 
         double totalHealth = 0;
 

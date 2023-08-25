@@ -30,6 +30,7 @@ public class ReportService {
     public Report createReport(Long commonsId) {
         Report report = createAndSaveReportHeader(commonsId);
         
+        // We also want hidden users for reports
         Iterable<UserCommons> allUserCommons = userCommonsRepository.findByCommonsId(commonsId);
 
 
