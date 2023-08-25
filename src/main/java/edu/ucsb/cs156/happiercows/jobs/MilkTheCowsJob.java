@@ -45,7 +45,9 @@ public class MilkTheCowsJob implements JobContextConsumer {
             Iterable<UserCommons> allUserCommons = userCommonsRepository.findByCommonsId(commons.getId());
 
             for (UserCommons userCommons : allUserCommons) {
+                // milkCows will return if the user is hidden
                 milkCows(ctx, commons, userCommons, profitRepository, userCommonsRepository);
+                // If other code added here, we need to check if the user is hidden
             }
         }
 
@@ -61,6 +63,9 @@ public class MilkTheCowsJob implements JobContextConsumer {
      */
 
     public static void milkCows(JobContext ctx, Commons commons, UserCommons userCommons, ProfitRepository profitRepository, UserCommonsRepository userCommonsRepository) {
+        if (userCommons.getUser().isHidden()) {
+            return;
+        }
         User user = userCommons.getUser();
 
         ctx.log("User: " + user.getFullName()
