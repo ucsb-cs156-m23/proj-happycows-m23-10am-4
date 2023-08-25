@@ -69,7 +69,7 @@ public class CommonsPlusBuilderServiceTests {
     @Test
     void test_toCommonsPlus() {
         when(commonsRepository.getNumCows(17L)).thenReturn(Optional.of(10));
-        when(commonsRepository.getNumUsers(17L)).thenReturn(Optional.of(5));
+        when(commonsRepository.getNumNonHiddenUsers(17L)).thenReturn(Optional.of(5));
         CommonsPlus commonsPlus = commonsPlusBuilderService.toCommonsPlus(commons);
         assertEquals(commonsPlus, this.commonsPlus);
     }
@@ -77,7 +77,7 @@ public class CommonsPlusBuilderServiceTests {
     @Test
     void test_convertToCommonsPlus() {
         when(commonsRepository.getNumCows(17L)).thenReturn(Optional.of(10));
-        when(commonsRepository.getNumUsers(17L)).thenReturn(Optional.of(5));
+        when(commonsRepository.getNumNonHiddenUsers(17L)).thenReturn(Optional.of(5));
         Iterable<CommonsPlus> commonsPlusIterable = commonsPlusBuilderService.convertToCommonsPlus(Arrays.asList(commons));
         CommonsPlus commonsPlus = commonsPlusIterable.iterator().next();
         assertEquals(commonsPlus, this.commonsPlus);

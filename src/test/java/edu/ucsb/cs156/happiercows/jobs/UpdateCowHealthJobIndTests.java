@@ -121,7 +121,7 @@ public class UpdateCowHealthJobIndTests {
         when(userCommonsRepository.findByCommonsId(commons.getId())).thenReturn(List.of(userCommons));
         when(commonsRepository.getNumCows(commons.getId())).thenReturn(Optional.of(1));
         when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
-        when(commonsRepository.getNumUsers(commons.getId())).thenReturn(Optional.of(1));
+        when(commonsRepository.getNumNonHiddenUsers(commons.getId())).thenReturn(Optional.of(1));
         when(commonsPlusBuilderService.convertToCommonsPlus(eq(listOfCommons))).thenReturn(listOfCommonsPlus);
         when(commonsPlusBuilderService.toCommonsPlus(eq(commons))).thenReturn(commonsPlus);
         when(commonsRepository.findById(eq(1L))).thenReturn(Optional.of(commons));

@@ -68,7 +68,7 @@ public class UpdateCowHealthJob implements JobContextConsumer {
 
     public static void runUpdateJobInCommons(Commons commons, CommonsPlus commonsPlus, CommonsPlusBuilderService commonsPlusBuilderService, CommonsRepository commonsRepository, UserCommonsRepository userCommonsRepository, JobContext ctx){
         ctx.log("Commons " + commons.getName() + ", degradationRate: " + commons.getDegradationRate() + ", effectiveCapacity: " + commonsPlus.getEffectiveCapacity());
-            int numUsers = commonsRepository.getNumUsers(commons.getId()).orElseThrow(() -> new RuntimeException("Error calling getNumUsers(" + commons.getId() + ")"));
+            int numUsers = commonsRepository.getNumNonHiddenUsers(commons.getId()).orElseThrow(() -> new RuntimeException("Error calling getNumNonHiddenUsers(" + commons.getId() + ")"));
 
             if (numUsers==0) {
                 ctx.log("No users in this commons, skipping");

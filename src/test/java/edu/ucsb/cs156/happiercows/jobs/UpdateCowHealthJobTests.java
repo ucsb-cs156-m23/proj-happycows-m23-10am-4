@@ -108,7 +108,7 @@ public class UpdateCowHealthJobTests {
         when(userCommonsRepository.findByCommonsId(commons.getId())).thenReturn(List.of(userCommons));
         when(commonsRepository.getNumCows(commons.getId())).thenReturn(Optional.of(totalCows));
         when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
-        when(commonsRepository.getNumUsers(commons.getId())).thenReturn(Optional.of(numUsers));
+        when(commonsRepository.getNumNonHiddenUsers(commons.getId())).thenReturn(Optional.of(numUsers));
         when(commonsPlusBuilderService.convertToCommonsPlus(eq(listOfCommons))).thenReturn(listOfCommonsPlus);
         when(commonsPlusBuilderService.toCommonsPlus(eq(commons))).thenReturn(commonsPlus);
     }
@@ -218,7 +218,7 @@ public class UpdateCowHealthJobTests {
                                 .thenReturn(List.of(userCommons1, userCommons2));
                 when(commonsRepository.getNumCows(commons.getId())).thenReturn(Optional.of(99));
                 when(userRepository.findById(1L)).thenReturn(Optional.of(user));
-                when(commonsRepository.getNumUsers(commons.getId())).thenReturn(Optional.of(2));
+                when(commonsRepository.getNumNonHiddenUsers(commons.getId())).thenReturn(Optional.of(2));
 
                 runUpdateCowHealthJob();
 
@@ -306,7 +306,7 @@ public class UpdateCowHealthJobTests {
                 when(userCommonsRepository.findByCommonsId(commons.getId())).thenReturn(List.of(userCommons));
                 when(commonsRepository.getNumCows(commons.getId())).thenReturn(Optional.of(99));
                 when(userRepository.findById(1L)).thenReturn(Optional.of(user));
-                when(commonsRepository.getNumUsers(commons.getId())).thenReturn(Optional.of(1));
+                when(commonsRepository.getNumNonHiddenUsers(commons.getId())).thenReturn(Optional.of(1));
 
                 runUpdateCowHealthJob();
 
@@ -337,7 +337,7 @@ public class UpdateCowHealthJobTests {
                 commons.setBelowCapacityHealthUpdateStrategy(CowHealthUpdateStrategies.Linear);
 
                 when(commonsRepository.findAll()).thenReturn(List.of(commons));
-                when(commonsRepository.getNumUsers(commons.getId())).thenReturn(Optional.of(0));
+                when(commonsRepository.getNumNonHiddenUsers(commons.getId())).thenReturn(Optional.of(0));
 
                 runUpdateCowHealthJob();
 
@@ -355,7 +355,7 @@ public class UpdateCowHealthJobTests {
                 setupUpdateCowHealthTestOnCommons(100, 1);
                 commons.setId(117);
                 when(commonsRepository.getNumCows(commons.getId())).thenReturn(Optional.empty());
-                when(commonsRepository.getNumUsers(commons.getId())).thenReturn(Optional.of(1));
+                when(commonsRepository.getNumNonHiddenUsers(commons.getId())).thenReturn(Optional.of(1));
 
                 var updateCowHealthJob = new UpdateCowHealthJob(commonsRepository,
                                 userCommonsRepository,
@@ -373,7 +373,7 @@ public class UpdateCowHealthJobTests {
         void test_throws_exception_when_get_num_users_fails() {
                 setupUpdateCowHealthTestOnCommons(100, 1);
                 commons.setId(117);
-                when(commonsRepository.getNumUsers(commons.getId())).thenReturn(Optional.empty());
+                when(commonsRepository.getNumNonHiddenUsers(commons.getId())).thenReturn(Optional.empty());
 
                 var updateCowHealthJob = new UpdateCowHealthJob(commonsRepository,
                                 userCommonsRepository,
@@ -383,7 +383,7 @@ public class UpdateCowHealthJobTests {
                         updateCowHealthJob.accept(ctx);
                 });
 
-                Assertions.assertEquals("Error calling getNumUsers(117)",
+                Assertions.assertEquals("Error calling getNumNonHiddenUsers(117)",
                                 thrown.getMessage());
         }
 }

@@ -20,7 +20,7 @@ public class CommonsPlusBuilderService {
 
     public CommonsPlus toCommonsPlus(Commons c) {
         Optional<Integer> numCows = commonsRepository.getNumCows(c.getId());
-        Optional<Integer> numUsers = commonsRepository.getNumUsers(c.getId());
+        Optional<Integer> numUsers = commonsRepository.getNumNonHiddenUsers(c.getId());
 
         return CommonsPlus.builder()
                 .commons(c)

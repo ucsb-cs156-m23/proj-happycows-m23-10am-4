@@ -57,7 +57,7 @@ public class ReportService {
                 .degradationRate(commons.getDegradationRate())
                 .belowCapacityHealthUpdateStrategy(commons.getBelowCapacityHealthUpdateStrategy())
                 .aboveCapacityHealthUpdateStrategy(commons.getAboveCapacityHealthUpdateStrategy())
-                .numUsers(commonsRepository.getNumUsers(commonsId).orElse(0))
+                .numUsers(commonsRepository.getNumNonHiddenUsers(commonsId).orElse(0))
                 .numCows(commonsRepository.getNumCows(commonsId).orElse(0))
 
                 .build();
