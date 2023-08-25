@@ -33,6 +33,7 @@ import java.util.Optional;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -176,5 +177,29 @@ public class ProfitsControllerTests extends ControllerTestCase {
         assertEquals(3, jsonResponse.get("totalElements").asInt());
         assertEquals(2, jsonResponse.get("totalPages").asInt());
         assertEquals(p3.getAmount(), jsonResponse.get("content").get(0).get("amount").asDouble(), 0.01);
+    }
+
+    @WithMockUser(roles = {"USER"})
+    @Test
+    public void get_profits_all_commons_nonexistent_using_commons_id_hiddenuser() throws Exception {
+        currentUserService.setHidden(true);
+        MvcResult response = mockMvc.perform(get("/api/profits/all/commonsid?commonsId=2").contentType("application/json"))
+                .andExpect(status().isForbidden()).andReturn();
+        Map<String, Object> responseMap = responseToJson(response);
+        assertEquals(responseMap.get("message"), "User with id 1 is hidden");
+        assertEquals(responseMap.get("type"), "UserHiddenException");
+        currentUserService.setHidden(false);
+    }
+
+    @WithMockUser(roles = {"USER"})
+    @Test
+    public void get_profits_all_commons_using_commons_id_with_pagination_2_hiddenuser() throws Exception {
+        currentUserService.setHidden(true);
+        MvcResult response = mockMvc.perform(get("/api/profits/paged/commonsid?commonsId=2").contentType("application/json"))
+                .andExpect(status().isForbidden()).andReturn();
+        Map<String, Object> responseMap = responseToJson(response);
+        assertEquals(responseMap.get("message"), "User with id 1 is hidden");
+        assertEquals(responseMap.get("type"), "UserHiddenException");
+        currentUserService.setHidden(false);
     }
 }
