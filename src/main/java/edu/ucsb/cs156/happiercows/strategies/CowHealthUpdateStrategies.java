@@ -20,12 +20,20 @@ public enum CowHealthUpdateStrategies implements CowHealthUpdateStrategy {
     Linear("Linear", "Cow health increases/decreases proportionally to the number of cows over/under the carrying capacity.") {
         @Override
         public double calculateNewCowHealth(CommonsPlus commonsPlus, UserCommons uC, int totalCows) {
+            // if the user is hidden, we don't want to change their cow health
+            if (uC.getUser().isHidden()) {
+                return uC.getCowHealth();
+            }
             return uC.getCowHealth() - (totalCows - commonsPlus.getEffectiveCapacity()) * commonsPlus.getCommons().getDegradationRate();
         }
     },
     Constant("Constant", "Cow health changes increases/decreases by the degradation rate, depending on if the number of cows exceeds the carrying capacity.") {
         @Override
         public double calculateNewCowHealth(CommonsPlus commonsPlus, UserCommons uC, int totalCows) {
+            // if the user is hidden, we don't want to change their cow health
+            if (uC.getUser().isHidden()) {
+                return uC.getCowHealth();
+            }
             if (totalCows <= commonsPlus.getEffectiveCapacity()) {
                 return uC.getCowHealth() + commonsPlus.getCommons().getDegradationRate();
             } else {
