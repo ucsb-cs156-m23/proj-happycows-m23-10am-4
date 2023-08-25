@@ -98,4 +98,8 @@ public class CurrentUserServiceImpl extends CurrentUserService {
   public Collection<? extends GrantedAuthority> getRoles() {
    return grantedAuthoritiesService.getGrantedAuthorities();
   }
+
+  public void setHidden(boolean hidden) {
+    // do nothing because it's a helper in MockCurrentUserServiceImpl
+  }
 }
