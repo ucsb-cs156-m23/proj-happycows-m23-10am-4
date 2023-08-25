@@ -44,6 +44,9 @@ public class ProfitsController extends ApiController {
     public Iterable<Profit> allProfitsByCommonsId(
             @Parameter(name="commonsId") @RequestParam Long commonsId
     ) {
+        if (getCurrentUser().getUser().isHidden()) {
+            throw new UserHiddenException(getCurrentUser().getUser().getId());
+        }
         Long userId = getCurrentUser().getUser().getId();
 
         UserCommons userCommons = userCommonsRepository.findByCommonsIdAndUserId(commonsId, userId)
