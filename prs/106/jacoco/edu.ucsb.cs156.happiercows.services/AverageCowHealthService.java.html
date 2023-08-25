@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AverageCowHealthService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">happycows</a> &gt; <a href="index.source.html" class="el_package">edu.ucsb.cs156.happiercows.services</a> &gt; <span class="el_source">AverageCowHealthService.java</span></div><h1>AverageCowHealthService.java</h1><pre class="source lang-java linenums">package edu.ucsb.cs156.happiercows.services;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import edu.ucsb.cs156.happiercows.entities.UserCommons;
+import edu.ucsb.cs156.happiercows.repositories.CommonsRepository;
+import edu.ucsb.cs156.happiercows.repositories.UserCommonsRepository;
+
+@Service(&quot;AverageCowHealthService&quot;)
+<span class="fc" id="L11">public class AverageCowHealthService {</span>
+
+    @Autowired
+    CommonsRepository commonsRepository;
+
+    @Autowired
+    UserCommonsRepository userCommonsRepository;
+
+    // Non-hidden usercommons only
+    public int getTotalNumCows(Long commonsId) {
+<span class="fc" id="L21">        commonsRepository.findById(commonsId).orElseThrow(() -&gt; new IllegalArgumentException(String.format(&quot;Commons with id %d not found&quot;, commonsId)));</span>
+
+<span class="fc" id="L23">        Iterable&lt;UserCommons&gt; allUserCommons = userCommonsRepository.findNonHiddenByCommonsId(commonsId);</span>
+
+<span class="fc" id="L25">        int totalNumCows = 0;</span>
+
+<span class="fc bfc" id="L27" title="All 2 branches covered.">        for (UserCommons userCommons : allUserCommons) {</span>
+<span class="fc" id="L28">            totalNumCows += userCommons.getNumOfCows();</span>
+<span class="fc" id="L29">        }</span>
+
+<span class="fc" id="L31">        return totalNumCows;</span>
+    }
+
+    public double getAverageCowHealth(Long commonsId) {
+<span class="fc" id="L35">        commonsRepository.findById(commonsId).orElseThrow(() -&gt; new IllegalArgumentException(String.format(&quot;Commons with id %d not found&quot;, commonsId)));</span>
+
+<span class="fc" id="L37">        Iterable&lt;UserCommons&gt; allUserCommons = userCommonsRepository.findNonHiddenByCommonsId(commonsId);</span>
+
+<span class="fc" id="L39">        double totalHealth = 0;</span>
+
+<span class="fc bfc" id="L41" title="All 2 branches covered.">        for (UserCommons userCommons : allUserCommons) {</span>
+<span class="fc" id="L42">            totalHealth += userCommons.getCowHealth() * userCommons.getNumOfCows();</span>
+<span class="fc" id="L43">        }</span>
+
+<span class="fc" id="L45">        return totalHealth / getTotalNumCows(commonsId);</span>
+    }
+
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
