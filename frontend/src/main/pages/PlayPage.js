@@ -26,6 +26,7 @@ export default function PlayPage() {
     const [pageddata, setpageddata] = useState([]);
 
 
+    // TODO: use useQuery to fetch data
     const FetchData = React.useCallback(() => {
         axios({
             // Stryker disable next-line all:"GET" replace by "" still calls GET method
