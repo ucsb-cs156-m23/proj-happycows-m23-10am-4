@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for components/Jobs/InstructorReportForm.js</title>
+    <title>Code coverage report for components/Chat/ChatDisplay.js</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../prettify.css" />
     <link rel="stylesheet" href="../../base.css" />
@@ -19,7 +19,7 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../index.html">All files</a> / <a href="index.html">components/Jobs</a> InstructorReportForm.js</h1>
+        <h1><a href="../../index.html">All files</a> / <a href="index.html">components/Chat</a> ChatDisplay.js</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
@@ -76,45 +76,33 @@
 <a name='L11'></a><a href='#L11'>11</a>
 <a name='L12'></a><a href='#L12'>12</a>
 <a name='L13'></a><a href='#L13'>13</a>
-<a name='L14'></a><a href='#L14'>14</a>
-<a name='L15'></a><a href='#L15'>15</a>
-<a name='L16'></a><a href='#L16'>16</a>
-<a name='L17'></a><a href='#L17'>17</a>
-<a name='L18'></a><a href='#L18'>18</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L14'></a><a href='#L14'>14</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { Button, Form } from "react-bootstrap";
-import { useForm } from "react-hook-form";
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import ChatMessageDisplay from "main/components/Chat/ChatMessageDisplay";
 &nbsp;
-function InstructorReportForm( {submitAction} ) {
-  const {
-    handleSubmit,
-  } = useForm(
-  );
+//ChatDisplay Template
 &nbsp;
-  return (
-    &lt;Form onSubmit={handleSubmit(submitAction)}&gt;
-      &lt;p&gt;Click this button to generate an instructor report!&lt;/p&gt;
-      &lt;Button type="submit" data-testid="InstructorReport-Submit-Button"&gt;Generate&lt;/Button&gt;
-    &lt;/Form&gt;
-  );
-}
-export default InstructorReportForm;
-&nbsp;</pre></td></tr></table></pre>
+const ChatDisplay = () =&gt; {
+&nbsp;
+    return (
+      &lt;div data-testid="ChatDisplay" &gt;
+        &lt;ChatMessageDisplay /&gt;
+      &lt;/div&gt;
+    );
+};
+&nbsp;
+export default ChatDisplay;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
