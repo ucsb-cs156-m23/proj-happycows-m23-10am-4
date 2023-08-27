@@ -130,14 +130,15 @@ import org.springframework.web.bind.annotation.PutMapping;
     
 
     @Operation(summary = &quot;Get all user commons for a specific commons&quot;)
+    @PreAuthorize(&quot;hasAnyRole('ROLE_USER', 'ROLE_ADMIN')&quot;)
     @GetMapping(&quot;/commons/all&quot;)
     public  ResponseEntity&lt;String&gt; getUsersCommonsByCommonsId(
         @Parameter(name=&quot;commonsId&quot;) @RequestParam Long commonsId) throws JsonProcessingException {
-<span class="fc" id="L136">      Iterable&lt;UserCommons&gt; uc = userCommonsRepository.findByCommonsId(commonsId);</span>
+<span class="fc" id="L137">      Iterable&lt;UserCommons&gt; uc = userCommonsRepository.findByCommonsId(commonsId);</span>
       
    
-<span class="fc" id="L139">    String body = mapper.writeValueAsString(uc);</span>
-<span class="fc" id="L140">    return ResponseEntity.ok().body(body);</span>
+<span class="fc" id="L140">    String body = mapper.writeValueAsString(uc);</span>
+<span class="fc" id="L141">    return ResponseEntity.ok().body(body);</span>
   }
 
 }
