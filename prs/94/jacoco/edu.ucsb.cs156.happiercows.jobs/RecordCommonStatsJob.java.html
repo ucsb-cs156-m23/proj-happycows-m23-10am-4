@@ -29,7 +29,7 @@ public class RecordCommonStatsJob implements JobContextConsumer {
 
 <span class="fc bfc" id="L30" title="All 2 branches covered.">        for (Commons commons : allCommons) {</span>
 <span class="fc" id="L31">            ctx.log(String.format(&quot;Starting Commons id=%d (%s)...&quot;, commons.getId(), commons.getName()));</span>
-<span class="fc" id="L32">            CommonStats commonStats = commonStatsService.createCommonStats(commons.getId());</span>
+<span class="fc" id="L32">            CommonStats commonStats = commonStatsService.createAndSaveCommonStats(commons.getId());</span>
 <span class="fc" id="L33">            ctx.log(String.format(&quot;CommonStats %d for commons id=%d (%s) finished.&quot;, commonStats.getId(), commons.getId(),</span>
 <span class="fc" id="L34">                    commons.getName()));</span>
 <span class="fc" id="L35">        }</span>

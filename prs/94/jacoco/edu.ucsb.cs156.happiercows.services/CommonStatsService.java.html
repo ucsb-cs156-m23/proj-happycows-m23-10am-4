@@ -43,8 +43,8 @@ import edu.ucsb.cs156.happiercows.repositories.UserCommonsRepository;
     public CommonStats createAndSaveCommonStats(Long commonsId) {
         
 <span class="fc" id="L45">        CommonStats stats = createCommonStats(commonsId);</span>
+<span class="fc" id="L46">        commonStatsRepository.save(stats);</span>
 
-<span class="fc" id="L47">        commonStatsRepository.save(stats);</span>
 <span class="fc" id="L48">        return stats;</span>
     }
 
