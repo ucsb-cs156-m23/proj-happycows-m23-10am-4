@@ -6,6 +6,7 @@ import HealthUpdateStrategiesDropdown from "main/components/Commons/HealthStrate
 
 function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
     if (initialCommons && initialCommons.startingDate) {
+        // FIXME: This breaks react prop mutation rules. Define a new variable instead.
         initialCommons.startingDate = initialCommons.startingDate.split("T")[0];
     }
 
