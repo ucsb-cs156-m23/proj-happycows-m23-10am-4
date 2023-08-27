@@ -15,12 +15,10 @@ const PagedProfitsTable = ({data, onPageChange}) => {
             ? content.map(item => ({
                 date: timestampToDate(item.timestamp),
                 ...item
-            }))
+            })).reverse();
             // Stryker disable next-line ArrayDeclaration : no need to test what happens if [] is replaced with ["Stryker was here"]
             : [];
     }, [content]);
-
-    profitsForTable.reverse();
 
     // Stryker disable ArrayDeclaration : [columns] and [students] are performance optimization; mutation preserves correctness
     const memoizedColumns = React.useMemo(() =>
